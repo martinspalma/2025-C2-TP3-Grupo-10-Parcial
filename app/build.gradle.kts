@@ -57,13 +57,18 @@ dependencies {
 
     //Hilt-Dagger --v 2.56.2
     implementation("com.google.dagger:hilt-android:2.56.2")
+
     kapt("com.google.dagger:hilt-android-compiler:2.56.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    //Room
+    //Room --v 2.6.1
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+    //Retrofit --v 2.9.0
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
