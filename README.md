@@ -25,7 +25,9 @@ App Android nativa con Jetpack Compose y Firebase Firestore para el parcial de T
 ## Configuración rápida
 1. Clonar el repositorio
 2. Abrir en Android Studio (versión Hedgehog o superior)
-3. El `google-services.json` ya está configurado
+3. Configurar Firebase:
+   - Copiar tu archivo `google-services.json` (descargado de Firebase) a `app/google-services.json`.
+   - No se versiona. Si necesitás un ejemplo, ver `app/google-services.sample.json`.
 4. Sync del proyecto y listo para compilar
 
 ## Comandos útiles

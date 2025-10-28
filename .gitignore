@@ -14,3 +14,5 @@
 .cxx
 local.properties
 AGENTS.md
+# Firebase config - never commit secrets
+app/google-services.json
