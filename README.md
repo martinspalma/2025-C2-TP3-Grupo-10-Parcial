@@ -28,6 +28,10 @@ App Android nativa con Jetpack Compose y Firebase Firestore para el parcial de T
 3. Configurar Firebase:
    - Copiar tu archivo `google-services.json` (descargado de Firebase) a `app/google-services.json`.
    - No se versiona. Si necesitás un ejemplo, ver `app/google-services.sample.json`.
+
+Consulta también:
+- `docs/SECURITY_API_KEY_ROTATION.md` — Rotación/restricción de API key y limpieza de historial.
+- `docs/FIREBASE_TEAM_SETUP.md` — Cómo compartir la base con el equipo (accesos, SHA, CI, reglas).
 4. Sync del proyecto y listo para compilar
 
 ## Comandos útiles
