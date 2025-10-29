@@ -2,7 +2,7 @@
 Parcial del grupo 10
 
 Integrantes 
-Gabriel Birman
+Gabriel Birman 
 Iván Schutt
 Jonathan Vitangeli
 Martin Palma
