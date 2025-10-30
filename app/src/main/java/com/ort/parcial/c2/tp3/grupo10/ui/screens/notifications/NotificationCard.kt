@@ -21,10 +21,7 @@ import com.ort.parcial.c2.tp3.grupo10.domain.model.NotificationItem
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 
 @Composable
-fun NotificationCard(
-    item: NotificationItem,
-    dividerPaddingStart: Dp = 60.dp
-) {
+fun NotificationCard(item: NotificationItem, topPadding: Dp = 6.dp) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,13 +38,13 @@ fun NotificationCard(
                 painter = painterResource(id = item.iconResId),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(38.dp)
             )
 
             Spacer(modifier = Modifier.width(12.dp))
 
             // Columna de textos principales
-            Column(modifier = Modifier.weight(1f)) {
+            Column(modifier = Modifier.weight(2f)) {
                 Text(
                     text = item.title,
                     fontWeight = FontWeight.Bold,
@@ -100,7 +97,7 @@ fun NotificationCard(
             modifier = Modifier
                 .padding(top = 20.dp)
                 .fillMaxWidth()
-                .padding(start = 24.dp),   // ajustá si querés que arranque más a la izquierda
+                .padding(start = 5.dp),   // ajustá si querés que arranque más a la izquierda
             thickness = 1.dp,
             color = Caribbean
         )

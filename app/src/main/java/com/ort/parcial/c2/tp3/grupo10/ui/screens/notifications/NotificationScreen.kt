@@ -4,6 +4,7 @@ import com.ort.parcial.c2.tp3.grupo10.domain.model.NotificationItem
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -80,21 +81,28 @@ fun NotificationScreen() {
             .padding(vertical = 12.dp)
     ) {
         grouped.forEach { (fecha, itemsDelGrupo) ->
+
+            // header (podés usar stickyHeader si querés que quede pegado)
             item {
                 Text(
                     text = fecha,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp)
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(start = 40.dp, top = 20.dp, bottom = 0.dp)
                 )
             }
 
-            items(itemsDelGrupo) { noti ->
-                NotificationCard(item = noti)
+            itemsIndexed(itemsDelGrupo) { index, noti ->
+                val top = if (index == 0) 0.dp else 6.dp
+                NotificationCard(item = noti, topPadding = top)
+            }
+
+
             }
         }
     }
-}
+
+
 
 @Preview(showBackground = true)
 @Composable
