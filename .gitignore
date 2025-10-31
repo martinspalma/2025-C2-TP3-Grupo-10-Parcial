@@ -1,21 +1,44 @@
-*.iml
+# -----------------------------------------------------------------
+# BUILD OUTPUT AND ENVIRONMENT
+# -----------------------------------------------------------------
+/build
+/captures
 .gradle
+.externalNativeBuild
+.cxx
+
+# Configuraciones del entorno local
+local.properties
 /local.properties
+AGENTS.md
+
+# -----------------------------------------------------------------
+# IDE FILES (Android Studio/IntelliJ)
+# -----------------------------------------------------------------
+# Archivos de la carpeta .idea que deben ser ignorados
+.idea/
+# Archivos específicos que a veces quedan fuera, pero ya están cubiertos por .idea/
+*.iml
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-AGENTS.md
-# Firebase config - never commit secrets
+
+# -----------------------------------------------------------------
+# DEPENDENCIAS Y SECRETS
+# -----------------------------------------------------------------
+# Archivos de Firebase config - nunca confirmar secretos
 app/google-services.json
 
-# Ignore project documentation directory
+# -----------------------------------------------------------------
+# MACOS / OTROS
+# -------------------------------------------------
+.DS_Store
+
+# -----------------------------------------------------------------
+# DOCUMENTACIÓN
+# -----------------------------------------------------------------
+# Ignorar el directorio de documentación del proyecto
 docs/
