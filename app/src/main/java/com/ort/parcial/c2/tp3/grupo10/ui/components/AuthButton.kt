@@ -12,16 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 
 @Composable
 fun AuthButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    contentColor: Color = MainGreen,
-    containerColor: Color = Void,
+    contentColor: Color = Void,
+    containerColor: Color = Caribbean,
     isLoading: Boolean = false
 ) {
     Button(
@@ -43,7 +44,7 @@ fun AuthButton(
                 modifier = Modifier.size(20.dp)
             )
         } else {
-//            Text(text, fontFamily = )
+            Text(text, fontFamily = PoppinsFamily, color= contentColor)
         }
     }
 }

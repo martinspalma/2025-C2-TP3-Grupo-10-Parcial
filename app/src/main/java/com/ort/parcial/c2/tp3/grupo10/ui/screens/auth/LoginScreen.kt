@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,8 +38,14 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.ort.parcial.c2.tp3.grupo10.ui.auth.AuthViewModel
+import com.ort.parcial.c2.tp3.grupo10.ui.components.AppButton
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthButton
+import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthInputText
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
 
 @Composable
 fun LoginScreen(
@@ -70,6 +77,11 @@ fun LoginScreen(
                     .padding(top = 48.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+
+                AuthInputText(label="example@example.com", contentColor =LightGreen,
+                containerColor = Honeydew, onValueChange = {},
+                    modifier = Modifier
+                    )
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
@@ -90,36 +102,35 @@ fun LoginScreen(
                 )
             }
 
-            AuthButton("Log In",
-                onClick = onLoginClick,
+            AuthButton(
+                text = "Log In",
+                onClick = {
+//                    navController.navigate() {
+//                        popUpTo(Routes.LOGIN) { inclusive = true }
+//                    }
+                },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp),
-                contentColor= MainGreen
-                )
-            Button(
-                onClick = onLoginClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp)
+                    .width(200.dp)
                     .height(50.dp),
-                shape = RoundedCornerShape(50)
-            ) {
-                Text("Log In")
-            }
-
+                containerColor = Caribbean,
+                contentColor = Void
+            )
             TextButton(onClick = onForgotPasswordClick) {
-                Text("Forgot Password?")
+                Text("Forgot Password?", color = Color.Black)
             }
-            OutlinedButton(
-                onClick = onSignUpClick,
+            AuthButton(
+                text = "Sign Up",
+                onClick = {
+//                    navController.navigate() {
+//                        popUpTo(Routes.LOGIN) { inclusive = true }
+//                    }
+                },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .width(200.dp)
                     .height(50.dp),
-                shape = RoundedCornerShape(50)
-            ) {
-                Text("Sign Up")
-            }
+                containerColor = LightGreen,
+                contentColor = Void
+            )
             Row(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
