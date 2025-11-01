@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,12 +16,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.ort.parcial.c2.tp3.grupo10.R.drawable.ic_google
 import com.ort.parcial.c2.tp3.grupo10.R.drawable.ic_facebook
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 
@@ -39,14 +42,15 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MainGreen)
-    ) {
+    )
+    {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // --- HEADER (verde) ---
+        )
+        {
             Spacer(modifier = Modifier.height(60.dp))
             Text(
                 text = "Welcome",
@@ -57,7 +61,6 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(40.dp))
 
-            // --- BODY BLANCO ---
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -70,7 +73,8 @@ fun LoginScreen(
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
 
-                    Column(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.fillMaxWidth())
+                    {
                         Text(
                             text = "Username or Email",
                             color = Color.DarkGray,
@@ -109,13 +113,20 @@ fun LoginScreen(
                         Spacer(modifier = Modifier.height(6.dp))
                         OutlinedTextField(
                             value = password,
-                            onValueChange = { password = it },
+                            onValueChange = { input -> password = input  },
                             placeholder = { Text("••••••••") },
+                            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(50),
                             textStyle = LocalTextStyle.current.copy(color =Honeydew2),
-                            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            colors = OutlinedTextFieldDefaults.colors(
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            trailingIcon = {
+                                val icon = if (passwordVisible)R.drawable.ic_eye_pass else R.drawable.ic_eye_off
+                                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                    Image(painter = painterResource(id = icon),
+                                        contentDescription = "Toggle password visibility",)
+                                }
+                            },colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = Honeydew2,
                                 unfocusedBorderColor = Honeydew,
                                 focusedContainerColor = Honeydew,
@@ -158,7 +169,6 @@ fun LoginScreen(
                         )
                     }
 
-                    // Fingerprint
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
@@ -179,7 +189,6 @@ fun LoginScreen(
                         horizontalArrangement = Arrangement.spacedBy(1.dp),
                         modifier = Modifier.padding(top = 8.dp)
                     ) {
-                        // Facebook
                         Box(
                             modifier = Modifier
                                 .size(40.dp)
@@ -195,7 +204,6 @@ fun LoginScreen(
                             )
                         }
 
-                        // Google
                         Box(
                             modifier = Modifier
                                 .size(40.dp)

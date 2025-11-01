@@ -121,7 +121,8 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
                 text = "Forgot Password?",
                 color = LettersAndIcons.copy(alpha = 0.6f),
                 style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.clickable { navController.navigate("security_pin") }
             )
             Spacer(modifier = Modifier.height(16.dp))
 
