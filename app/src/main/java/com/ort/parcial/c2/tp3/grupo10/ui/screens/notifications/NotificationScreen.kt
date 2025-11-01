@@ -81,8 +81,6 @@ fun NotificationScreen() {
             .padding(vertical = 12.dp)
     ) {
         grouped.forEach { (fecha, itemsDelGrupo) ->
-
-            // header (podés usar stickyHeader si querés que quede pegado)
             item {
                 Text(
                     text = fecha,

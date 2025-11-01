@@ -7,10 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.LoginScreen
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.RegisterScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.auth.LoginScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.auth.RegisterScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.WelcomeScreen
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.HomeScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.home.HomeScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 

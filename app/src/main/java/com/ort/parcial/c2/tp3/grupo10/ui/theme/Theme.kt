@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = Caribbean,
-    secondary = OceanBlue,
+    secondary = OceanBlueButton,
     tertiary = vividBlue,
     onTertiary = LightBlue,
     background = FenceGreen,

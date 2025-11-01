@@ -29,11 +29,11 @@ class MainActivity2 : ComponentActivity() {
                 ) {
                     Text(text = "Estás en Activity 2")
                     Icon(
-                        painter = painterResource(id = R.drawable.home),
+                        painter = painterResource(id = R.drawable.ic_home),
                         contentDescription = "Icono de inicio"
                     )
                     Button(onClick = {
-                        finish() // 👈 Cierra esta actividad y vuelve a MainActivity
+                        finish()
                     }) {
                         Text("Volver")
                     }

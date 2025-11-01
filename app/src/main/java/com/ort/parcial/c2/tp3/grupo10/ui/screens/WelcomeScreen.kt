@@ -36,7 +36,6 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
-
 @Composable
 fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
     val context = LocalContext.current

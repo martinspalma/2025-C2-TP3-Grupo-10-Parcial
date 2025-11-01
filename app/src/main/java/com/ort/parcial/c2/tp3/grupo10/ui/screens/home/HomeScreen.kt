@@ -1,4 +1,4 @@
-package com.ort.parcial.c2.tp3.grupo10.ui.screens
+package com.ort.parcial.c2.tp3.grupo10.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
