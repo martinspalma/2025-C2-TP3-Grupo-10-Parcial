@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.password
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,12 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -28,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.text.KeyboardOptions
@@ -36,6 +34,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew2
@@ -99,7 +98,10 @@ fun NewPasswordScreen(
                         visualTransformation = if (show1) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
                             IconButton(onClick = { show1 = !show1 }) {
-                                Icon(if (show1) Icons.Default.VisibilityOff else Icons.Default.Visibility, contentDescription = null)
+                                Image(
+                                    painter = painterResource(id = if (show1) R.drawable.ic_eye_pass else R.drawable.ic_eye_off),
+                                    contentDescription = null
+                                )
                             }
                         },
                         colors = OutlinedTextFieldDefaults.colors(
@@ -131,7 +133,10 @@ fun NewPasswordScreen(
                         visualTransformation = if (show2) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
                             IconButton(onClick = { show2 = !show2 }) {
-                                Icon(if (show2) Icons.Default.VisibilityOff else Icons.Default.Visibility, contentDescription = null)
+                                Image(
+                                    painter = painterResource(id = if (show2) R.drawable.ic_eye_pass else R.drawable.ic_eye_off),
+                                    contentDescription = null
+                                )
                             }
                         },
                         colors = OutlinedTextFieldDefaults.colors(

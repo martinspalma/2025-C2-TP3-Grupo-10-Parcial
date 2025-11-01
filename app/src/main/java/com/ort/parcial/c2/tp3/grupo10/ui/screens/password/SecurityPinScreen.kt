@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.password
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,12 +34,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew2
@@ -130,6 +133,59 @@ fun SecurityPinScreen(
                         )
                     ) {
                         Text("Send Again")
+                    }
+
+                    Spacer(Modifier.height(24.dp))
+                    Text(
+                        text = "or sign up with",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.DarkGray
+                    )
+
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(top = 8.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .background(BackgroundGreenWhiteAndLetters, shape = CircleShape)
+                                .clip(CircleShape)
+                                .clickable { /* TODO: Facebook login */ },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_facebook),
+                                contentDescription = "Facebook Login",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .background(BackgroundGreenWhiteAndLetters, shape = CircleShape)
+                                .clip(CircleShape)
+                                .clickable { /* TODO: Google login */ },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_google),
+                                contentDescription = "Google Login",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+                    Row(horizontalArrangement = Arrangement.Center) {
+                        Text(text = "Don't have an account? ")
+                        Text(
+                            text = "Sign Up",
+                            color = MainGreen,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.clickable { navController.navigate("register") }
+                        )
                     }
                 }
             }
