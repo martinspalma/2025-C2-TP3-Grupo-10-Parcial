@@ -27,7 +27,7 @@ val BackgroundGreenWhiteAndLetters = Color(0xFFF1FFF3)
 
 
 val OceanBlueButton =   Color(0xFF0068FF)
-val BlueButton = Color(0xFF3299FF)
-val LightBlueButton = Color(0xFF6DB6FE)
+//val BlueButton = Color(0xFF3299FF)
+//val LightBlueButton = Color(0xFF6DB6FE)
 
 val LettersAndIcons = Color(0xFF093030)
