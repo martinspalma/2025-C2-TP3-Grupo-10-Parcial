@@ -1,6 +1,5 @@
-package com.ort.parcial.c2.tp3.grupo10.ui.screens
+package com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -25,6 +24,7 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.DarkModeGreenBar
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LeagueSpartanFamily
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppButton
+import com.ort.parcial.c2.tp3.grupo10.ui.components.SocialAuthButton
 
 @Composable
 fun ForgotPasswordScreen(navController: NavHostController) {
@@ -136,8 +136,8 @@ fun ForgotPasswordScreen(navController: NavHostController) {
                 // --- BOTÓN NEXT STEP (Principal) ---
                 AppButton(
                     text = stringResource(R.string.next_step_button),
-                    onClick = { /* Acción de siguiente paso */ },
-                    // Usa las dimensiones de Figma (169.dp x 32.dp)
+                    onClick = { navController.navigate("securityPin") },
+
                     buttonWidth = 169.dp,
                     buttonHeight = 32.dp,
                     containerColor = MainGreen,
@@ -174,36 +174,32 @@ fun ForgotPasswordScreen(navController: NavHostController) {
 
                 // --- ICONOS DE REDES SOCIALES (Placeholders) ---
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(30.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Placeholder para Facebook
-                    Box(
-                        modifier = Modifier
-                            .size(33.dp)
-                            .background(Color.White, RoundedCornerShape(50))
-                            .border(1.dp, MainGreen, RoundedCornerShape(50)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("f", color = MainGreen, fontSize = 24.sp, fontFamily = PoppinsFamily, fontWeight = FontWeight.SemiBold)
-                    }
+                    // 1. Botón de Facebook (33dp)
+                    SocialAuthButton(
+                        iconId = R.drawable.ic_facebook, // <-- Asume que importaste el logo aquí
+                        contentDesc = stringResource(R.string.login_with_facebook),
+                        onClick = { /* Acción de login con Facebook */ },
+                        size = 33.dp // Tamaño exacto de Figma
+                    )
 
-                    // Placeholder para Google
-                    Box(
-                        modifier = Modifier
-                            .size(33.dp)
-                            .background(Color.White, RoundedCornerShape(50))
-                            .border(1.dp, MainGreen, RoundedCornerShape(50)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("G", color = MainGreen, fontSize = 24.sp, fontFamily = PoppinsFamily, fontWeight = FontWeight.SemiBold)
-                    }
+                    // 2. Botón de Google (33dp)
+                    SocialAuthButton(
+                        iconId = R.drawable.ic_google, // <-- Asume que importaste el logo aquí
+                        contentDesc = stringResource(R.string.login_with_google),
+                        onClick = { /* Acción de login con Google */ },
+                        size = 33.dp
+                    )
                 }
 
                 Spacer(Modifier.height(32.dp))
 
                 // Texto "Don't have an account?"
-                Row {
+                Row (
+                    modifier = Modifier.width(273.dp)
+                    ) {
                     Text(
                         text = stringResource(R.string.dont_have_account),
                         color = LettersAndIcons.copy(alpha = 0.5f),
