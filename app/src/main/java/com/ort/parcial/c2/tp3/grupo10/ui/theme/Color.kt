@@ -21,7 +21,7 @@ val LightGreen = Color(0xFFDDF5E0)
 val Honeydew = Color(0xFFEFFDF1)
 val LightGreen2 = Color(0xFFDFF7E2)
 
-
+val Honeydew2 = Color(0xFF7E917E)
 val MainGreen = Color(0xFF00D09E)
 val BackgroundGreenWhiteAndLetters = Color(0xFFF1FFF3)
 

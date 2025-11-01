@@ -1,181 +1,231 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.auth
-
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.VisualTransformation
+import com.ort.parcial.c2.tp3.grupo10.R.drawable.ic_google
+import com.ort.parcial.c2.tp3.grupo10.R.drawable.ic_facebook
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import com.ort.parcial.c2.tp3.grupo10.ui.auth.AuthViewModel
-import com.ort.parcial.c2.tp3.grupo10.ui.components.AppButton
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthButton
-import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthInputText
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier,
     navController: NavController,
     onLoginClick: () -> Unit = {},
     onSignUpClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {}
 ) {
-    Column(
-        modifier = modifier
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp, vertical = 32.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(MainGreen)
     ) {
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // --- HEADER (verde) ---
+            Spacer(modifier = Modifier.height(60.dp))
             Text(
                 text = "Welcome",
+                color = Color.Black,
                 style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontFamily = PoppinsFamily
             )
-            Column(
+            Spacer(modifier = Modifier.height(40.dp))
+
+            // --- BODY BLANCO ---
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 48.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 50.dp))
+                    .background(BackgroundGreenWhiteAndLetters)
+                    .padding(horizontal = 32.dp, vertical = 60.dp)
             ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
 
-                AuthInputText(label="example@example.com", contentColor =LightGreen,
-                containerColor = Honeydew, onValueChange = {},
-                    modifier = Modifier
-                    )
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Username or Email") },
-                    placeholder = { Text("example@example.com") },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(50)
-                )
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = "Username or Email",
+                            color = Color.DarkGray,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        val inputBackground = Color(0xFFDFF7E2)
+                        val inputTextColor = Color(0xFF00D09E)
+                        OutlinedTextField(
+                            value = email,
+                            onValueChange = { email = it },
+                            textStyle = LocalTextStyle.current.copy(color =Honeydew2),
+                            placeholder = { Text("example@example.com") },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(50),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = Honeydew2,
+                                unfocusedBorderColor = Honeydew,
+                                focusedContainerColor = Honeydew,
+                                unfocusedContainerColor = Honeydew,
+                                cursorColor = Honeydew2
+                            )
+                        )
+                    }
 
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Password") },
-                    placeholder = { Text("••••••••") },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(50),
-                    visualTransformation = PasswordVisualTransformation()
-                )
-            }
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = "Password",
+                            color = Color.DarkGray,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        OutlinedTextField(
+                            value = password,
+                            onValueChange = { password = it },
+                            placeholder = { Text("••••••••") },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(50),
+                            textStyle = LocalTextStyle.current.copy(color =Honeydew2),
+                            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = Honeydew2,
+                                unfocusedBorderColor = Honeydew,
+                                focusedContainerColor = Honeydew,
+                                unfocusedContainerColor = Honeydew,
+                                cursorColor = Honeydew2
+                            )
+                        )
+                    }
 
-            AuthButton(
-                text = "Log In",
-                onClick = {
-//                    navController.navigate() {
-//                        popUpTo(Routes.LOGIN) { inclusive = true }
-//                    }
-                },
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(50.dp),
-                containerColor = Caribbean,
-                contentColor = Void
-            )
-            TextButton(onClick = onForgotPasswordClick) {
-                Text("Forgot Password?", color = Color.Black)
-            }
-            AuthButton(
-                text = "Sign Up",
-                onClick = {
-//                    navController.navigate() {
-//                        popUpTo(Routes.LOGIN) { inclusive = true }
-//                    }
-                },
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(50.dp),
-                containerColor = LightGreen,
-                contentColor = Void
-            )
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
-                Text("Use ")
-                Text(
-                    text = "Fingerprint",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium
-                )
-                Text(" To Access")
-            }
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "or sign up with")
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        AuthButton(text= "Log In",
+                            {
+                                onLoginClick()
+                                navController.navigate( "home")
+                            },
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(50.dp),
+                            contentColor = Color.White,
+                            containerColor = Caribbean
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        TextButton(onClick = onForgotPasswordClick) {
+                            Text("Forgot Password?",
+                                color = Color.Black,
+                                fontFamily = PoppinsFamily,
+                                style = MaterialTheme.typography.bodySmall)
+                        }
+                        Spacer(modifier = Modifier.height(2.dp))
+                        AuthButton(text= "Sign In",
+                            onSignUpClick,
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(50.dp),
+                            contentColor = MainGreen,
+                            containerColor = LightGreen
+                        )
+                    }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(32.dp),
-                modifier = Modifier.padding(top = 8.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .background(Color.LightGray, shape = CircleShape)
-                )
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .background(Color.LightGray, shape = CircleShape)
-                )
-            }
+                    // Fingerprint
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Use ")
+                        Text(
+                            text = "Fingerprint",
+                            color = Caribbean,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(" To Access")
+                    }
 
-            Row(
-                modifier = Modifier.padding(top = 12.dp)
-            ) {
-                Text("Don't have an account? ")
-                Text(
-                    text = "Sign Up",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium
-                )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text("or sign up with",style = MaterialTheme.typography.bodySmall)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(1.dp),
+                        modifier = Modifier.padding(top = 8.dp)
+                    ) {
+                        // Facebook
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .background(BackgroundGreenWhiteAndLetters, shape = CircleShape)
+                                .clip(CircleShape)
+                                .clickable { /* TODO: Facebook login */ },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = ic_facebook),
+                                contentDescription = "Facebook Login",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+
+                        // Google
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .background(BackgroundGreenWhiteAndLetters, shape = CircleShape)
+                                .clip(CircleShape)
+                                .clickable { /* TODO: Google login */ },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = ic_google),
+                                contentDescription = "Google Login",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row {
+                        Text("Don’t have an account? ",style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            text = "Sign Up",
+                            color = Caribbean,
+                            fontWeight = FontWeight.Medium,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.clickable {
+                                onSignUpClick()
+                                navController.navigate("register")
+                            }
+                        )
+                    }
+                }
             }
         }
     }

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="title_activity_main2">MainActivity2</string>
+    <string name="welcome_title">Welcome</string>
+    <string name="login_btn_text">Log In</string>
+    <string name="signup_btn_text">Sign Up</string>
 </resources>

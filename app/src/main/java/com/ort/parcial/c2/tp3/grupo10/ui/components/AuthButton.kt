@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -11,8 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
 
@@ -22,29 +26,19 @@ fun AuthButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     contentColor: Color = Void,
-    containerColor: Color = Caribbean,
-    isLoading: Boolean = false
+    containerColor: Color = Caribbean
 ) {
+
     Button(
         onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(50.dp),
-        shape = RoundedCornerShape(50),
-        colors = ButtonDefaults.buttonColors(
+        modifier = modifier,
+        colors = ButtonDefaults.outlinedButtonColors(
             containerColor = containerColor,
             contentColor = contentColor
         ),
-        enabled = !isLoading
+        border = BorderStroke(width = 0.dp, color = Color.Transparent),
+        shape = RoundedCornerShape(50)
     ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                color = contentColor,
-                strokeWidth = 2.dp,
-                modifier = Modifier.size(20.dp)
-            )
-        } else {
-            Text(text, fontFamily = PoppinsFamily, color= contentColor)
-        }
+        Text(text, fontFamily = PoppinsFamily, color= contentColor);
     }
 }
