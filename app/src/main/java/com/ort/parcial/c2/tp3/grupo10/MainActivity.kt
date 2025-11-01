@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.ForgotPasswordScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.auth.LoginScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.auth.RegisterScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.WelcomeScreen
@@ -28,9 +29,8 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = "welcome"
                 ) {
+                    composable("forgotPassword") { ForgotPasswordScreen(navController = navController) }
                     composable("welcome") { WelcomeScreen(navController = navController) }
-                    composable("onboarding1") { OnboardingScreen1(navController = navController) }
-                    composable("onboarding2") { OnboardingScreen2(navController = navController) }
                     composable("login") { LoginScreen(navController = navController) }
                     composable("register") { RegisterScreen(navController = navController) }
                     composable("home") { HomeScreen() }

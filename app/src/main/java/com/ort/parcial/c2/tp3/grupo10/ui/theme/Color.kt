@@ -31,3 +31,5 @@ val OceanBlueButton =   Color(0xFF0068FF)
 //val LightBlueButton = Color(0xFF6DB6FE)
 
 val LettersAndIcons = Color(0xFF093030)
+
+val DarkModeGreenBar = Color(0xFF1E1E1E)
