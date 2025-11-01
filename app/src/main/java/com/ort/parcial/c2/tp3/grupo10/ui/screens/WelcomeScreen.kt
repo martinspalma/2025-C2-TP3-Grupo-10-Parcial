@@ -98,7 +98,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedButton(
-                onClick = { navController.navigate("register") },
+                onClick = { navController.navigate("onboarding1") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),

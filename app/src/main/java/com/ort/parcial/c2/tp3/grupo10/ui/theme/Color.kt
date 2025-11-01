@@ -13,11 +13,13 @@ val Void = Color(0xFF031314)
 //DarkColorScheme
 val FenceGreen = Color(0xFF093030)
 val Cyprus = Color(0xFF0E4752)
+val DarkModeGreenBar = Color(0xFF0E3E3E)
 
 
 //LightColorScheme
 val LightGreen = Color(0xFFDDF5E0)
 val Honeydew = Color(0xFFEFFDF1)
+val LightGreen2 = Color(0xFFDFF7E2)
 
 
 val MainGreen = Color(0xFF00D09E)
