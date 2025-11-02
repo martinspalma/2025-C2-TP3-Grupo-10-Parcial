@@ -1,12 +1,14 @@
 package com.ort.parcial.c2.tp3.grupo10
 
 
+import android.R
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,11 +31,11 @@ class MainActivity2 : ComponentActivity() {
                 ) {
                     Text(text = "Estás en Activity 2")
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_home),
+                        painter = painterResource(id = R.drawable.btn_plus),
                         contentDescription = "Icono de inicio"
                     )
                     Button(onClick = {
-                        finish()
+                        finish() // 👈 Cierra esta actividad y vuelve a MainActivity
                     }) {
                         Text("Volver")
                     }

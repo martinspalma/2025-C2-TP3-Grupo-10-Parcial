@@ -1,6 +1,35 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="title_activity_main2">MainActivity2</string>
+
+    // BLOQUE FORGOT PASSWORD
+    <string name="forgot_password">Forgot Password</string>
+    <string name="reset_password">Reset Password?</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="email_placeholder">example@example.com</string>
+    <string name="next_step_button">Next Step</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="or_sign_up_with">or sign up with</string>
+    <string name="dont_have_account">Don\'t have an account? </string>
+    <string name="sign_up_link">Sign Up</string>
+    //BLOQUE SECURITY PIN
+    <string name="security_pin_title">Security Pin</string>
+    <string name="enter_security_pin_label">Enter Security Pin</string>
+    <string name="accept_button">Accept</string>
+    <string name="send_again_button">Send Again</string>
+    <string name="login_with_facebook">Login con Facebook</string>
+    <string name="login_with_google">Login con Google</string>
+    //BLOQUE NEW PASSWORD
+    <string name="new_password_title">New Password</string>
+    <string name="new_password_label">New Password</string>
+    <string name="confirm_new_password_label">Confirm New Password</string>
+    <string name="change_password_button">Change Password</string>
+
+    //BLOQUE SUCCESS CONFIRMATION
+    <string name="success_message">Password Has Been Changed Successfully</string>
+    <string name="success_icon_description">Ícono de Éxito</string>
+
     <string name="welcome_title">Welcome</string>
     <string name="login_btn_text">Log In</string>
     <string name="signup_btn_text">Sign Up</string>
