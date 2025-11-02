@@ -22,11 +22,13 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 fun AppButton(
     text: String,
     onClick: () -> Unit,
-    buttonWidth: Dp,
+
+    buttonWidth: Dp? = null,
     buttonHeight: Dp, // <--- Altura como parámetro
     containerColor: Color,
     textColor: Color,
     borderColor: Color? = null, // Opcional para botones con borde (ej: Sign Up)
+    modifier: Modifier = Modifier,
 ) {
     // Define el borde si se proporciona un color de borde
     val borderStroke = borderColor?.let { BorderStroke(1.dp, it) }
@@ -37,8 +39,9 @@ fun AppButton(
         shape = RoundedCornerShape(50),
         contentPadding = PaddingValues(0.dp), // Elimina el relleno interno para centrado
         border = borderStroke, // Aplica el borde si existe
-        modifier = Modifier
-            .width(buttonWidth) // Usa el ancho parametrizado
+        
+        modifier = modifier
+            .then(buttonWidth?.let { Modifier.width(it) } ?: Modifier.fillMaxWidth())
             .height(buttonHeight) // Usa la altura parametrizada
     ) {
         // Tipografía de Botón (Poppins SemiBold 20.sp / 22.sp)
@@ -52,4 +55,3 @@ fun AppButton(
         )
     }
 }
-
