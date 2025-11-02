@@ -133,20 +133,19 @@ fun CategoriesScreen(
                             CategoryButton(
                                 category = categories[0],
                                 onClick = { 
-                                    // Navegar a la pantalla de detalle de categoría (cuando exista)
-                                    // navController?.navigate("category_detail/${categories[0].name}")
+                                    navController?.navigate("expenses/${categories[0].name}")
                                 }
                             )
                             CategoryButton(
                                 category = categories[1],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[1].name}")
+                                    navController?.navigate("expenses/${categories[1].name}")
                                 }
                             )
                             CategoryButton(
                                 category = categories[2],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[2].name}")
+                                    navController?.navigate("expenses/${categories[2].name}")
                                 }
                             )
                         }
@@ -159,19 +158,19 @@ fun CategoriesScreen(
                             CategoryButton(
                                 category = categories[3],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[3].name}")
+                                    navController?.navigate("expenses/${categories[3].name}")
                                 }
                             )
                             CategoryButton(
                                 category = categories[4],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[4].name}")
+                                    navController?.navigate("expenses/${categories[4].name}")
                                 }
                             )
                             CategoryButton(
                                 category = categories[5],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[5].name}")
+                                    navController?.navigate("expenses/${categories[5].name}")
                                 }
                             )
                         }
@@ -184,19 +183,19 @@ fun CategoriesScreen(
                             CategoryButton(
                                 category = categories[6],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[6].name}")
+                                    navController?.navigate("expenses/${categories[6].name}")
                                 }
                             )
                             CategoryButton(
                                 category = categories[7],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[7].name}")
+                                    navController?.navigate("expenses/${categories[7].name}")
                                 }
                             )
                             CategoryButton(
                                 category = categories[8],
                                 onClick = { 
-                                    // navController?.navigate("category_detail/${categories[8].name}")
+                                    navController?.navigate("expenses/${categories[8].name}")
                                 }
                             )
                         }
