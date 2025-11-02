@@ -18,6 +18,7 @@ import com.ort.parcial.c2.tp3.grupo10.ui.screens.home.HomeScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MyApplicationTheme
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen1
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen2
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.categories.CategoriesScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,8 +31,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = "forgotPassword"
+                    startDestination = "categories"
                 ) {
+                    composable("categories") { CategoriesScreen(navController = navController) }
                     composable("forgotPassword") { ForgotPasswordScreen(navController = navController) }
                     composable("securityPin") { SecurityPinScreen(navController = navController) }
                     composable("newPassword") { NewPasswordScreen(navController = navController) }
