@@ -17,7 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -72,7 +71,6 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
             Spacer(Modifier.height(12.dp))
             Text(state.error ?: "", color = MaterialTheme.colorScheme.error)
         }
-
         Spacer(Modifier.height(16.dp))
         Button(
             onClick = { vm.register { navController.navigate("home") { popUpTo("welcome") { inclusive = true } } } },
@@ -81,7 +79,6 @@ fun RegisterScreen(modifier: Modifier = Modifier, navController: NavHostControll
         ) {
             if (state.loading) CircularProgressIndicator() else Text("Registrarme")
         }
-
         Spacer(Modifier.height(8.dp))
         Button(
             onClick = {
