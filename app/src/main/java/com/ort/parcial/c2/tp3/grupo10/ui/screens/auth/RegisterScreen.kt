@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.auth
 
+import InputTextString
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,12 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +49,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.auth.AuthViewModel
-import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthButton
+import com.ort.parcial.c2.tp3.grupo10.ui.components.auth.AuthButton
+import com.ort.parcial.c2.tp3.grupo10.ui.components.auth.InputDateTime
+import com.ort.parcial.c2.tp3.grupo10.ui.components.auth.InputTextPhone
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew
@@ -118,20 +115,17 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(6.dp))
-                        OutlinedTextField(
+                        InputTextString(
                             value = name,
                             onValueChange = { name = it },
-                            textStyle = LocalTextStyle.current.copy(color =Honeydew2),
-                            placeholder = { Text("Full name") },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            placeholder = "Full name",
+                            keyboardType = KeyboardType.Email,
+                            isPassword = false,
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
                     }
                     Column(modifier = Modifier.fillMaxWidth())
@@ -144,20 +138,17 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(6.dp))
-                        OutlinedTextField(
+                        InputTextString(
                             value = email,
                             onValueChange = { email = it },
-                            textStyle = LocalTextStyle.current.copy(color =Honeydew2),
-                            placeholder = { Text("example@example.com") },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            placeholder = "example@example.com",
+                            keyboardType = KeyboardType.Email,
+                            isPassword = false,
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
                     }
                     Column(modifier = Modifier.fillMaxWidth())
@@ -170,28 +161,15 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(3.dp))
-                        OutlinedTextField(
+                        InputTextPhone(
                             value = mobileNumber,
-                            onValueChange = { input ->
-                               var filtrado = input.filter { it.isDigit() }
-                                if (filtrado.length <= 10) {
-                                    mobileNumber = filtrado
-                                }else{
-                                    mobileNumber = ""
-                                }
-                            },
-                            textStyle = LocalTextStyle.current.copy(color =Honeydew2),
-                            placeholder = { Text("11 2222 3333") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            onValueChange = { mobileNumber = it },
+                            placeholder = "11 2222 3333",
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
                     }
                     Column(modifier = Modifier.fillMaxWidth()) {
@@ -203,37 +181,19 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(3.dp))
-
-
-                        OutlinedTextField(
+                        InputDateTime(
                             value = fechaNac,
-                            onValueChange = { input ->
-                                val digits = input.filter { it.isDigit() }
-                                val limited = digits.take(8)
-                                fechaNac = buildString {
-                                    for (i in limited.indices) {
-                                        append(limited[i])
-                                        if (i == 1 || i == 3) append('/')
-                                    }
-                                }
-                            },
-                            textStyle = LocalTextStyle.current.copy(color = Honeydew2),
-                            placeholder = { Text("dd/mm/yyyy") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            onValueChange = { fechaNac = it },
+                            placeholder = "dd/mm/yyyy",
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
                     }
                     Column(modifier = Modifier.fillMaxWidth())
                     {
-                        // Password
                         Text(
                             text = "Password",
                             color = Color.DarkGray,
@@ -242,29 +202,17 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(3.dp))
-                        OutlinedTextField(
+                        InputTextString(
                             value = password,
-                            onValueChange = { input -> password = input },
-                            textStyle = LocalTextStyle.current.copy(color = Honeydew2),
-                            placeholder = { Text("••••••••")  },
-                            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            trailingIcon = {
-                                val icon = if (passwordVisible) R.drawable.ic_eye_pass else R.drawable.ic_eye_off
-                                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Image(painter = painterResource(id = icon),
-                                        contentDescription = "Toggle password visibility",)
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            onValueChange = { password = it },
+                            placeholder = "Enter password",
+                            isPassword = true,
+                            keyboardType = KeyboardType.Password,
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
@@ -275,31 +223,17 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(3.dp))
-                        OutlinedTextField(
+                        InputTextString(
                             value = confirmPassword,
-                            onValueChange = { input -> confirmPassword = input },
-                            textStyle = LocalTextStyle.current.copy(color = Honeydew2),
-                            placeholder = { Text("••••••••")  },
-                            visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            trailingIcon = {
-                                val icon = if (confirmPasswordVisible) R.drawable.ic_eye_pass else R.drawable.ic_eye_off
-                                IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
-                                    Image(painter = painterResource(id = icon),
-                                        contentDescription = "Toggle password visibility",)
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            isError = !passwordsMatch && confirmPassword.isNotEmpty(),
-                            shape = RoundedCornerShape(50),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                errorBorderColor = Color.Red,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            onValueChange = { confirmPassword = it },
+                            placeholder = "Confirm password",
+                            isPassword = true,
+                            keyboardType = KeyboardType.Password,
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
 
                         if (!passwordsMatch && confirmPassword.isNotEmpty()) {

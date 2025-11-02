@@ -1,4 +1,5 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.auth
+import InputTextString
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +25,7 @@ import com.ort.parcial.c2.tp3.grupo10.R.drawable.ic_facebook
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ort.parcial.c2.tp3.grupo10.R
-import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthButton
+import com.ort.parcial.c2.tp3.grupo10.ui.components.auth.AuthButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 
 @Composable
@@ -83,22 +84,17 @@ fun LoginScreen(
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(6.dp))
-                        val inputBackground = Color(0xFFDFF7E2)
-                        val inputTextColor = Color(0xFF00D09E)
-                        OutlinedTextField(
+                        InputTextString(
                             value = email,
                             onValueChange = { email = it },
-                            textStyle = LocalTextStyle.current.copy(color =Honeydew2),
-                            placeholder = { Text("example@example.com") },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            placeholder = "example@example.com",
+                            keyboardType = KeyboardType.Email,
+                            isPassword = false,
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
                     }
 
@@ -111,28 +107,17 @@ fun LoginScreen(
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(6.dp))
-                        OutlinedTextField(
+                        InputTextString(
                             value = password,
-                            onValueChange = { input -> password = input  },
-                            placeholder = { Text("••••••••") },
-                            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(50),
-                            textStyle = LocalTextStyle.current.copy(color =Honeydew2),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            trailingIcon = {
-                                val icon = if (passwordVisible)R.drawable.ic_eye_pass else R.drawable.ic_eye_off
-                                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Image(painter = painterResource(id = icon),
-                                        contentDescription = "Toggle password visibility",)
-                                }
-                            },colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Honeydew2,
-                                unfocusedBorderColor = Honeydew,
-                                focusedContainerColor = Honeydew,
-                                unfocusedContainerColor = Honeydew,
-                                cursorColor = Honeydew2
-                            )
+                            onValueChange = { password = it },
+                            placeholder = "Enter password",
+                            isPassword = true,
+                            keyboardType = KeyboardType.Password,
+                            focusedBorderColor = Honeydew2,
+                            unfocusedBorderColor = Honeydew,
+                            focusedContainerColor = Honeydew,
+                            unfocusedContainerColor = Honeydew,
+                            cursorColor = Honeydew2
                         )
                     }
 
