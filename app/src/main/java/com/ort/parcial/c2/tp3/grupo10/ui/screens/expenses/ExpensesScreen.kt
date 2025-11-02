@@ -124,7 +124,14 @@ fun ExpensesScreen(
         bottomBar = {
             BottomNavBar(
                 selected = bottomSelected,
-                onSelect = onBottomSelect
+                onSelect = { index ->
+                    when (index) {
+                        0 -> navController?.navigate("home")
+                        2 -> navController?.navigate("transactions")
+                        3 -> navController?.navigate("categories")
+                        else -> onBottomSelect(index)
+                    }
+                }
             )
         },
         containerColor = Color.Transparent
