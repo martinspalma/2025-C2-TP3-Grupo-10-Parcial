@@ -42,3 +42,9 @@ app/google-services.json
 # -----------------------------------------------------------------
 # Ignorar el directorio de documentación del proyecto
 docs/
+
+# -----------------------------------------------------------------
+# KOTLIN COMPILER LOCAL STATE
+# -----------------------------------------------------------------
+# Errores y cachés locales del compilador Kotlin
+.kotlin/
