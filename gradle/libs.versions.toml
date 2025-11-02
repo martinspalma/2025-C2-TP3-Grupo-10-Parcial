@@ -19,7 +19,7 @@ converterGson = "2.9.0"
 firebaseBom = "33.5.1"
 kotlinxCoroutinesPlayServices = "1.8.1"
 runtime = "1.9.4"
-materialIconsExtended = "1.5.0"
+## Removed old materialIconsExtended
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

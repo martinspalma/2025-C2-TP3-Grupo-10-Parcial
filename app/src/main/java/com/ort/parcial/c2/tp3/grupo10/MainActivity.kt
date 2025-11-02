@@ -16,9 +16,8 @@ import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.SecurityPinScree
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.SuccessConfirmationScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.home.HomeScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MyApplicationTheme
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.password.NewPasswordScreen
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.password.PasswordChangedScreen
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.password.SecurityPinScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen1
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen2
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     // Reset password flow
                     composable("security_pin") { SecurityPinScreen(navController = navController) }
                     composable("new_password") { NewPasswordScreen(navController = navController) }
-                    composable("password_changed") { PasswordChangedScreen(navController = navController) }
+                    composable("password_changed") { SuccessConfirmationScreen(navController = navController) }
                 }
             }
         }
