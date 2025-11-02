@@ -19,7 +19,14 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.MyApplicationTheme
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen1
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen2
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.categories.CategoriesScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpensesScreen
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.AddExpenseScreen
+
+
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -31,9 +38,22 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = "categories"
+                    startDestination = "categories"  
                 ) {
                     composable("categories") { CategoriesScreen(navController = navController) }
+                    composable(
+                        route = "expenses/{categoryName}",
+                        arguments = listOf(
+                            navArgument("categoryName") { type = NavType.StringType }
+                        )
+                    ) { backStackEntry ->
+                        val categoryName = backStackEntry.arguments?.getString("categoryName") ?: "Food"
+                        ExpensesScreen(
+                            categoryName = categoryName,
+                            navController = navController
+                        )
+                    }
+                    
                     composable("forgotPassword") { ForgotPasswordScreen(navController = navController) }
                     composable("securityPin") { SecurityPinScreen(navController = navController) }
                     composable("newPassword") { NewPasswordScreen(navController = navController) }
@@ -50,6 +70,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("register") { RegisterScreen(navController = navController) }
                     composable("home") { HomeScreen(navController) }
+                    composable("add_expense") { 
+                        AddExpenseScreen(navController = navController) 
+                    }
                     // Reset password flow
                     composable("security_pin") { SecurityPinScreen(navController = navController) }
                     composable("new_password") { NewPasswordScreen(navController = navController) }
