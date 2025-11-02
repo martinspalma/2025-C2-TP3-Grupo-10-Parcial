@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +59,7 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew2
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
 
 @Composable
 fun RegisterScreen(modifier: Modifier = Modifier,
@@ -86,8 +88,8 @@ fun RegisterScreen(modifier: Modifier = Modifier,
         {
             Spacer(modifier = Modifier.height(60.dp))
             Text(
-                text = "Create account",
-                color = Color.Black,
+                text = stringResource(R.string.create_account_title),
+                color = Void,
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = PoppinsFamily
@@ -108,8 +110,8 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                     Column(modifier = Modifier.fillMaxWidth())
                     {
                         Text(
-                            text = "Full name",
-                            color = Color.DarkGray,
+                            text = stringResource(R.string.full_name),
+                            color = Void,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
                             style = MaterialTheme.typography.bodySmall
@@ -118,7 +120,7 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                         InputTextString(
                             value = name,
                             onValueChange = { name = it },
-                            placeholder = "Full name",
+                            placeholder = stringResource(R.string.full_name),
                             keyboardType = KeyboardType.Email,
                             isPassword = false,
                             focusedBorderColor = Honeydew2,
@@ -131,8 +133,8 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                     Column(modifier = Modifier.fillMaxWidth())
                     {
                         Text(
-                            text = "Username or Email",
-                            color = Color.DarkGray,
+                            text = stringResource(R.string.username_lbl_input),
+                            color = Void,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
                             style = MaterialTheme.typography.bodySmall
@@ -141,7 +143,7 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                         InputTextString(
                             value = email,
                             onValueChange = { email = it },
-                            placeholder = "example@example.com",
+                            placeholder = stringResource(R.string.username_pholder_input),
                             keyboardType = KeyboardType.Email,
                             isPassword = false,
                             focusedBorderColor = Honeydew2,
@@ -154,8 +156,8 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                     Column(modifier = Modifier.fillMaxWidth())
                     {
                         Text(
-                            text = "Mobile Number",
-                            color = Color.DarkGray,
+                            text = stringResource(R.string.mobile_number_lbl_text),
+                            color = Void,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
                             style = MaterialTheme.typography.bodySmall
@@ -164,7 +166,7 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                         InputTextPhone(
                             value = mobileNumber,
                             onValueChange = { mobileNumber = it },
-                            placeholder = "11 2222 3333",
+                            placeholder = stringResource(R.string.mobile_number_pholder_text),
                             focusedBorderColor = Honeydew2,
                             unfocusedBorderColor = Honeydew,
                             focusedContainerColor = Honeydew,
@@ -174,8 +176,8 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                     }
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text = "Birth Date",
-                            color = Color.DarkGray,
+                            text = stringResource(R.string.birth_date_lbl_text),
+                            color = Void,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
                             style = MaterialTheme.typography.bodySmall
@@ -184,7 +186,7 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                         InputDateTime(
                             value = fechaNac,
                             onValueChange = { fechaNac = it },
-                            placeholder = "dd/mm/yyyy",
+                            placeholder = stringResource(R.string.birth_date_pholder_input),
                             focusedBorderColor = Honeydew2,
                             unfocusedBorderColor = Honeydew,
                             focusedContainerColor = Honeydew,
@@ -195,8 +197,8 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                     Column(modifier = Modifier.fillMaxWidth())
                     {
                         Text(
-                            text = "Password",
-                            color = Color.DarkGray,
+                            text = stringResource(R.string.password_lbl_input),
+                            color = Void,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
                             style = MaterialTheme.typography.bodySmall
@@ -205,7 +207,7 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                         InputTextString(
                             value = password,
                             onValueChange = { password = it },
-                            placeholder = "Enter password",
+                            placeholder = stringResource(R.string.password_pholder_input),
                             isPassword = true,
                             keyboardType = KeyboardType.Password,
                             focusedBorderColor = Honeydew2,
@@ -216,8 +218,8 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "Confirm Password",
-                            color = Color.DarkGray,
+                            text = stringResource(R.string.password_confirm_lbl_input),
+                            color = Void,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
                             style = MaterialTheme.typography.bodySmall
@@ -226,7 +228,7 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                         InputTextString(
                             value = confirmPassword,
                             onValueChange = { confirmPassword = it },
-                            placeholder = "Confirm password",
+                            placeholder = stringResource(R.string.password_confirm_lbl_input),
                             isPassword = true,
                             keyboardType = KeyboardType.Password,
                             focusedBorderColor = Honeydew2,
@@ -238,7 +240,7 @@ fun RegisterScreen(modifier: Modifier = Modifier,
 
                         if (!passwordsMatch && confirmPassword.isNotEmpty()) {
                             Text(
-                                text = "Passwords do not match",
+                                text = stringResource(R.string.password_missmatch),
                                 color = Color.Red,
                                 fontSize = 12.sp,
                                 fontFamily = PoppinsFamily,
@@ -265,10 +267,11 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             },
                                 style = MaterialTheme.typography.bodySmall,
                                 textAlign = TextAlign.Center,
+                                fontFamily = PoppinsFamily,
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
-                        AuthButton(text= "Sign Up",
+                        AuthButton(text= stringResource(R.string.signup_btn_text),
                             {
 //                                onLoginClick()
                                 navController.navigate( "home")
@@ -280,12 +283,15 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             containerColor = Caribbean
                         )
                         Row {
-                            Text("Already have an account? ",style = MaterialTheme.typography.bodySmall)
+                            Text(text= stringResource(R.string.already_account),
+                                style = MaterialTheme.typography.bodySmall,
+                                fontFamily = PoppinsFamily)
                             Text(
-                                text = "Log In",
+                                text = stringResource(R.string.login_btn_text),
                                 color = Caribbean,
                                 fontWeight = FontWeight.Medium,
                                 style = MaterialTheme.typography.bodySmall,
+                                fontFamily = PoppinsFamily,
                                 modifier = Modifier.clickable {
 //                                onSignUpClick()
                                     navController.navigate("login")

@@ -36,6 +36,8 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
+
 @Composable
 fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
     val context = LocalContext.current
@@ -71,7 +73,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
 
             Text(
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
-                color = LettersAndIcons.copy(alpha = 0.7f),
+                color = Void,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center
             )
@@ -86,7 +88,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
                 shape = RoundedCornerShape(24.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MainGreen,
-                    contentColor = Color.White
+                    contentColor = Void
                 )
             ) {
                 Text(
@@ -105,7 +107,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
                 shape = RoundedCornerShape(24.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = LightGreen,
-                    contentColor = MainGreen
+                    contentColor = Void
                 ),
                 border = BorderStroke(width = 0.dp, color = Color.Transparent)
             ) {
@@ -119,16 +121,19 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
 
             Text(
                 text = "Forgot Password?",
-                color = LettersAndIcons.copy(alpha = 0.6f),
+                color = Void,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { navController.navigate("security_pin") }
+                modifier = Modifier.clickable
+                {
+                    navController.navigate("security_pin")
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "",
-                color = LettersAndIcons.copy(alpha = 0.6f),
+                color = Void,
                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
                 modifier = Modifier.clickable {
                     val intent = Intent(context, MainActivity2::class.java)
