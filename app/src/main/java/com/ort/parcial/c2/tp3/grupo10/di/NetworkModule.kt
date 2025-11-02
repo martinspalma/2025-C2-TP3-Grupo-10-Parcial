@@ -2,6 +2,7 @@ package com.ort.parcial.c2.tp3.grupo10.di
 
 import com.ort.parcial.c2.tp3.grupo10.BuildConfig
 import com.ort.parcial.c2.tp3.grupo10.data.remote.TransactionsApi
+import com.ort.parcial.c2.tp3.grupo10.shared.infraestructura.authservice.AuthApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +38,11 @@ object NetworkModule {
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(retrofit: Retrofit): AuthApi =
+        retrofit.create(AuthApi::class.java)
 
     @Provides
     @Singleton

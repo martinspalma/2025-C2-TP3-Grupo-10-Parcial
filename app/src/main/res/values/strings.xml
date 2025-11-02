@@ -31,6 +31,23 @@
     <string name="success_icon_description">Ícono de Éxito</string>
 
     <string name="welcome_title">Welcome</string>
+    <string name="create_account_title">Create account</string>
+
+    //LOGIN SCREEN
+    <string name="full_name">Full name</string>
     <string name="login_btn_text">Log In</string>
+    <string name="forgot_password_login">Forgot Password?</string>
     <string name="signup_btn_text">Sign Up</string>
+    <string name="username_lbl_input">Username or Email</string>
+    <string name="username_pholder_input">example@example.com</string>
+    <string name="password_lbl_input">Password</string>
+    <string name="password_pholder_input">Enter password</string>
+    <string name="password_confirm_lbl_input">Confirm password</string>
+    <string name="password_missmatch">Passwords do not match</string>
+    <string name="mobile_number_pholder_text">11 2222 3333</string>
+    <string name="mobile_number_lbl_text">Mobile number</string>
+    <string name="birth_date_lbl_text">Birth date</string>
+    <string name="birth_date_pholder_input">dd/MM/yyyy</string>
+    <string name="already_account">Already have an account?</string>
+    <string name="loading_message">Loading...</string>
 </resources>
