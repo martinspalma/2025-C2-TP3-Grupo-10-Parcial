@@ -24,6 +24,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.AddExpenseScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.transactions.TransactionsScreen
 
 
 
@@ -70,6 +71,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("register") { RegisterScreen(navController = navController) }
                     composable("home") { HomeScreen(navController) }
+                    composable("transactions") { TransactionsScreen(navController) }
                     composable("add_expense") { 
                         AddExpenseScreen(navController = navController) 
                     }

@@ -32,5 +32,12 @@ fun HomeScreen(navController: NavController? = null) {
         ) {
             Text("Reset Password Demo", color = Color.White)
         }
+        Spacer(modifier = Modifier.height(12.dp))
+        Button(
+            onClick = { navController?.navigate("transactions") },
+            colors = ButtonDefaults.buttonColors(containerColor = MainGreen)
+        ) {
+            Text("Go to Transactions", color = Color.White)
+        }
     }
 }
