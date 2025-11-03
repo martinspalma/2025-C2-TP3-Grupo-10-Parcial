@@ -9,6 +9,8 @@ sealed class Route(val path: String) {
     data object Activity : Route("activity")
     data object Stacks : Route("stacks")
     data object Profile : Route("profile")
+    data object FoodExpenses : Route("food_expenses")
+    data object AddExpense : Route("add_expense")
 }
 
 data class BottomItem(

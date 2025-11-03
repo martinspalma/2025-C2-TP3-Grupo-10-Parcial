@@ -23,6 +23,7 @@ firebaseBom = "33.5.1"
 kotlinxCoroutinesPlayServices = "1.8.1"
 kotlinxCoroutines = "1.8.1"
 runtime = "1.9.4"
+foundation = "1.9.4"
 ## Removed old materialIconsExtended
 
 [libraries]
@@ -56,6 +57,7 @@ kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "ko
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
