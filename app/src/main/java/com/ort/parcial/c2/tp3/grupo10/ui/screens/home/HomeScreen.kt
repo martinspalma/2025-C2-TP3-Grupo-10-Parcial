@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Surface
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.graphics.drawscope.Stroke
+
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -43,7 +47,7 @@ fun HomeScreen(
     onBottomSelect: (Int) -> Unit = {}
 ) {
     val transactions = listOf(
-        HomeTransaction("Salary", "18:27 - April 30", "Monthly", "$4.000,00", false, R.drawable.svg_savings),
+        HomeTransaction("Salary", "18:27 - April 30", "Monthly", "$4.000,00", false, R.drawable.money),
         HomeTransaction("Groceries", "17:00 - April 24", "Pantry", "-$100,00", true, R.drawable.svg_groceries),
         HomeTransaction("Rent", "8:30 - April 15", "Rent", "-$674,40", true, R.drawable.svg_rent)
     )
@@ -98,7 +102,8 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     // ---- Tarjeta Savings on Goals ----
-                    SavingsCard()
+                    SavingsSection()
+
 
                     // ---- Selector Daily/Weekly/Monthly ----
                     PeriodSelector(selectedTab) { selectedTab = it }
@@ -117,71 +122,166 @@ fun HomeScreen(
 
 // -------- Tarjeta “Savings on Goals” --------
 @Composable
-fun SavingsCard() {
-    Row(
+fun SavingsSection() {
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .background(LightGreen)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .clip(RoundedCornerShape(24.dp)),
+        color = MainGreen,
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp
     ) {
-        // Ícono circular del auto
-        Box(
+        Row(
             modifier = Modifier
-                .size(80.dp)
-                .clip(CircleShape)
-                .background(MainGreen),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 22.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.car),
-                contentDescription = "Car",
-                tint = Color.White,
-                modifier = Modifier.size(40.dp)
-            )
-        }
-
-        Spacer(Modifier.width(16.dp))
-
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = "Savings on Goals",
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Medium,
-                color = Void,
-                fontSize = 14.sp
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+            // 🟩 IZQUIERDA: AUTO + “Savings on Goals”
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column {
-                    Text("Revenue Last Week", color = Void, fontSize = 12.sp)
-                    Text(
-                        "$4.000.00",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = Void
+                // 🔹 Círculo con borde mitad blanco y mitad azul
+                Box(
+                    modifier = Modifier.size(78.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Fondo translúcido
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.15f))
+                    )
+
+                    // Dibuja los bordes (mitad azul, mitad blanco)
+                    Canvas(modifier = Modifier.matchParentSize()) {
+                        // Arco azul (mitad superior)
+                        drawArc(
+                            color = OceanBlueButton,
+                            startAngle = -90f,
+                            sweepAngle = 180f,
+                            useCenter = false,
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 6.dp.toPx())
+                        )
+                        // Arco blanco (mitad inferior)
+                        drawArc(
+                            color = Color.White,
+                            startAngle = 90f,
+                            sweepAngle = 180f,
+                            useCenter = false,
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 6.dp.toPx())
+                        )
+                    }
+
+                    // Ícono del auto
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_car),
+                        contentDescription = "Savings icon",
+                        tint = LettersAndIcons,
+                        modifier = Modifier.size(46.dp)
                     )
                 }
 
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Food Last Week", color = Void, fontSize = 12.sp)
-                    Text(
-                        "-$100.00",
-                        fontFamily = PoppinsFamily,
-                        fontWeight = FontWeight.Bold,
-                        color = MainGreen
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "Savings On Goals",
+                    color = LettersAndIcons,
+                    fontFamily = PoppinsFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp
+                )
+            }
+
+            // Línea separadora vertical
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .width(3.dp)
+                    .height(185.dp)
+                    .background(Color.White.copy(alpha = 0.8f))
+            )
+
+
+            // 🟩 DERECHA: Revenue + Food
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(18.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                // 🔹 Revenue Last Week
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.money),
+                        contentDescription = "Revenue",
+                        tint = LettersAndIcons,
+                        modifier = Modifier.size(36.dp)
                     )
+                    Column {
+                        Text(
+                            text = "Revenue Last Week",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 15.sp
+                        )
+                        Text(
+                            text = "$4.000,00",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp
+                        )
+                    }
+                }
+
+                // Línea separadora horizontal
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .width(2.dp)
+                        .height(2.dp)
+                        .background(Color.White.copy(alpha = 0.8f))
+                )
+
+                // 🔵 Food Last Week
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.svg_food),
+                        contentDescription = "Food",
+                        tint = LettersAndIcons,
+                        modifier = Modifier.size(36.dp)
+                    )
+                    Column {
+                        Text(
+                            text = "Food Last Week",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 15.sp
+                        )
+                        Text(
+                            text = "-$100.00",
+                            color = OceanBlueButton,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+                    }
                 }
             }
         }
     }
 }
+
 
 // -------- Selector Daily/Weekly/Monthly --------
 @Composable
@@ -272,7 +372,7 @@ fun TransactionRow(tx: HomeTransaction) {
                 text = tx.amount,
                 fontFamily = PoppinsFamily,
                 fontWeight = FontWeight.Bold,
-                color = if (tx.isNegative) MainGreen else Void,
+                color = if (tx.isNegative) OceanBlueButton else Void,
                 fontSize = 15.sp
             )
         }
