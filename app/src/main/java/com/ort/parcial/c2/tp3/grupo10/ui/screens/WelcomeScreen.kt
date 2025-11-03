@@ -1,9 +1,7 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens
 
 import android.content.Intent
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,16 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,27 +26,27 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.R
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
+import com.ort.parcial.c2.tp3.grupo10.ui.components.AppButton
+import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthButton
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.LeagueSpartanFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
-
-
 @Composable
 fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+    // El tema global se inyecta desde MainActivity, por lo que aquí solo consumimos MaterialTheme.
     val context = LocalContext.current
+
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(BackgroundGreenWhiteAndLetters)
             .padding(horizontal = 32.dp)
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+        
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -63,10 +57,13 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
             )
 
             Spacer(modifier = Modifier.height(32.dp))
+
+            // El título reaprovecha la fuente LeagueSpartan del tema y el color primario configurado.
             Text(
                 text = "FinWise",
-                color = MainGreen,
+                color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.headlineLarge.copy(
+                    fontFamily = LeagueSpartanFamily,
                     fontSize = 36.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -74,6 +71,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Mensaje introductorio con tipografía Poppins y color auxiliar de la paleta.
             Text(
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
                 color = LettersAndIcons.copy(alpha = 0.7f),
@@ -86,61 +84,47 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            Button(
+            // Botón principal reutilizando AppButton para respetar el estilo CTA compartido.
+            AppButton(
+                text = "Log In",
                 onClick = { navController.navigate("login") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(24.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MainGreen,
-                    contentColor = Void
-                )
-            ) {
-                Text(
-                    text = "Log In",
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
-                )
-            }
+                
+                buttonHeight = 52.dp,
+                containerColor = Caribbean,
+                textColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedButton(
+            
+            // Botón secundario que aprovecha AuthButton y la variante clara de la paleta.
+            AuthButton(
+                text = "Sign Up",
                 onClick = { navController.navigate("onboarding1") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(24.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = LightGreen,
-                    contentColor = MainGreen
-                ),
-                border = BorderStroke(width = 0.dp, color = Color.Transparent)
-            ) {
-                Text(
-                    text = "Sign Up",
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
-                )
-            }
+                
+                modifier = Modifier.fillMaxWidth(),
+                containerColor = LightGreen,
+                contentColor = MaterialTheme.colorScheme.primary
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Texto alternativo que mantiene la tipografía global para acciones secundarias.
             Text(
                 text = "Forgot Password?",
-                color = Void,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.clickable
-                {
-                    navController.navigate("security_pin")
-                }
+                color = LettersAndIcons.copy(alpha = 0.6f),
+                style = MaterialTheme.typography.bodyMedium.copy(fontFamily = PoppinsFamily),
+                textAlign = TextAlign.Center
             )
+
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Acción adicional conservada del diseño original para abrir MainActivity2.
             Text(
                 text = "",
-                color = Void,
-                style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
+                color = LettersAndIcons.copy(alpha = 0.6f),
+                style = MaterialTheme.typography.bodySmall.copy(fontFamily = PoppinsFamily),
                 modifier = Modifier.clickable {
                     val intent = Intent(context, MainActivity2::class.java)
                     context.startActivity(intent)
@@ -148,4 +132,5 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
             )
         }
     }
+
 }
