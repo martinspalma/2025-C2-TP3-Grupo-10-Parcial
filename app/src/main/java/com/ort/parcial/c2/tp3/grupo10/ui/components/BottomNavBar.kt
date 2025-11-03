@@ -1,5 +1,7 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.components
 
+import android.content.Context
+import android.content.Intent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
@@ -55,11 +59,11 @@ fun BottomNavBar(
     onSelect: (Int) -> Unit,
     cornerRadius: Dp = 34.dp
 ) {
-    Box(
+    val context = LocalContext.current
 
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            // 1. Damos un fondo curvo directamente al Box.
             .background(
                 color = LightGreen,
                 shape = RoundedCornerShape(topStart = 60.dp, topEnd = 60.dp)
@@ -80,7 +84,16 @@ fun BottomNavBar(
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
-                            onClick = { onSelect(index) }
+                            onClick = {
+                                // 1. Llama siempre a onSelect para que el UI se actualice
+                                onSelect(index)
+
+                                // 2. Si el índice es el de "Profile", ejecuta la navegación
+                                if (index == 4) {
+                                    val intent = Intent(context, MainActivity2::class.java)
+                                    context.startActivity(intent)
+                                }
+                            }
                         )
                         .padding(vertical = 8.dp),
                     contentAlignment = Alignment.Center
@@ -107,6 +120,7 @@ fun BottomNavBar(
         }
     }
 }
+
 
 
 @Preview(showBackground = true)
