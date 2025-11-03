@@ -64,7 +64,7 @@ fun PasswordInputField(
             trailingIcon = {
                 IconButton(onClick = { /* Lógica de toggle de visibilidad */ }) {
                     Icon(
-                        imageVector = Icons.Filled.VisibilityOff, // Ícono de ojo cerrado
+                        imageVector = Icons.Filled.VisibilityOff,
                         contentDescription = "Toggle password visibility",
                         tint = LettersAndIcons.copy(alpha = 0.6f) // Color tenue
                     )
