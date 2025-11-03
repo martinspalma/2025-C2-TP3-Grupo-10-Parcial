@@ -19,7 +19,7 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import androidx.compose.runtime.LaunchedEffect
-//import kotlinx.coroutines.delay
+import kotlinx.coroutines.delay
 
 
 
@@ -31,7 +31,7 @@ fun GenericConfirmationScreen(
 ) {
 
     //TEMPORIZADOR DE NAVEGACIÓN
-/*
+
     LaunchedEffect(Unit) {
         delay(2500)
         navController.navigate(destinationRoute) {
@@ -40,7 +40,7 @@ fun GenericConfirmationScreen(
             }
         }
     }
-*/
+
     Box(
         modifier = Modifier
             .fillMaxSize()
