@@ -34,6 +34,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.geometry.Size
 import androidx.compose.material3.Icon
+import androidx.compose.ui.tooling.preview.Preview
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.notifications.NotificationsScreen
 
 // Lista de categorías disponibles
 val categories = listOf(
@@ -424,4 +426,11 @@ fun ExpenseTextAreaField(
 fun formatDate(date: Date): String {
     val format = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH)
     return format.format(date)
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewAddExpenseScreen() {
+    AddExpenseScreen()
 }

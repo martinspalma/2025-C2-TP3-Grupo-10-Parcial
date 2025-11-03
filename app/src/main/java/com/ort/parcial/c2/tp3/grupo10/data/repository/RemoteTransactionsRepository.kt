@@ -38,7 +38,7 @@ class RemoteTransactionsRepository @Inject constructor(
             "debit" -> TransactionType.EXPENSE
             else -> TransactionType.EXPENSE
         }
-        val icon = if (t == TransactionType.INCOME) R.drawable.ic_income else R.drawable.ic_expense
+        val icon = if (t == TransactionType.INCOME) R.drawable.ic_expense else R.drawable.ic_expense
         return Transaction(
             id = id,
             title = desc,
