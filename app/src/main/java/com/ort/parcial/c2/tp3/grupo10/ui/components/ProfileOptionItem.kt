@@ -17,6 +17,8 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.ui.res.painterResource
 
 
@@ -27,55 +29,63 @@ val ICON_CONTAINER_HEIGHT = 53.dp
 @Composable
 fun ProfileOptionItem(
     label: String,
-    @DrawableRes iconRes: Int,
+    // PASO 1: Hacemos el icono opcional y le damos valor null por defecto
+    @DrawableRes iconRes: Int? = null,
     onClick: () -> Unit,
-    // La altura que pasaremos desde la pantalla Profile (ej: 53dp o 28dp)
     itemHeight: Dp = 80.dp
 ) {
-    Column(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
+    // Usamos Column para poder agregar un Divider debajo si se desea
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .clickable(onClick = onClick)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(itemHeight) // Aplicamos la altura del ítem (ej: 53dp
-                .padding(start = 0.dp, end = 0.dp), // Quitamos el padding vertical para que la altura sea exacta
+                .height(itemHeight)
+                .padding(horizontal = 0.dp), // Mantenemos el padding en 0 para que la alineación se controle desde el contenedor
             verticalAlignment = Alignment.CenterVertically,
+            // Mantenemos Arrangement.SpaceBetween para que el contenido empuje la flecha de navegación
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
+            // Contenedor principal para el Ícono y el Texto
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                // 1. CONTENEDOR DE ÍCONO AZUL (57dp x 57dp)
-                Box(
-                    modifier = Modifier
-                        .width(ICON_CONTAINER_WIDTH) // <-- Ancho 57dp
-                        .height(ICON_CONTAINER_HEIGHT)
-                        .background(Color.White, CircleShape)
-                        .padding(0.dp), // Padding interno para que el ícono no toque el borde
-                    contentAlignment = Alignment.Center
-                ) {
-                    // USAMOS LA IMAGEN DE RECURSO EN LUGAR DE IMAGEN VECTORIAL
-                    Image(
-                        painter = painterResource(id = iconRes), // <-- CARGA EL ÍCONO DE FIGMA
-                        contentDescription = label,
-                        modifier = Modifier.fillMaxSize(0.99f),
+                // PASO 2: Lógica Condicional: Solo dibujar el bloque del icono si se proporciona un recurso
+                if (iconRes != null) {
 
-                    )
+                    // 1. CONTENEDOR DE ÍCONO AZUL (57dp x 53dp)
+                    Box(
+                        modifier = Modifier
+                            .width(ICON_CONTAINER_WIDTH)
+                            .height(ICON_CONTAINER_HEIGHT)
+                            .background(Color.White, CircleShape)
+                            .padding(0.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = iconRes),
+                            contentDescription = label,
+                            modifier = Modifier.fillMaxSize(0.99f),
+                        )
+                    }
+
+                    Spacer(Modifier.width(13.dp))
                 }
 
-                Spacer(Modifier.width(13.dp))
-
-                // 2. Texto de la Opción (TIPOGRAFÍA EXACTA)
+                // 2. Texto de la Opción
                 Text(
                     text = label,
                     color = LettersAndIcons,
-                    // --- ESTILOS DE FIGMA ---
                     fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Medium, // 500 / Medium
-                    fontSize = 15.sp, // 15px
-                    lineHeight = 15.sp // 100% line-height (para 15px)
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 15.sp,
+                    lineHeight = 15.sp,
 
                 )
             }
-        }
 
+        }
     }
 }
