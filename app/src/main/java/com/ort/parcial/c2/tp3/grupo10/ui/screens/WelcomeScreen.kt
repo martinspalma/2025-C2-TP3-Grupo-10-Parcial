@@ -27,7 +27,6 @@ import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppButton
-import com.ort.parcial.c2.tp3.grupo10.ui.components.AuthButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LeagueSpartanFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
@@ -97,16 +96,17 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            
-            // Botón secundario que aprovecha AuthButton y la variante clara de la paleta.
-            AuthButton(
+
+            AppButton(
                 text = "Sign Up",
                 onClick = { navController.navigate("onboarding1") },
-                
-                modifier = Modifier.fillMaxWidth(),
+                buttonHeight = 52.dp,
                 containerColor = LightGreen,
-                contentColor = MaterialTheme.colorScheme.primary
+                textColor = MaterialTheme.colorScheme.primary,
+                borderColor = MaterialTheme.colorScheme.primary, // opcional, para darle borde
+                modifier = Modifier.fillMaxWidth()
             )
+
 
             Spacer(modifier = Modifier.height(24.dp))
 
