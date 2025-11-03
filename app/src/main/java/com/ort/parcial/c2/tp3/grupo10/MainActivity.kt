@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.splash.SplashScreen
+
 import androidx.navigation.compose.rememberNavController
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.GenericConfirmationScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.ForgotPasswordScreen
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = "profile"
+                    startDestination = "welcome"
                 ) {
                     composable("splash") { SplashScreen(navController = navController) }
 
@@ -63,6 +65,9 @@ class MainActivity : ComponentActivity() {
                     composable("forgotPassword") { ForgotPasswordScreen(navController = navController) }
                     composable("securityPin") { SecurityPinScreen(navController = navController) }
                     composable("newPassword") { NewPasswordScreen(navController = navController) }
+                    composable("successConfirmation") { SuccessConfirmationScreen(navController = navController) }
+                    composable(route = "splash") { SplashScreen(navController) }
+
                     //composable("successConfirmation") { SuccessConfirmationScreen(navController = navController) }
                     composable("successConfirmation") {GenericConfirmationScreen(navController = navController, message = stringResource(R.string.success_message), destinationRoute = "login")}
                     composable("welcome") { WelcomeScreen(navController = navController) }

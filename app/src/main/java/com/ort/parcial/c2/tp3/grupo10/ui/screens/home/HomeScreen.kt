@@ -1,54 +1,43 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Surface
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.graphics.drawscope.Stroke
+
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
-import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.OceanBlueButton
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightBlue
-import androidx.compose.foundation.clickable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.R
-import kotlinx.coroutines.delay
+import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
+import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 
-data class TransactionItem(
-    val name: String,
-    val iconRes: Int,
-    val amount: String,
+data class HomeTransaction(
+    val title: String,
     val subtitle: String,
-    val color: Color
-)
-
-val transactions = listOf(
-    TransactionItem("Salary", R.drawable.svg_savings, "+$4.000", "18:27 - April 30", Color(0xFF00D09E)),
-    TransactionItem("Groceries", R.drawable.svg_groceries, "-$100", "17:00 - April 24", Color(0xFF00BFA6)),
-    TransactionItem("Rent", R.drawable.svg_rent, "-$674,40", "8:30 - April 15", Color(0xFF009A83))
+    val category: String,
+    val amount: String,
+    val isNegative: Boolean,
+    val iconRes: Int
 )
 
 @Composable
@@ -57,6 +46,14 @@ fun HomeScreen(
     bottomSelected: Int = 0,
     onBottomSelect: (Int) -> Unit = {}
 ) {
+    val transactions = listOf(
+        HomeTransaction("Salary", "18:27 - April 30", "Monthly", "$4.000,00", false, R.drawable.money),
+        HomeTransaction("Groceries", "17:00 - April 24", "Pantry", "-$100,00", true, R.drawable.svg_groceries),
+        HomeTransaction("Rent", "8:30 - April 15", "Rent", "-$674,40", true, R.drawable.svg_rent)
+    )
+
+    var selectedTab by remember { mutableStateOf("Monthly") }
+
     Scaffold(
         bottomBar = {
             BottomNavBar(
@@ -73,47 +70,48 @@ fun HomeScreen(
         },
         containerColor = Color.Transparent
     ) { paddingValues ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MainGreen)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                // 🔹 Header con balance y progreso
-                FinancialHeader(
-                    title = "Good Morning",
-                    navController = navController,
-                    onNotificationClick = { /* TODO */ },
-                    totalBalance = "$7,783.00",
-                    totalExpense = "-$1,187.40",
-                    progressPercentage = 0.30f,
-                    progressAmount = "$20,000.00",
-                    descriptiveText = "30% of your expenses, looks good."
-                )
+            // Header de balance
+            FinancialHeader(
+                title = "Hi, Welcome Back",
+                navController = navController,
+                onNotificationClick = { },
+                totalBalance = "$7,783.00",
+                totalExpense = "-$1,187.40",
+                progressPercentage = 0.30f,
+                progressAmount = "$20,000.00",
+                descriptiveText = "30% of your expenses, looks good."
+            )
 
-                // 🔹 Fondo blanco-verde para el contenido
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 45.dp,
-                                topEnd = 45.dp
-                            )
-                        )
-                        .background(BackgroundGreenWhiteAndLetters)
-                        .padding(24.dp)
-                        .padding(bottom = paddingValues.calculateBottomPadding()),
+            // Contenedor redondeado del contenido principal
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(topStart = 45.dp, topEnd = 45.dp))
+                    .background(BackgroundGreenWhiteAndLetters)
+                    .padding(horizontal = 20.dp, vertical = 16.dp)
+                    .padding(bottom = paddingValues.calculateBottomPadding())
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(20.dp)
-                    ) {
+                    // ---- Tarjeta Savings on Goals ----
+                    SavingsSection()
+
+
+                    // ---- Selector Daily/Weekly/Monthly ----
+                    PeriodSelector(selectedTab) { selectedTab = it }
+
+                    // ---- Lista de transacciones ----
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(transactions) { tx ->
-                            TransactionCard(tx)
+                            TransactionRow(tx)
                         }
                     }
                 }
@@ -122,57 +120,261 @@ fun HomeScreen(
     }
 }
 
+// -------- Tarjeta “Savings on Goals” --------
 @Composable
-fun TransactionCard(item: TransactionItem) {
-    var isClicked by remember { mutableStateOf(false) }
+fun SavingsSection() {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp)),
+        color = MainGreen,
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 22.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            // 🟩 IZQUIERDA: AUTO + “Savings on Goals”
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // 🔹 Círculo con borde mitad blanco y mitad azul
+                Box(
+                    modifier = Modifier.size(78.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Fondo translúcido
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.15f))
+                    )
 
-    LaunchedEffect(isClicked) {
-        if (isClicked) {
-            delay(200)
-            isClicked = false
+                    // Dibuja los bordes (mitad azul, mitad blanco)
+                    Canvas(modifier = Modifier.matchParentSize()) {
+                        // Arco azul (mitad superior)
+                        drawArc(
+                            color = OceanBlueButton,
+                            startAngle = -90f,
+                            sweepAngle = 180f,
+                            useCenter = false,
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 6.dp.toPx())
+                        )
+                        // Arco blanco (mitad inferior)
+                        drawArc(
+                            color = Color.White,
+                            startAngle = 90f,
+                            sweepAngle = 180f,
+                            useCenter = false,
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 6.dp.toPx())
+                        )
+                    }
+
+                    // Ícono del auto
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_car),
+                        contentDescription = "Savings icon",
+                        tint = LettersAndIcons,
+                        modifier = Modifier.size(46.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "Savings On Goals",
+                    color = LettersAndIcons,
+                    fontFamily = PoppinsFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp
+                )
+            }
+
+            // Línea separadora vertical
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .width(3.dp)
+                    .height(185.dp)
+                    .background(Color.White.copy(alpha = 0.8f))
+            )
+
+
+            // 🟩 DERECHA: Revenue + Food
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(18.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                // 🔹 Revenue Last Week
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.money),
+                        contentDescription = "Revenue",
+                        tint = LettersAndIcons,
+                        modifier = Modifier.size(36.dp)
+                    )
+                    Column {
+                        Text(
+                            text = "Revenue Last Week",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 15.sp
+                        )
+                        Text(
+                            text = "$4.000,00",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp
+                        )
+                    }
+                }
+
+                // Línea separadora horizontal
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .width(2.dp)
+                        .height(2.dp)
+                        .background(Color.White.copy(alpha = 0.8f))
+                )
+
+                // 🔵 Food Last Week
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.svg_food),
+                        contentDescription = "Food",
+                        tint = LettersAndIcons,
+                        modifier = Modifier.size(36.dp)
+                    )
+                    Column {
+                        Text(
+                            text = "Food Last Week",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 15.sp
+                        )
+                        Text(
+                            text = "-$100.00",
+                            color = OceanBlueButton,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+                    }
+                }
+            }
         }
     }
+}
 
+
+// -------- Selector Daily/Weekly/Monthly --------
+@Composable
+fun PeriodSelector(selected: String, onSelect: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(27.dp))
-            .clickable {
-                isClicked = true
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color(0xFFE7F8F2))
+            .padding(4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        listOf("Daily", "Weekly", "Monthly").forEach { label ->
+            val isSelected = selected == label
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(if (isSelected) MainGreen else Color.Transparent)
+                    .clickable { onSelect(label) }
+                    .padding(vertical = 10.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = label,
+                    color = if (isSelected) Color.White else Void,
+                    fontFamily = PoppinsFamily,
+                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+                )
             }
-            .background(if (isClicked) OceanBlueButton else LightBlue)
-            .padding(16.dp),
+        }
+    }
+}
+
+// -------- Fila de transacción --------
+@Composable
+fun TransactionRow(tx: HomeTransaction) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
+            .background(Color.White)
+            .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(id = item.iconRes),
-            contentDescription = item.name,
-            modifier = Modifier.size(40.dp),
-            tint = Color.White
-        )
-        Spacer(Modifier.width(16.dp))
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = item.name,
-                color = Void,
-                fontSize = 16.sp,
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Medium
-            )
-            Text(
-                text = item.subtitle,
-                color = Color.White,
-                fontSize = 12.sp,
-                fontFamily = PoppinsFamily
+        // Ícono circular
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+                .background(LightBlue),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = tx.iconRes),
+                contentDescription = tx.title,
+                tint = Color.White,
+                modifier = Modifier.size(26.dp)
             )
         }
-        Text(
-            text = item.amount,
-            color = item.color,
-            fontSize = 16.sp,
-            fontFamily = PoppinsFamily,
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.End
-        )
+
+        Spacer(Modifier.width(16.dp))
+
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = tx.title,
+                fontFamily = PoppinsFamily,
+                fontWeight = FontWeight.Medium,
+                color = Void,
+                fontSize = 16.sp
+            )
+            Text(
+                text = tx.subtitle,
+                fontFamily = PoppinsFamily,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
+        }
+
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = tx.category,
+                fontFamily = PoppinsFamily,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
+            Text(
+                text = tx.amount,
+                fontFamily = PoppinsFamily,
+                fontWeight = FontWeight.Bold,
+                color = if (tx.isNegative) OceanBlueButton else Void,
+                fontSize = 15.sp
+            )
+        }
     }
 }
