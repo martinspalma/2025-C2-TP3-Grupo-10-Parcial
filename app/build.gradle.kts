@@ -59,8 +59,10 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
 
-    //Coil --v 3.2.0
+    //Coil --v 3.2.0 BAJO VERSION A VER SI FUNCIONA
     implementation(libs.coil.compose)
+
+    //implementation(libs.coil.compose)
 
     //Hilt-Dagger --v 2.56.2
     implementation("com.google.dagger:hilt-android:2.56.2")
@@ -93,6 +95,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //temporizador
+    implementation(libs.kotlinx.coroutines.android)
 }
 
 // Compatibility shim for IDEs expecting a ':app:testClasses' task.

@@ -28,6 +28,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
@@ -53,6 +55,7 @@ fun BottomNavBar(
     selected: Int,
     onSelect: (Int) -> Unit,
     cornerRadius: Dp = 34.dp
+
 ) {
     NavigationBar(
         modifier = Modifier.clip(RoundedCornerShape(topStart = 60.dp, topEnd = 60.dp)),
