@@ -135,7 +135,7 @@ fun SavingsCard() {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.svg_savings),
+                imageVector = ImageVector.vectorResource(id = R.drawable.car),
                 contentDescription = "Car",
                 tint = Color.White,
                 modifier = Modifier.size(40.dp)
