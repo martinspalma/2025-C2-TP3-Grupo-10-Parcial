@@ -57,6 +57,12 @@
     <string name="welcome_title">Welcome</string>
     <string name="create_account_title">Create account</string>
 
+    //SECURITY SCREEN
+    <string name="security_title">Security</string>
+    <string name="option_change_pin">Change Pin</string>
+    <string name="option_fingerprint">Fingerprint</string>
+    <string name="option_terms_and_conditions">Terms And Conditions</string>
+
     //LOGIN SCREEN
     <string name="full_name">Full name</string>
     <string name="login_btn_text">Log In</string>

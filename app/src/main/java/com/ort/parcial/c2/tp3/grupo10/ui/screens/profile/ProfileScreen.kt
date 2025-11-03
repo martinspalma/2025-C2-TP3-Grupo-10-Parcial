@@ -116,7 +116,7 @@ fun ProfileScreen(navController: NavHostController) {
                 ProfileOptionItem(
                     label = stringResource(R.string.profile_option_edit_profile),
                     iconRes = R.drawable.ic_edit_profile,
-                    onClick = { /* Navegación */ },
+                    onClick = { navController.navigate("edit_profile") },
                     itemHeight = 70.dp
                 )
 
@@ -125,7 +125,7 @@ fun ProfileScreen(navController: NavHostController) {
                 ProfileOptionItem(
                     label = stringResource(R.string.profile_option_security),
                     iconRes = R.drawable.ic_security,
-                    onClick = { navController.navigate("securityFlowStart") },
+                    onClick = { navController.navigate("security") },
                     itemHeight = 70.dp
                 )
 
