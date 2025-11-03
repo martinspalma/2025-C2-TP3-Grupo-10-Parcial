@@ -1,6 +1,7 @@
 package com.ort.parcial.c2.tp3.grupo10
 
 import android.os.Bundle
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.SplashScreen
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -39,8 +40,10 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = "welcome"
+                    startDestination = "splash"
                 ) {
+                    composable("splash") { SplashScreen(navController = navController) }
+
                     composable("categories") { CategoriesScreen(navController = navController) }
                     composable(
                         route = "expenses/{categoryName}",
@@ -54,7 +57,7 @@ class MainActivity : ComponentActivity() {
                             navController = navController
                         )
                     }
-                    
+
                     composable("forgotPassword") { ForgotPasswordScreen(navController = navController) }
                     composable("securityPin") { SecurityPinScreen(navController = navController) }
                     composable("newPassword") { NewPasswordScreen(navController = navController) }
@@ -63,18 +66,11 @@ class MainActivity : ComponentActivity() {
                     composable("login") { LoginScreen(navController = navController) }
                     composable("onboarding1") { OnboardingScreen1(navController = navController) }
                     composable("onboarding2") { OnboardingScreen2(navController = navController) }
-                    composable("login") {
-                        LoginScreen(
-                            navController = navController,
-                            onForgotPasswordClick = { navController.navigate("security_pin") }
-                        )
-                    }
                     composable("register") { RegisterScreen(navController = navController) }
                     composable("home") { HomeScreen(navController) }
                     composable("transactions") { TransactionsScreen(navController) }
-                    composable("add_expense") { 
-                        AddExpenseScreen(navController = navController) 
-                    }
+                    composable("add_expense") { AddExpenseScreen(navController = navController) }
+
                     // Reset password flow
                     composable("security_pin") { SecurityPinScreen(navController = navController) }
                     composable("new_password") { NewPasswordScreen(navController = navController) }
