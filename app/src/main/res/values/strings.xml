@@ -30,8 +30,38 @@
     <string name="success_message">Password Has Been Changed Successfully</string>
     <string name="success_icon_description">Ícono de Éxito</string>
 
+    //BLOQUE PROFILE
+    <string name="back_button_desc">Botón de retroceso</string>
+    <string name="notifications_button_desc">Notificaciones</string>
+    <string name="profile_screen_title">Profile</string>
+
+    <string name="profile_option_edit_profile">Edit Profile</string>
+    <string name="profile_option_security">Security</string>
+    <string name="profile_option_setting">Setting</string>
+    <string name="profile_option_help">Help</string>
+    <string name="profile_option_logout">Logout</string>
+
+    <string name="profile_title">Profile</string>
+    <string name="profile_id_label">ID: </string>
+
+    <string name="option_edit_profile">Edit Profile</string>
+    <string name="option_security">Security</string>
+    <string name="option_setting">Setting</string>
+    <string name="option_help">Help</string>
+    <string name="option_logout">Logout</string>
+    //CONFIRMATION
+    <string name="fingerprint_changed_success">Fingerprint Has Been Changed Successfully</string>
+    <string name="pin_changed_success">Pin Has Been Changed Successfully</string>
+    <string name="fingerprint_deleted_success">The Fingerprint Has Been Successfully Deleted.</string>
+
     <string name="welcome_title">Welcome</string>
     <string name="create_account_title">Create account</string>
+
+    //SECURITY SCREEN
+    <string name="security_title">Security</string>
+    <string name="option_change_pin">Change Pin</string>
+    <string name="option_fingerprint">Fingerprint</string>
+    <string name="option_terms_and_conditions">Terms And Conditions</string>
 
     //LOGIN SCREEN
     <string name="full_name">Full name</string>
