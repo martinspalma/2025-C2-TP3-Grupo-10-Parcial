@@ -1,5 +1,7 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,8 +27,10 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import androidx.compose.material.icons.Icons // <-- Necesaria
 import androidx.compose.material.icons.filled.VisibilityOff // <-- Ojo cerrado/tachado
 import androidx.compose.material3.Icon
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import com.ort.parcial.c2.tp3.grupo10.MainActivity
 
 
 @Composable
@@ -37,6 +41,25 @@ fun ChangePinScreen(navController: NavHostController) {
     var selectedIndex by remember { mutableIntStateOf(4) } // Índice de BottomNavBar
 
     val screenTitle = stringResource(R.string.change_pin_title)
+
+    //bloque INTENT
+    val NAV_DESTINATION_KEY = "startDestination"
+    val context = LocalContext.current
+    val activity = context as? Activity
+    // --- FUNCIÓN AUXILIAR: Navegar de vuelta a MainActivity ---
+    fun navigateBackToMain(route: String) {
+        val NAV_DESTINATION_KEY = "startDestination"
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            putExtra(NAV_DESTINATION_KEY, route)
+        }
+        context.startActivity(intent)
+        // Opcional, pero recomendado para cerrar el Activity vieja inmediatamente
+        (context as? Activity)?.finish()
+    }
+
 
     // --- COMPONENTE LOCAL PARA EL CAMPO DE PIN (MAQUETACIÓN DIRECTA SEGÚN IMAGEN) ---
     @Composable
@@ -94,7 +117,16 @@ fun ChangePinScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(
                 selected = selectedIndex,
-                onSelect = { newIndex -> selectedIndex = newIndex }
+                onSelect = { index ->
+                    selectedIndex = index // Actualiza el estado visual
+                    when (index) {
+                        0 -> navigateBackToMain("home") // <-- NAVEGACIÓN CORREGIDA
+                        2 -> navigateBackToMain("transactions") // <-- NAVEGACIÓN CORREGIDA
+                        3 -> navigateBackToMain("categories") // <-- NAVEGACIÓN CORREGIDA
+                        4 -> { /* Ya estamos en Profile (no hacemos nada, solo actualizamos el índice) */ }
+                        else -> Unit
+                    }
+                }
             )
         }
     ) { padding ->

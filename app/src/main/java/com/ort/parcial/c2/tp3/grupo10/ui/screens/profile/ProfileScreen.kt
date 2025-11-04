@@ -1,5 +1,7 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -25,8 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.DarkModeGreenBar
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
+import com.ort.parcial.c2.tp3.grupo10.MainActivity
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.ui.components.ProfileOptionItem
 
 
@@ -36,6 +41,26 @@ fun ProfileScreen(navController: NavHostController) {
     val PROFILE_HEADER_HEIGHT = 120.dp + 60.dp // Aprox. 180dp para el corte de la foto.
     var selectedIndex by remember { mutableIntStateOf(4) }
     val imageUrl = "https://picsum.photos/200/200"
+
+    //bloque INTENT
+    val NAV_DESTINATION_KEY = "startDestination"
+    val context = LocalContext.current
+    val activity = context as? Activity
+    // --- FUNCIÓN AUXILIAR: Navegar de vuelta a MainActivity ---
+    fun navigateBackToMain(route: String) {
+        val NAV_DESTINATION_KEY = "startDestination"
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            putExtra(NAV_DESTINATION_KEY, route)
+        }
+        context.startActivity(intent)
+
+        (context as? Activity)?.finish()
+    }
+
+
     val floatingProfileContent: @Composable () -> Unit = {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -93,7 +118,16 @@ fun ProfileScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(
                 selected = selectedIndex,
-                onSelect = { newIndex -> selectedIndex = newIndex }
+                onSelect = { index ->
+                    selectedIndex = index // Actualiza el estado visual
+                    when (index) {
+                        0 -> navigateBackToMain("home") // <-- NAVEGACIÓN CORREGIDA
+                        2 -> navigateBackToMain("transactions") // <-- NAVEGACIÓN CORREGIDA
+                        3 -> navigateBackToMain("categories") // <-- NAVEGACIÓN CORREGIDA
+                        4 -> { /* Ya estamos en Profile (no hacemos nada, solo actualizamos el índice) */ }
+                        else -> Unit
+                    }
+                }
             )
         }
     ) { padding ->

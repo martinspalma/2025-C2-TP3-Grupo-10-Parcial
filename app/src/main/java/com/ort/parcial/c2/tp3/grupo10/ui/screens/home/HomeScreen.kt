@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.home
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,11 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
@@ -47,7 +50,6 @@ fun HomeScreen(
     onBottomSelect: (Int) -> Unit = {}
 ) {
     val context = LocalContext.current
-
     val transactions = listOf(
         HomeTransaction("Salary", "18:27 - April 30", "Monthly", "$4.000,00", false, R.drawable.money, "Monthly"),
         HomeTransaction("Groceries", "17:00 - April 24", "Pantry", "-$100,00", true, R.drawable.svg_groceries, "Weekly"),
@@ -67,7 +69,7 @@ fun HomeScreen(
                         0 -> navController?.navigate("home")
                         2 -> navController?.navigate("transactions")
                         3 -> navController?.navigate("categories")
-                        4 -> {
+                        4 -> { // <-- ÍNDICE 4: BOTÓN PROFILE
                             val intent = Intent(context, MainActivity2::class.java)
                             context.startActivity(intent)
                         }

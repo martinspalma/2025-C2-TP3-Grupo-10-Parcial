@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.transactions
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Transaction
 import com.ort.parcial.c2.tp3.grupo10.domain.model.TransactionType
@@ -40,6 +43,7 @@ fun TransactionsScreen(
     viewModel: TransactionsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
 
     androidx.compose.material3.Scaffold(
         bottomBar = {
@@ -50,6 +54,12 @@ fun TransactionsScreen(
                         0 -> navController?.navigate("home")
                         2 -> {/* ya estamos aquí */}
                         3 -> navController?.navigate("categories")
+                        4 -> { // <-- ÍNDICE 4: BOTÓN PROFILE
+                            val intent = Intent(context, MainActivity2::class.java)
+                            context.startActivity(intent)
+                        }
+                        //else -> onBottomSelect(index)
+
                     }
                 }
             )
