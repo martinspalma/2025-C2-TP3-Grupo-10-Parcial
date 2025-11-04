@@ -62,6 +62,20 @@
     <string name="option_change_pin">Change Pin</string>
     <string name="option_fingerprint">Fingerprint</string>
     <string name="option_terms_and_conditions">Terms And Conditions</string>
+    //CHANGE PIN SCREEN
+    <string name="change_pin_title">Change PIN</string>
+    <string name="pin_current_label">Current Pin</string>
+    <string name="pin_new_label">New Pin</string>
+    <string name="pin_confirm_label">Confirm Pin</string>
+    <string name="change_pin_button">Change Pin</string>
+    //FINGER PRINT
+    <string name="fingerprint_list_title">Fingerprint</string>
+    <string name="fingerprint_john_label">John Fingerprint</string>
+    <string name="fingerprint_add_label">Add A Fingerprint</string>
+    <string name="use_fingerprint_title">John Fingerprint</string>
+    <string name="fingerprint_name_label">John Fingerprint</string>
+    <string name="fingerprint_delete_button">Delete</string>
+    <string name="fingerprint_icon_description">Huella dactilar</string>
 
     //LOGIN SCREEN
     <string name="full_name">Full name</string>
