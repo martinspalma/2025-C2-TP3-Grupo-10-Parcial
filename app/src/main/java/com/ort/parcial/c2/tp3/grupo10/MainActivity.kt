@@ -89,7 +89,26 @@ class MainActivity : ComponentActivity() {
                     composable("fingerprintDeletedSuccess") {GenericConfirmationScreen( navController = navController, message = stringResource(R.string.fingerprint_deleted_success), destinationRoute = "login")}
 
                     composable("transactions") { TransactionsScreen(navController) }
-                    composable("add_expense") { AddExpenseScreen(navController = navController) }
+                    // Ruta con categoría (cuando viene desde ExpensesScreen)
+                    composable(
+                        route = "add_expense/{categoryName}",
+                        arguments = listOf(
+                            navArgument("categoryName") { type = NavType.StringType }
+                        )
+                    ) { backStackEntry ->
+                        val categoryName = backStackEntry.arguments?.getString("categoryName")
+                        AddExpenseScreen(
+                            defaultCategory = categoryName,
+                            navController = navController
+                        )
+                    }
+                    // Ruta sin categoría (cuando viene desde otra pantalla)
+                    composable("add_expense") {
+                        AddExpenseScreen(
+                            defaultCategory = null,
+                            navController = navController
+                        )
+                    }
 
                     // Reset password flow
                     //composable("security_pin") { SecurityPinScreen(navController = navController) }
