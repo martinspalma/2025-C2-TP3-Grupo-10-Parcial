@@ -1,9 +1,12 @@
 package com.ort.parcial.c2.tp3.grupo10
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,11 +23,10 @@ import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpensesScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.ForgotPasswordScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.NewPasswordScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.SecurityPinScreen
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.SuccessConfirmationScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.home.HomeScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.notifications.NotificationScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen1
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.onboarding.OnboardingScreen2
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.ProfileScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.splash.SplashScreen // Corrected import
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.transactions.TransactionsScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MyApplicationTheme
@@ -32,15 +34,41 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
                 val navController = rememberNavController()
+                // 1. OBTENEMOS EL INTENT DENTRO DEL COMPOSABLE
+                val context = LocalContext.current
+                val currentActivity = context as? ComponentActivity
+
+                // 1. LECTURA DE RUTA INICIAL (desde onCreate)
+                val externalStartDestination = currentActivity?.intent?.getStringExtra("startDestination")
+                val initialRoute = externalStartDestination ?: "splash"
+
+                // 2. EFECTO CLAVE: NAVEGACIÓN FORZADA Y CONSUMO DEL EXTRA
+                // Observa el Intent de la Activity
+                LaunchedEffect(currentActivity?.intent) {
+                    val intentToProcess = currentActivity?.intent
+                    val destination = intentToProcess?.getStringExtra("startDestination")
+
+                    if (destination != null) {
+
+                        intentToProcess.removeExtra("startDestination")
+
+                        // Navegar al destino
+                        navController.navigate(destination) {
+                            launchSingleTop = true
+                        }
+                    }
+                }
+
                NavHost(
     navController = navController,
-    startDestination = "splash" 
+    startDestination = initialRoute
 )
 
  {
@@ -48,7 +76,8 @@ class MainActivity : ComponentActivity() {
                     composable("welcome") { WelcomeScreen(navController = navController) }
                     composable("login") { LoginScreen(navController = navController) }
                     composable("register") { RegisterScreen(navController = navController) }
-                    composable("home") { HomeScreen(navController) }
+                    composable("home") { HomeScreen(navController =navController) }
+                    composable("notification") { NotificationScreen() }
 
                     // Onboarding
                     composable("onboarding1") { OnboardingScreen1(navController = navController) }
@@ -74,18 +103,18 @@ class MainActivity : ComponentActivity() {
                     composable("forgotPassword") { ForgotPasswordScreen(navController = navController) }
                     composable("securityPin") { SecurityPinScreen(navController = navController) }
                     composable("newPassword") { NewPasswordScreen(navController = navController) }
-
-                    // Generic Confirmation Screens
                     composable("successConfirmation") {GenericConfirmationScreen(navController = navController, message = stringResource(R.string.success_message), destinationRoute = "login")}
-                    composable("fingerprintChangedSuccess") {GenericConfirmationScreen(navController = navController, message = stringResource(R.string.fingerprint_changed_success), destinationRoute = "login")}
-                    composable("pinChangedSuccess") {GenericConfirmationScreen(navController = navController, message = stringResource(R.string.pin_changed_success), destinationRoute = "login") }
-                    composable("fingerprintDeletedSuccess") {GenericConfirmationScreen( navController = navController, message = stringResource(R.string.fingerprint_deleted_success), destinationRoute = "login")}
 
-                    // Profile & Transactions
-                    composable("profile") {ProfileScreen(navController = navController)}
+                    // Transactions
                     composable("transactions") { TransactionsScreen(navController) }
                 }
             }
         }
+    }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+
+        // El LaunchedEffect en setContent() detectará este cambio y activará la navegación.
     }
 }

@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.components
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -71,14 +72,22 @@ fun AppScreenShell(
         IconButton(
             onClick = {
                 val intent = Intent(context, MainActivity::class.java).apply {
-                    // 1. Añadimos la bandera para limpiar la pila de Activities (opcional pero más limpio)
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+                    // ❗ CORRECCIÓN CLAVE: Usamos NEW_TASK y CLEAR_TASK ❗
+                    // Esto fuerza a Android a DESTRUIR la pila actual (incluyendo MainActivity2)
+                    // y RECREAR MainActivity desde cero.
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
                     // 2. Pasamos la ruta de destino deseada como extra
                     putExtra(NAV_DESTINATION_KEY, NOTIFICATION_ROUTE)
                 }
 
                 context.startActivity(intent)
+
+                // Opcional, pero recomendado: Finalizar la Activity actual (MainActivity2)
+                // para que no quede en segundo plano.
+                (context as? Activity)?.finish()
+
             },
             modifier = Modifier
                 .align(Alignment.TopEnd) // <-- A la derecha

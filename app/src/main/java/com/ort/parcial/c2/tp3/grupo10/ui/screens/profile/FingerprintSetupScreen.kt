@@ -1,5 +1,7 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -17,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.ort.parcial.c2.tp3.grupo10.MainActivity
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppScreenShell
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
@@ -33,11 +37,30 @@ private val BUTTON_WIDTH = 357.dp // El botón parece tener un ancho similar
 private val BUTTON_HEIGHT = 45.dp
 
 
+
 @Composable
 fun FingerprintSetupScreen(navController: NavHostController) {
 
     val STANDARD_HEADER_HEIGHT = 140.dp
     var selectedIndex by remember { mutableIntStateOf(4) }
+
+    //bloque INTENT
+    val NAV_DESTINATION_KEY = "startDestination"
+    val context = LocalContext.current
+    val activity = context as? Activity
+    // --- FUNCIÓN AUXILIAR: Navegar de vuelta a MainActivity ---
+    fun navigateBackToMain(route: String) {
+        val NAV_DESTINATION_KEY = "startDestination"
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            putExtra(NAV_DESTINATION_KEY, route)
+        }
+        context.startActivity(intent)
+        // Opcional, pero recomendado para cerrar el Activity vieja inmediatamente
+        (context as? Activity)?.finish()
+    }
 
     AppScreenShell(
         // TÍTULO DEL HEADER: "Add Fingerprint"
@@ -47,7 +70,16 @@ fun FingerprintSetupScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(
                 selected = selectedIndex,
-                onSelect = { newIndex -> selectedIndex = newIndex }
+                onSelect = { index ->
+                    selectedIndex = index // Actualiza el estado visual
+                    when (index) {
+                        0 -> navigateBackToMain("home") // <-- NAVEGACIÓN CORREGIDA
+                        2 -> navigateBackToMain("transactions") // <-- NAVEGACIÓN CORREGIDA
+                        3 -> navigateBackToMain("categories") // <-- NAVEGACIÓN CORREGIDA
+                        4 -> { /* Ya estamos en Profile (no hacemos nada, solo actualizamos el índice) */ }
+                        else -> Unit
+                    }
+                }
             )
         }
     ) { padding ->
