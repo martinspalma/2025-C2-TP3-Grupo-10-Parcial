@@ -107,6 +107,31 @@ class MainActivity : ComponentActivity() {
 
                     // Transactions
                     composable("transactions") { TransactionsScreen(navController) }
+                    // Ruta con categoría (cuando viene desde ExpensesScreen)
+                    composable(
+                        route = "add_expense/{categoryName}",
+                        arguments = listOf(
+                            navArgument("categoryName") { type = NavType.StringType }
+                        )
+                    ) { backStackEntry ->
+                        val categoryName = backStackEntry.arguments?.getString("categoryName")
+                        AddExpenseScreen(
+                            //defaultCategory = categoryName,
+                            navController = navController
+                        )
+                    }
+                    // Ruta sin categoría (cuando viene desde otra pantalla)
+                    composable("add_expense") {
+                        AddExpenseScreen(
+                            //defaultCategory = null,
+                            navController = navController
+                        )
+                    }
+
+                    // Reset password flow
+                    //composable("security_pin") { SecurityPinScreen(navController = navController) }
+                    //composable("new_password") { NewPasswordScreen(navController = navController) }
+                    //composable("password_changed") { SuccessConfirmationScreen(navController = navController) }
                 }
             }
         }
