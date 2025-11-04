@@ -9,7 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,22 +18,20 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    // 🔹 Control de opacidad para el fade-in
     val alpha = remember { Animatable(0f) }
 
-    // 🔹 Animación de entrada + espera + salida
-    LaunchedEffect(Unit) {
+    LaunchedEffect(true) {
         alpha.animateTo(
             targetValue = 1f,
             animationSpec = tween(durationMillis = 1200)
         )
-        delay(1800) // tiempo visible antes de ir a la siguiente pantalla
+        delay(2500) // 2.5 segundos visible
         navController.navigate("welcome") {
-            popUpTo("splash") { inclusive = true } // elimina splash del backstack
+            popUpTo("splash") { inclusive = true }
+            launchSingleTop = true
         }
     }
 
-    // 🔹 Contenido del splash
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,18 +43,14 @@ fun SplashScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Ícono negro
             Image(
-                painter = painterResource(id = R.drawable.icononegro), // tu ícono SVG
+                painter = painterResource(id = R.drawable.icononegro),
                 contentDescription = "FinWise Icon",
                 modifier = Modifier.size(120.dp)
             )
-
             Spacer(modifier = Modifier.height(20.dp))
-
-            // Texto FinWise en blanco
             Image(
-                painter = painterResource(id = R.drawable.finwise_blanco), // tu texto SVG blanco
+                painter = painterResource(id = R.drawable.finwise_blanco),
                 contentDescription = "FinWise Logo",
                 modifier = Modifier.height(40.dp)
             )
