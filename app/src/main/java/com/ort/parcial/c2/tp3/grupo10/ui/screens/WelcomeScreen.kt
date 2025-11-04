@@ -113,7 +113,11 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
                 text = stringResource(R.string.forgot_password_login),
                 color = Void,
                 style = MaterialTheme.typography.bodyMedium.copy(fontFamily = PoppinsFamily),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                // AÑADIDO: Hacemos el texto clickeable y navegamos
+                modifier = Modifier.clickable {
+                    navController.navigate("forgotPassword")
+                }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
