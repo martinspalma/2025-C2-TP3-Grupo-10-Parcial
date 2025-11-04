@@ -116,14 +116,14 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val categoryName = backStackEntry.arguments?.getString("categoryName")
                         AddExpenseScreen(
-                            //defaultCategory = categoryName,
+                            defaultCategory = categoryName,
                             navController = navController
                         )
                     }
                     // Ruta sin categoría (cuando viene desde otra pantalla)
                     composable("add_expense") {
                         AddExpenseScreen(
-                            //defaultCategory = null,
+                            defaultCategory = null,
                             navController = navController
                         )
                     }
