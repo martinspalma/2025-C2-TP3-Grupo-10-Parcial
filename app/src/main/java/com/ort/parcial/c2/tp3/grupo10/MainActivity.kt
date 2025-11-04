@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.splash.SplashScreen
@@ -27,8 +28,10 @@ import com.ort.parcial.c2.tp3.grupo10.ui.screens.categories.CategoriesScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpensesScreen
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.ort.parcial.c2.tp3.grupo10.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.AddExpenseScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.SuccessConfirmationScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.transactions.TransactionsScreen
 
 

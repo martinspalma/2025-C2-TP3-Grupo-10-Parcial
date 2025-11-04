@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,11 +29,13 @@ import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppButton
+import com.ort.parcial.c2.tp3.grupo10.ui.components.auth.AuthButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LeagueSpartanFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
 
 @Composable
 fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
@@ -60,7 +64,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
             // El título reaprovecha la fuente LeagueSpartan del tema y el color primario configurado.
             Text(
                 text = "FinWise",
-                color = MaterialTheme.colorScheme.primary,
+                color = Caribbean,
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontFamily = LeagueSpartanFamily,
                     fontSize = 36.sp,
@@ -73,7 +77,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
             // Mensaje introductorio con tipografía Poppins y color auxiliar de la paleta.
             Text(
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
-                color = LettersAndIcons.copy(alpha = 0.7f),
+                color =Void,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontFamily = PoppinsFamily,
                     textAlign = TextAlign.Center
@@ -81,39 +85,33 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
-
-            // Botón principal reutilizando AppButton para respetar el estilo CTA compartido.
-            AppButton(
-                text = "Log In",
-                onClick = { navController.navigate("login") },
-                
-                buttonHeight = 52.dp,
-                containerColor = Caribbean,
-                textColor = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-
-            AppButton(
-                text = "Sign Up",
-                onClick = { navController.navigate("onboarding1") },
-                buttonHeight = 52.dp,
-                containerColor = LightGreen,
-                textColor = MaterialTheme.colorScheme.primary,
-                borderColor = MaterialTheme.colorScheme.primary, // opcional, para darle borde
-                modifier = Modifier.fillMaxWidth()
-            )
-
-
             Spacer(modifier = Modifier.height(24.dp))
-
+            AuthButton( text = stringResource(R.string.login_btn_text),
+                onClick = {
+                    navController.navigate("login")
+                },
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(50.dp),
+                contentColor = Void,
+                containerColor = Caribbean
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            AuthButton(text= stringResource(R.string.signup_btn_text),
+                {
+                    navController.navigate( "register")
+                },
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(50.dp),
+                contentColor = Void,
+                containerColor = LightGreen
+            )
+            Spacer(modifier = Modifier.height(24.dp))
             // Texto alternativo que mantiene la tipografía global para acciones secundarias.
             Text(
-                text = "Forgot Password?",
-                color = LettersAndIcons.copy(alpha = 0.6f),
+                text = stringResource(R.string.forgot_password_login),
+                color = Void,
                 style = MaterialTheme.typography.bodyMedium.copy(fontFamily = PoppinsFamily),
                 textAlign = TextAlign.Center
             )

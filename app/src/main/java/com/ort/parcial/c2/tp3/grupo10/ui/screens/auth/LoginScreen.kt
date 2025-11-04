@@ -146,6 +146,9 @@ fun LoginScreen(
                             contentColor = Void,
                             containerColor = Caribbean
                         )
+                        if (isLoading) {
+                            CircularProgressIndicator(color = Caribbean)
+                        }
                         Spacer(modifier = Modifier.height(2.dp))
                         TextButton(onClick = onForgotPasswordClick) {
                             Text(stringResource(R.string.forgot_password_login),

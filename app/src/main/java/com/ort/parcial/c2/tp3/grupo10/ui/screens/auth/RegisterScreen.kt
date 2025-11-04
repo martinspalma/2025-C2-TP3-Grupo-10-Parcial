@@ -1,7 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.auth
 
 import InputTextString
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,15 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,14 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -75,6 +68,18 @@ fun RegisterScreen(modifier: Modifier = Modifier,
     var password by remember { mutableStateOf("") }
     val passwordsMatch = confirmPassword == password
     var passwordVisible by remember { mutableStateOf(false) }
+    val viewModel: RegisterViewModel = hiltViewModel()
+    val isSuccess by viewModel.isSuccess.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    LaunchedEffect(isSuccess) {
+        if (isSuccess) {
+            navController.navigate("login") {
+                popUpTo("signup") { inclusive = true }
+            }
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -271,10 +276,12 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
-                        AuthButton(text= stringResource(R.string.signup_btn_text),
-                            {
-//                                onLoginClick()
-                                navController.navigate( "home")
+                        AuthButton(
+                            text = if (isLoading) stringResource(R.string.loading_message) else stringResource(R.string.signup_btn_text),
+                            onClick = {
+                                if (!isLoading) {
+                                    viewModel.signUp()
+                                }
                             },
                             modifier = Modifier
                                 .width(200.dp)
@@ -282,6 +289,12 @@ fun RegisterScreen(modifier: Modifier = Modifier,
                             contentColor = Color.White,
                             containerColor = Caribbean
                         )
+                        error?.let {
+                            Text(text = it, color = Color.Red)
+                        }
+                        if (isLoading) {
+                            CircularProgressIndicator(color = Caribbean)
+                        }
                         Row {
                             Text(text= stringResource(R.string.already_account),
                                 style = MaterialTheme.typography.bodySmall,
