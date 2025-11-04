@@ -33,7 +33,6 @@ import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseList
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseListHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.getCategoryIcon
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.loadExpensesFromJson
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
@@ -94,10 +93,10 @@ fun SavingsScreen(categoryName: String,
                   onBottomSelect: (Int) -> Unit = {}){
     val context = LocalContext.current
     val expenses = remember { mutableStateOf<List<Expense>>(emptyList()) }
-
-    LaunchedEffect(categoryName) {
-        expenses.value = loadExpensesFromJson(context, categoryName)
-    }
+//
+//    LaunchedEffect(categoryName) {
+//        expenses.value = null//loadExpensesFromJson(context, categoryName)
+//    }
     Scaffold(
         bottomBar = {
             BottomNavBar(
