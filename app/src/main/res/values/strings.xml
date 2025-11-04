@@ -76,6 +76,13 @@
     <string name="fingerprint_name_label">John Fingerprint</string>
     <string name="fingerprint_delete_button">Delete</string>
     <string name="fingerprint_icon_description">Huella dactilar</string>
+    <string name="fingerprint_setup_title">Set Up Fingerprint</string>
+    <string name="fingerprint_setup_instruction">Place your finger on the sensor to set up your fingerprint.</string>
+    <string name="fingerprint_setup_button">Set Up Fingerprint</string>
+    <string name="fingerprint_add_screen_title">Add Fingerprint</string>
+    <string name="fingerprint_main_title_setup">Use Fingerprint To Access</string>
+    <string name="fingerprint_description_setup">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</string>
+    <string name="fingerprint_button_setup">Use Touch Id</string>
 
     //LOGIN SCREEN
     <string name="full_name">Full name</string>
@@ -94,4 +101,25 @@
     <string name="birth_date_pholder_input">dd/MM/yyyy</string>
     <string name="already_account">Already have an account?</string>
     <string name="loading_message">Loading...</string>
+    //TERMS AND CONDITIONS
+    <string name="terms_title">Terms And Conditions</string>
+    <string name="terms_header_1">Est Fugiat Assumenda Aut Reprehenderit</string>
+    <string name="terms_para_1">Lorem ipsum dolor sit amet. Et odio officia aut voluptate internos est omnis vitae ut architecto sunt non tenetur fuga ut provident vero. Quo aspernatur facere et consectetur ipsum et facere corrupti est adipisci facere. Est fugiat assumenda aut reprehenderit voluptatem sed.</string>
+
+    <string name="terms_list_1_item_1">Ea voluptas omnís aut sequi sequi.</string>
+    <string name="terms_list_1_item_2">Est dolore quae in aliquid ducimus et autem repellendus.</string>
+    <string name="terms_list_1_item_3">Aut ipsum quis qui porro quasi aut minus placeat!</string>
+    <string name="terms_list_1_item_4">Sit consequatur neque ab vitae facere.</string>
+
+    <string name="terms_para_2">Aut quidem accusantium nam alias autem eum officiis placeat et omnis autem id officiis perspiciatis qui corrupti officia eum aliquam provident. Eum voluptas error et optio dolorum cum molestiae nobis et odit molestiae quo magnam impedit sed fugiat nihil non nihil vitae.</string>
+
+    <string name="terms_bullet_1">Aut fuga sequi eum voluptatibus provident.</string>
+    <string name="terms_bullet_2">Eos consequatur voluptas vel amet eaque aut dignissimos velit.</string>
+
+    <string name="terms_para_3">Vel exercitationem quam vel eligendi rerum At harum obcaecati et nostrum beatae! Ea accusantium dolores qui rerum aliquam est perferendis mollitia et ipsum ipsa qui enim autem At corporis sunt. Aut quis quisquam est reprehenderit itaque aut accusantium dolor qui neque repellat.</string>
+
+    <string name="terms_link_prefix">Read the terms and conditions in more detail at</string>
+    <string name="terms_link_url">www.finwiseapp.de</string>
+    <string name="terms_accept_checkbox">I accept all the terms and conditions</string>
+    <string name="terms_accept_button">Accept</string>
 </resources>
