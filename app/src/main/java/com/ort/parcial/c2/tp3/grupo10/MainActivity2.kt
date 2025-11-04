@@ -56,6 +56,9 @@ class MainActivity2 : ComponentActivity() {
                         // --- 7. USE FINGERPRINT SCREEN ---
                         composable("use_fingerprint") { UseFingerprintScreen (navController = navController) }
 
+                        composable("terms_and_conditions") { TermsAndConditionsScreen(navController = navController) }
+
+
                         composable("successChangePinConfirmation") {GenericConfirmationScreen(navController = navController,
                             message = stringResource(com.ort.parcial.c2.tp3.grupo10.R.string.pin_changed_success),
                             destinationRoute = "profile")}
