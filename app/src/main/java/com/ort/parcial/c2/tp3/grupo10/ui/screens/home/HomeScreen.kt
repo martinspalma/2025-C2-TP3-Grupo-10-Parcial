@@ -27,7 +27,9 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
-
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 data class HomeTransaction(
     val title: String,
     val subtitle: String,
@@ -44,6 +46,8 @@ fun HomeScreen(
     bottomSelected: Int = 0,
     onBottomSelect: (Int) -> Unit = {}
 ) {
+    val context = LocalContext.current
+
     val transactions = listOf(
         HomeTransaction("Salary", "18:27 - April 30", "Monthly", "$4.000,00", false, R.drawable.money, "Monthly"),
         HomeTransaction("Groceries", "17:00 - April 24", "Pantry", "-$100,00", true, R.drawable.svg_groceries, "Weekly"),
@@ -63,6 +67,10 @@ fun HomeScreen(
                         0 -> navController?.navigate("home")
                         2 -> navController?.navigate("transactions")
                         3 -> navController?.navigate("categories")
+                        4 -> {
+                            val intent = Intent(context, MainActivity2::class.java)
+                            context.startActivity(intent)
+                        }
                         else -> onBottomSelect(index)
                     }
                 }
