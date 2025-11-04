@@ -44,7 +44,7 @@ fun FinancialHeader(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = horizontalPadding)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Column {
                 // Header Section (Green/Teal Background)
@@ -59,15 +59,6 @@ fun FinancialHeader(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Back Arrow
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_flecha_atras),
-                            contentDescription = "Back",
-                            modifier = Modifier
-                                .size(22.dp)
-                                .clickable { navController?.popBackStack() }
-                        )
-                        
                         // Title
                         Text(
                             text = title,
@@ -83,7 +74,7 @@ fun FinancialHeader(
                             painter = painterResource(id = R.drawable.ic_notification),
                             contentDescription = "Notifications",
                             modifier = Modifier
-                                .size(29.dp)
+                                .size(24.dp)
                                 .clickable(onClick = onNotificationClick)
                         )
                     }
@@ -94,7 +85,7 @@ fun FinancialHeader(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MainGreen)
-                        .padding(horizontal = 24.dp, vertical = 16.dp)
+                        .padding(horizontal = 20.dp, vertical = 12.dp)
                 ) {
                     Column {
                         // Total Balance and Expense Row
@@ -127,7 +118,7 @@ fun FinancialHeader(
                                 Text(
                                     text = totalBalance,
                                     color = Color.White,
-                                    fontSize = 24.sp,
+                                    fontSize = 20.sp,
                                     fontFamily = PoppinsFamily,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -165,7 +156,7 @@ fun FinancialHeader(
                                 Text(
                                     text = totalExpense,
                                     color = OceanBlue,
-                                    fontSize = 24.sp,
+                                    fontSize = 20.sp,
                                     fontFamily = PoppinsFamily,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -252,13 +243,13 @@ fun FinancialHeader(
                                 Image(
                                     painter = painterResource(id = R.drawable.svg_check),
                                     contentDescription = "Check",
-                                    modifier = Modifier.size(16.dp)
+                                    modifier = Modifier.size(13.dp)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
                                     text = descriptiveText,
                                     color = LettersAndIcons,
-                                    fontSize = 16.sp,  
+                                    fontSize = 14.sp,
                                     fontFamily = PoppinsFamily,
                                     fontWeight = FontWeight.Normal,
                                     textAlign = TextAlign.Center

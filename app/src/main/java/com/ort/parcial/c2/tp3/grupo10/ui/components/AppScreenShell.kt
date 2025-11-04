@@ -22,8 +22,6 @@ import androidx.compose.ui.res.stringResource
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.ui.graphics.vector.path
-import com.ort.parcial.c2.tp3.grupo10.ui.nav.Route
 
 
 val STANDARD_HEADER_HEIGHT = 180.dp
@@ -36,7 +34,6 @@ val STANDARD_HEADER_HEIGHT = 180.dp
 fun AppScreenShell(
     screenTitle: String,
     // La altura del header verde puede ser variable
-    floatingContent: @Composable (() -> Unit)? = null,
     headerHeight: Dp = STANDARD_HEADER_HEIGHT,
     navController: NavHostController,
     bottomBar: @Composable () -> Unit = {},
@@ -67,7 +64,7 @@ fun AppScreenShell(
 
         // B. CAMPANA DE NOTIFICACIONES (Derecha)
         IconButton(
-            onClick = {  navController?.navigate("notifications") },
+            onClick = { /* Navegar a Notificaciones */ },
             modifier = Modifier
                 .align(Alignment.TopEnd) // <-- A la derecha
                 .padding(end = 16.dp, top = 61.dp)

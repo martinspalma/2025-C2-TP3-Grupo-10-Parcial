@@ -25,7 +25,6 @@ import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 fun SecurityScreen(navController: NavHostController) {
 
     val STANDARD_HEADER_HEIGHT = 140.dp
-    // Asumimos que el índice de Profile es 4.
     var selectedIndex by remember { mutableIntStateOf(4) }
 
     AppScreenShell(

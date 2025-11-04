@@ -8,8 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.Canvas
-import androidx.compose.ui.graphics.drawscope.Stroke
-
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -22,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -30,14 +27,17 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
-
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 data class HomeTransaction(
     val title: String,
     val subtitle: String,
     val category: String,
     val amount: String,
     val isNegative: Boolean,
-    val iconRes: Int
+    val iconRes: Int,
+    val period: String
 )
 
 @Composable
@@ -46,10 +46,14 @@ fun HomeScreen(
     bottomSelected: Int = 0,
     onBottomSelect: (Int) -> Unit = {}
 ) {
+    val context = LocalContext.current
+
     val transactions = listOf(
-        HomeTransaction("Salary", "18:27 - April 30", "Monthly", "$4.000,00", false, R.drawable.money),
-        HomeTransaction("Groceries", "17:00 - April 24", "Pantry", "-$100,00", true, R.drawable.svg_groceries),
-        HomeTransaction("Rent", "8:30 - April 15", "Rent", "-$674,40", true, R.drawable.svg_rent)
+        HomeTransaction("Salary", "18:27 - April 30", "Monthly", "$4.000,00", false, R.drawable.money, "Monthly"),
+        HomeTransaction("Groceries", "17:00 - April 24", "Pantry", "-$100,00", true, R.drawable.svg_groceries, "Weekly"),
+        HomeTransaction("Rent", "8:30 - April 15", "Rent", "-$674,40", true, R.drawable.svg_rent, "Monthly"),
+        HomeTransaction("Coffee", "09:10 - April 30", "Food", "-$8,50", true, R.drawable.svg_food, "Daily"),
+        HomeTransaction("Snacks", "10:40 - April 30", "Food", "-$12,00", true, R.drawable.svg_food, "Daily")
     )
 
     var selectedTab by remember { mutableStateOf("Monthly") }
@@ -63,6 +67,10 @@ fun HomeScreen(
                         0 -> navController?.navigate("home")
                         2 -> navController?.navigate("transactions")
                         3 -> navController?.navigate("categories")
+                        4 -> {
+                            val intent = Intent(context, MainActivity2::class.java)
+                            context.startActivity(intent)
+                        }
                         else -> onBottomSelect(index)
                     }
                 }
@@ -108,9 +116,12 @@ fun HomeScreen(
                     // ---- Selector Daily/Weekly/Monthly ----
                     PeriodSelector(selectedTab) { selectedTab = it }
 
+                    val filteredTransactions = remember(selectedTab) {
+                        transactions.filter { it.period == selectedTab }
+                    }
                     // ---- Lista de transacciones ----
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        items(transactions) { tx ->
+                        items(filteredTransactions) { tx ->
                             TransactionRow(tx)
                         }
                     }
@@ -134,7 +145,7 @@ fun SavingsSection() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 22.dp),
+                .padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -145,7 +156,7 @@ fun SavingsSection() {
             ) {
                 // 🔹 Círculo con borde mitad blanco y mitad azul
                 Box(
-                    modifier = Modifier.size(78.dp),
+                    modifier = Modifier.size(50.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     // Fondo translúcido
@@ -164,7 +175,7 @@ fun SavingsSection() {
                             startAngle = -90f,
                             sweepAngle = 180f,
                             useCenter = false,
-                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 6.dp.toPx())
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 5.dp.toPx())
                         )
                         // Arco blanco (mitad inferior)
                         drawArc(
@@ -172,7 +183,7 @@ fun SavingsSection() {
                             startAngle = 90f,
                             sweepAngle = 180f,
                             useCenter = false,
-                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 6.dp.toPx())
+                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 5.dp.toPx())
                         )
                     }
 
@@ -181,7 +192,7 @@ fun SavingsSection() {
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_car),
                         contentDescription = "Savings icon",
                         tint = LettersAndIcons,
-                        modifier = Modifier.size(46.dp)
+                        modifier = Modifier.size(30.dp)
                     )
                 }
 
@@ -191,7 +202,7 @@ fun SavingsSection() {
                     color = LettersAndIcons,
                     fontFamily = PoppinsFamily,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 15.sp
+                    fontSize = 13.sp
                 )
             }
 
@@ -200,7 +211,7 @@ fun SavingsSection() {
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .width(3.dp)
-                    .height(185.dp)
+                    .height(100.dp)
                     .background(Color.White.copy(alpha = 0.8f))
             )
 
@@ -220,7 +231,7 @@ fun SavingsSection() {
                         imageVector = ImageVector.vectorResource(id = R.drawable.money),
                         contentDescription = "Revenue",
                         tint = LettersAndIcons,
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                     Column {
                         Text(
@@ -228,14 +239,14 @@ fun SavingsSection() {
                             color = LettersAndIcons,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
-                            fontSize = 15.sp
+                            fontSize = 10.sp
                         )
                         Text(
                             text = "$4.000,00",
                             color = LettersAndIcons,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp
+                            fontSize = 13.sp
                         )
                     }
                 }
@@ -258,7 +269,7 @@ fun SavingsSection() {
                         imageVector = ImageVector.vectorResource(id = R.drawable.svg_food),
                         contentDescription = "Food",
                         tint = LettersAndIcons,
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                     Column {
                         Text(
@@ -266,14 +277,14 @@ fun SavingsSection() {
                             color = LettersAndIcons,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Medium,
-                            fontSize = 15.sp
+                            fontSize = 12.sp
                         )
                         Text(
                             text = "-$100.00",
                             color = OceanBlueButton,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
+                            fontSize = 14.sp
                         )
                     }
                 }
