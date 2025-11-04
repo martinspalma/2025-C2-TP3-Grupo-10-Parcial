@@ -30,7 +30,9 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
-
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 data class HomeTransaction(
     val title: String,
     val subtitle: String,
