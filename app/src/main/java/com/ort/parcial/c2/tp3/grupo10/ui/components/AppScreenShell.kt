@@ -22,7 +22,9 @@ import androidx.compose.ui.res.stringResource
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import androidx.compose.material.icons.outlined.Notifications
-
+import android.content.Intent // Necesario para la navegación a Activities
+import androidx.compose.ui.platform.LocalContext
+import com.ort.parcial.c2.tp3.grupo10.MainActivity
 
 val STANDARD_HEADER_HEIGHT = 180.dp
 
@@ -39,6 +41,9 @@ fun AppScreenShell(
     bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit // Recibe el contenido único del formulario/lista
 ) {
+    val context = LocalContext.current
+    val NAV_DESTINATION_KEY = "startDestination"
+    val NOTIFICATION_ROUTE = "notification"
     // 1. DIBUJAMOS EL FONDO PRINCIPAL Y EL CONTENEDOR DE APILAMIENTO
     Box(
         modifier = Modifier
@@ -64,7 +69,17 @@ fun AppScreenShell(
 
         // B. CAMPANA DE NOTIFICACIONES (Derecha)
         IconButton(
-            onClick = { /* Navegar a Notificaciones */ },
+            onClick = {
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    // 1. Añadimos la bandera para limpiar la pila de Activities (opcional pero más limpio)
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+                    // 2. Pasamos la ruta de destino deseada como extra
+                    putExtra(NAV_DESTINATION_KEY, NOTIFICATION_ROUTE)
+                }
+
+                context.startActivity(intent)
+            },
             modifier = Modifier
                 .align(Alignment.TopEnd) // <-- A la derecha
                 .padding(end = 16.dp, top = 61.dp)
