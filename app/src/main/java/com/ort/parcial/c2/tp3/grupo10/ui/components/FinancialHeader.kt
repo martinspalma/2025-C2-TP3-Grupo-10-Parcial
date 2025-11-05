@@ -101,7 +101,7 @@ fun FinancialHeader(
                                     horizontalArrangement = Arrangement.Start
                                 ) {
                                     Image(
-                                        painter = painterResource(id = R.drawable.ic_income),
+                                        painter = painterResource(id = R.drawable.ic_expense),
                                         contentDescription = "Income",
                                         modifier = Modifier.size(15.dp)
                                     )

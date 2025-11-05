@@ -70,7 +70,7 @@ class FakeTransactionsRepository @Inject constructor(
             time = "18:27",
             category = "Salary",
             type = TransactionType.INCOME,
-            iconResId = R.drawable.ic_income
+            iconResId = R.drawable.ic_expense
         ),
         Transaction(
             id = "i-2",
@@ -80,7 +80,7 @@ class FakeTransactionsRepository @Inject constructor(
             time = "09:30",
             category = "Others",
             type = TransactionType.INCOME,
-            iconResId = R.drawable.ic_income
+            iconResId = R.drawable.ic_expense
         ),
         Transaction(
             id = "i-3",
@@ -90,7 +90,7 @@ class FakeTransactionsRepository @Inject constructor(
             time = "17:00",
             category = "Others",
             type = TransactionType.INCOME,
-            iconResId = R.drawable.ic_income
+            iconResId = R.drawable.ic_expense
         )
     )
 }

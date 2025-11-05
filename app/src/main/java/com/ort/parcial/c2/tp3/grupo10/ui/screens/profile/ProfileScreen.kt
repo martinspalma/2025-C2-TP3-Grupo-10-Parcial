@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,8 +32,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import com.ort.parcial.c2.tp3.grupo10.MainActivity
-import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.ui.components.ProfileOptionItem
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.ProfileViewModel
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.UserProfileUiState
 
 
 @Composable
@@ -40,6 +43,8 @@ fun ProfileScreen(navController: NavHostController) {
 
     val PROFILE_HEADER_HEIGHT = 120.dp + 60.dp // Aprox. 180dp para el corte de la foto.
     var selectedIndex by remember { mutableIntStateOf(4) }
+    val viewModel: ProfileViewModel = hiltViewModel()
+    val uiState by viewModel.uiState.collectAsState()
     val imageUrl = "https://picsum.photos/200/200"
 
     //bloque INTENT
@@ -62,51 +67,63 @@ fun ProfileScreen(navController: NavHostController) {
 
 
     val floatingProfileContent: @Composable () -> Unit = {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-            // --- A. IMAGEN DE PERFIL (COIL) ---
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Foto de perfil de John Smith",
-                contentScale = ContentScale.Crop,
-
-                modifier = Modifier
-                    .size(120.dp) // Tamaño del círculo
-                    .clip(CircleShape)
-                    .background(Color.White),
-                error = painterResource(id = R.drawable.ic_perfil)
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            // --- B. NOMBRE: John Smith ---
-            Text(
-                text = "John Smith",
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                lineHeight = 20.sp,
-                color = DarkModeGreenBar
-            )
-
-            // --- C. ID: 25030024 ---
-            Row {
-                Text(
-                    text = "ID: ",
-                    color = LettersAndIcons,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp,
-                    lineHeight = 13.sp,
-                )
-                Text(
-                    text = "25030024",
-                    color = LettersAndIcons.copy(alpha = 0.8f),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 13.sp,
-                    lineHeight = 13.sp,
-                )
+        when (uiState) {
+            is UserProfileUiState.Loading -> {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Spacer(Modifier.height(40.dp))
+                    Text("Cargando perfil...", fontSize = 18.sp)
+                }
+            }
+            is UserProfileUiState.Error -> {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Spacer(Modifier.height(40.dp))
+                    Text((uiState as UserProfileUiState.Error).message, color = Color.Red, fontSize = 16.sp)
+                }
+            }
+            is UserProfileUiState.Success -> {
+                val user = (uiState as UserProfileUiState.Success).user
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    // --- A. IMAGEN DE PERFIL (COIL) ---
+                    AsyncImage(
+                        model = "https://picsum.photos/200/200",
+                        contentDescription = "Foto de perfil de ${user.name.firstname}",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape)
+                            .background(Color.White),
+                        error = painterResource(id = R.drawable.ic_perfil)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    // --- B. NOMBRE ---
+                    Text(
+                        text = user.name.firstname.replaceFirstChar { it.uppercase() } + " " + user.name.lastname.replaceFirstChar { it.uppercase() },
+                        fontFamily = PoppinsFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        lineHeight = 20.sp,
+                        color = DarkModeGreenBar
+                    )
+                    // --- C. ID ---
+                    Row {
+                        Text(
+                            text = "ID: ",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 13.sp,
+                            lineHeight = 13.sp,
+                        )
+                        Text(
+                            text = user.id.toString(),
+                            color = LettersAndIcons.copy(alpha = 0.8f),
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 13.sp,
+                            lineHeight = 13.sp,
+                        )
+                    }
+                }
             }
         }
     }
@@ -144,7 +161,9 @@ fun ProfileScreen(navController: NavHostController) {
 
 //LISTA DE OPCIONES DE PERFIL ---
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp) // 👈 separación entre ítems
+
             ) {
                 // EDIT PROFILE (57dp de ícono, asumimos altura de 64dp para el item)
                 ProfileOptionItem(

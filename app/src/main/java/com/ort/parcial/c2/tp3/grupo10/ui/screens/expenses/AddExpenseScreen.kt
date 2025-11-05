@@ -39,6 +39,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseViewModel
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Expense
 import java.util.UUID
+import androidx.compose.ui.tooling.preview.Preview
+
+// Lista de categorías disponibles
+val categories = listOf(
+    "Food", "Transport", "Medicine", "Groceries",
+    "Rent", "Gifts", "Savings", "Entertainment", "More"
+)
 
 @Composable
 fun AddExpenseScreen(
@@ -52,7 +59,7 @@ fun AddExpenseScreen(
     val categoriesFlow = viewModel.getAllCategories()
     val categories by categoriesFlow.collectAsStateWithLifecycle()
     val categoryNames = categories.map { it.name }
-    
+
     // Estados para los campos
     var date by remember { mutableStateOf(formatDate(Date())) }
     var selectedCategory by remember { mutableStateOf<String?>(defaultCategory) }  // Inicializar con la categoría por defecto
@@ -193,23 +200,23 @@ fun AddExpenseScreen(
                         Button(
                             onClick = { 
                                 // Validar que todos los campos estén completos
-                                if (expenseTitle.isNotBlank() && 
-                                    amount.isNotBlank() && 
-                                    selectedCategory != null && 
+                                if (expenseTitle.isNotBlank() &&
+                                    amount.isNotBlank() &&
+                                    selectedCategory != null &&
                                     date.isNotBlank()) {
-                                    
+
                                     try {
                                         // Convertir la fecha del formato "MMMM dd, yyyy" a "yyyy-MM-dd"
                                         val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH)
                                         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                                         val parsedDate = dateFormat.parse(date)
-                                        val formattedDate = parsedDate?.let { outputFormat.format(it) } 
+                                        val formattedDate = parsedDate?.let { outputFormat.format(it) }
                                             ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                                        
+
                                         // Obtener la hora actual
                                         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                                         val currentTime = timeFormat.format(Date())
-                                        
+
                                         // Crear el expense con la categoría seleccionada
                                         val category = selectedCategory!! // Ya validado que no es null
                                         val expense = Expense(
@@ -221,17 +228,17 @@ fun AddExpenseScreen(
                                             category = category,
                                             iconResId = getCategoryIcon(category)
                                         )
-                                        
+
                                         // Guardar en Room
                                         viewModel.addExpense(expense)
-                                        
+
                                         // Volver a la pantalla anterior
                                         navController?.popBackStack()
                                     } catch (e: Exception) {
                                         // Si hay error al parsear la fecha, usar la fecha actual
                                         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
                                         val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-                                        
+
                                         // Crear el expense con la categoría seleccionada
                                         val category = selectedCategory!! // Ya validado que no es null
                                         val expense = Expense(
@@ -243,7 +250,7 @@ fun AddExpenseScreen(
                                             category = category,
                                             iconResId = getCategoryIcon(category)
                                         )
-                                        
+
                                         viewModel.addExpense(expense)
                                         navController?.popBackStack()
                                     }
