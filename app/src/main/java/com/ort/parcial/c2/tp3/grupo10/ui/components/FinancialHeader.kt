@@ -115,9 +115,9 @@ fun FinancialHeader(
                                     horizontalArrangement = Arrangement.Start
                                 ) {
                                     Image(
-                                        painter = painterResource(id = R.drawable.ic_expense),
+                                        painter = painterResource(id = R.drawable.ic_income),
                                         contentDescription = "Income",
-                                        modifier = Modifier.size(15.dp),
+                                        modifier = Modifier.size(14.dp),
                                         colorFilter = ColorFilter.tint(LettersAndIcons)
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))

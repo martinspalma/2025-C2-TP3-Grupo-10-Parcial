@@ -135,7 +135,7 @@ fun ExpensesScreen(
                                     navController?.navigate("add_expense/$categoryName")
                                 },
                                 modifier = Modifier
-                                    .widthIn(min = 380.dp, max = 380.dp)
+                                    .width(220.dp)
                                     .height(42.dp),
                                 shape = RoundedCornerShape(50.dp),
                                 colors = ButtonDefaults.buttonColors(

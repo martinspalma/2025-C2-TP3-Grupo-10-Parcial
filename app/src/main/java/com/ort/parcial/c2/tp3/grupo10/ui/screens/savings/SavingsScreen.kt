@@ -164,7 +164,7 @@ fun SavingsScreen(
                                     // TODO: Implementar acción de agregar más
                                 },
                                 modifier = Modifier
-                                    .widthIn(min = 380.dp, max = 380.dp)
+                                    .width(220.dp)
                                     .height(42.dp),
                                 shape = RoundedCornerShape(16.dp),
                                 colors = ButtonDefaults.buttonColors(
