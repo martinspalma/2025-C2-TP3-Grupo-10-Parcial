@@ -40,6 +40,7 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.OceanBlueButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Category
 import com.ort.parcial.c2.tp3.grupo10.data.initial.InitialExpensesData
 import kotlinx.coroutines.delay
@@ -153,27 +154,33 @@ fun SavingsScreen(
                         }
 
                         // Botón "Add More" centrado
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(
-                            onClick = {
-                                // TODO: Implementar acción de agregar más
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFF17C3B2) // Turquoise como en la imagen
-                            )
+                        Spacer(modifier = Modifier.height(64.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(
-                                text = "Add More",
-                                color = Color.White,
-                                fontSize = 16.sp,
-                                fontFamily = PoppinsFamily,
-                                fontWeight = FontWeight.SemiBold
-                            )
+                            Button(
+                                onClick = {
+                                    // TODO: Implementar acción de agregar más
+                                },
+                                modifier = Modifier
+                                    .widthIn(min = 380.dp, max = 380.dp)
+                                    .height(42.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MainGreen
+                                )
+                            ) {
+                                Text(
+                                    text = "Add More",
+                                    color = LettersAndIcons,
+                                    fontSize = 16.sp,
+                                    fontFamily = PoppinsFamily,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
                         }
+                        Spacer(modifier = Modifier.height(32.dp))
                     }
                 }
             }

@@ -116,9 +116,6 @@ fun ExpensesScreen(
                         .padding(bottom = paddingValues.calculateBottomPadding()),
                 ) {
                     Column(modifier = Modifier.fillMaxSize()) {
-                        // Header con icono de calendario solo aquí
-                        ExpenseListHeader()
-
                         // Lista de expenses agrupadas por mes - con weight para que ocupe el espacio disponible
                         Box(modifier = Modifier.weight(1f)) {
                             ExpenseList(
@@ -129,49 +126,36 @@ fun ExpensesScreen(
 
                         // Botón Add Expenses fijo abajo, separado de la lista
                         Spacer(modifier = Modifier.height(16.dp))
-                        Button(
-                            onClick = { 
-                                navController?.navigate("add_expense/$categoryName")
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
-                            shape = RoundedCornerShape(50.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MainGreen
-                            )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(
-                                text = "Add Expenses",
-                                color = Void,
-                                fontSize = 16.sp,
-                                fontFamily = PoppinsFamily,
-                                fontWeight = FontWeight.SemiBold
-                            )
+                            Button(
+                                onClick = { 
+                                    navController?.navigate("add_expense/$categoryName")
+                                },
+                                modifier = Modifier
+                                    .widthIn(min = 380.dp, max = 380.dp)
+                                    .height(42.dp),
+                                shape = RoundedCornerShape(50.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MainGreen
+                                )
+                            ) {
+                                Text(
+                                    text = "Add Expenses",
+                                    color = Void,
+                                    fontSize = 16.sp,
+                                    fontFamily = PoppinsFamily,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
-
-@Composable
-fun ExpenseListHeader() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // El título del mes se mostrará dinámicamente en MonthHeader
-        Spacer(modifier = Modifier.width(0.dp))
-        Image(
-            painter = painterResource(id = R.drawable.ic_calendar),
-            contentDescription = "Calendar",
-            modifier = Modifier.size(20.dp)
-        )
-    }
-    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
@@ -213,7 +197,7 @@ fun MonthHeader(month: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.Start,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -222,6 +206,11 @@ fun MonthHeader(month: String) {
             fontSize = 16.sp,
             fontFamily = PoppinsFamily,
             fontWeight = FontWeight.SemiBold
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_calendar),
+            contentDescription = "Calendar",
+            modifier = Modifier.size(32.dp)
         )
     }
 }

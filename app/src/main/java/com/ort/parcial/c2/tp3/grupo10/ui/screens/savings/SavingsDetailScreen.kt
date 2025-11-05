@@ -1,6 +1,7 @@
 // app/src/main/java/com/ort/parcial/c2/tp3/grupo10/ui/screens/savings/SavingsDetailScreen.kt
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.savings
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +32,6 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Expense
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseListHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.formatDateToMonth
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.formatDisplayDate
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseViewModel
@@ -104,9 +104,6 @@ fun SavingsDetailScreen(
                         .padding(bottom = paddingValues.calculateBottomPadding()),
                 ) {
                     Column(modifier = Modifier.fillMaxSize()) {
-                        // Header con icono de calendario
-                        ExpenseListHeader()
-
                         // Lista de expenses agrupadas por mes
                         Box(modifier = Modifier.weight(1f)) {
                             SavingsExpenseList(
@@ -117,25 +114,30 @@ fun SavingsDetailScreen(
 
                         // Botón Add Expenses fijo abajo
                         Spacer(modifier = Modifier.height(16.dp))
-                        Button(
-                            onClick = { 
-                                navController?.navigate("add_expense/$savingsName")
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
-                            shape = RoundedCornerShape(50.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MainGreen
-                            )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
                         ) {
+                            Button(
+                                onClick = { 
+                                    navController?.navigate("add_expense/$savingsName")
+                                },
+                                modifier = Modifier
+                                    .widthIn(min = 380.dp, max = 380.dp)
+                                    .height(42.dp),
+                                shape = RoundedCornerShape(50.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MainGreen
+                                )
+                            ) {
                             Text(
-                                text = "Add Expenses",
+                                text = "Add Savings",
                                 color = Void,
                                 fontSize = 16.sp,
                                 fontFamily = PoppinsFamily,
                                 fontWeight = FontWeight.SemiBold
                             )
+                            }
                         }
                     }
                 }
@@ -183,7 +185,7 @@ fun MonthHeader(month: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.Start,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -192,6 +194,11 @@ fun MonthHeader(month: String) {
             fontSize = 16.sp,
             fontFamily = PoppinsFamily,
             fontWeight = FontWeight.SemiBold
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_calendar),
+            contentDescription = "Calendar",
+            modifier = Modifier.size(32.dp)
         )
     }
 }

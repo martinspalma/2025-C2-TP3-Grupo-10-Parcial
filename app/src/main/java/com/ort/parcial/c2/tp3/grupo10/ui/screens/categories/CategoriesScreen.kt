@@ -17,7 +17,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,11 +50,13 @@ import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightBlue
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen2
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.OceanBlueButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Category
 import com.ort.parcial.c2.tp3.grupo10.data.initial.InitialExpensesData
 import kotlinx.coroutines.delay
@@ -62,6 +69,7 @@ fun CategoriesScreen(
 ) {
     val context = LocalContext.current
     val categories = InitialExpensesData.getInitialCategories()
+    var showNewCategoryDialog by remember { mutableStateOf(false) }
     Scaffold(
         bottomBar = {
             BottomNavBar(
@@ -195,13 +203,25 @@ fun CategoriesScreen(
                             CategoryButton(
                                 category = categories[8],
                                 onClick = { 
-                                    navController?.navigate("expenses/${categories[8].name}")
+                                    // Abrir modal "New Category" cuando se toque "More"
+                                    showNewCategoryDialog = true
                                 }
                             )
                         }
                     }
                 }
             }
+        }
+        
+        // Modal "New Category"
+        if (showNewCategoryDialog) {
+            NewCategoryDialog(
+                onDismiss = { showNewCategoryDialog = false },
+                onSave = { categoryName ->
+                    // TODO: Implementar lógica para guardar la nueva categoría
+                    showNewCategoryDialog = false
+                }
+            )
         }
     }
 }
@@ -264,6 +284,113 @@ fun RowScope.CategoryButton(
             textAlign = TextAlign.Center
         )
     }
+}
+
+@Composable
+fun NewCategoryDialog(
+    onDismiss: () -> Unit,
+    onSave: (String) -> Unit
+) {
+    var categoryName by remember { mutableStateOf("") }
+    
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = Color.White,
+        shape = RoundedCornerShape(24.dp),
+        title = {
+            Text(
+                text = "New Category",
+                fontSize = 20.sp,
+                fontFamily = PoppinsFamily,
+                fontWeight = FontWeight.Bold,
+                color = LettersAndIcons,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                OutlinedTextField(
+                    value = categoryName,
+                    onValueChange = { categoryName = it },
+                    placeholder = {
+                        Text(
+                            text = "Write...",
+                            color = MainGreen,
+                            fontFamily = PoppinsFamily
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(50.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent,
+                        focusedContainerColor = LightGreen2,
+                        unfocusedContainerColor = LightGreen2,
+                        focusedTextColor = LettersAndIcons,
+                        unfocusedTextColor = LettersAndIcons,
+                        cursorColor = MainGreen
+                    ),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        fontFamily = PoppinsFamily,
+                        fontSize = 14.sp
+                    )
+                )
+                
+                // Botón Save
+                Button(
+                    onClick = {
+                        if (categoryName.isNotBlank()) {
+                            onSave(categoryName)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MainGreen
+                    )
+                ) {
+                    Text(
+                        text = "Save",
+                        color = LettersAndIcons,
+                        fontSize = 16.sp,
+                        fontFamily = PoppinsFamily,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                
+                // Botón Cancel
+                Button(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = LightGreen2
+                    )
+                ) {
+                    Text(
+                        text = "Cancel",
+                        color = LettersAndIcons,
+                        fontSize = 16.sp,
+                        fontFamily = PoppinsFamily,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {}
+    )
 }
 
 @Preview(showBackground = true)
