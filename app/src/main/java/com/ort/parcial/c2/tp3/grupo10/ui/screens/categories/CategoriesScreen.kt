@@ -50,25 +50,9 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.OceanBlueButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.BackgroundGreenWhiteAndLetters
+import com.ort.parcial.c2.tp3.grupo10.domain.model.Category
+import com.ort.parcial.c2.tp3.grupo10.data.initial.InitialExpensesData
 import kotlinx.coroutines.delay
-
-
-data class CategoryItem(
-    val name: String,
-    val iconRes: Int
-)
-
-val categories = listOf(
-    CategoryItem("Food", R.drawable.svg_food),
-    CategoryItem("Transport", R.drawable.svg_transport),
-    CategoryItem("Medicine", R.drawable.svg_medicine),
-    CategoryItem("Groceries", R.drawable.svg_groceries),
-    CategoryItem("Rent", R.drawable.svg_rent),
-    CategoryItem("Gifts", R.drawable.svg_gift),
-    CategoryItem("Savings", R.drawable.svg_savings),
-    CategoryItem("Entertainment", R.drawable.svg_entertainment),
-    CategoryItem("More", R.drawable.svg_more)
-)
 
 @Composable
 fun CategoriesScreen(
@@ -77,6 +61,7 @@ fun CategoriesScreen(
     onBottomSelect: (Int) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val categories = InitialExpensesData.getInitialCategories()
     Scaffold(
         bottomBar = {
             BottomNavBar(
@@ -223,7 +208,7 @@ fun CategoriesScreen(
 
 @Composable
 fun RowScope.CategoryButton(
-    category: CategoryItem,
+    category: Category,
     onClick: () -> Unit = {}
 ) {
     // Estado para indicar que se hizo click (feedback visual)
@@ -261,7 +246,7 @@ fun RowScope.CategoryButton(
         ) {
             // Icono más PEQUEÑO
             Icon(
-                imageVector = ImageVector.vectorResource(id = category.iconRes),
+                imageVector = ImageVector.vectorResource(id = category.iconResId),
                 contentDescription = category.name,
                 modifier = Modifier.size(50.dp),
                 tint = Color.White

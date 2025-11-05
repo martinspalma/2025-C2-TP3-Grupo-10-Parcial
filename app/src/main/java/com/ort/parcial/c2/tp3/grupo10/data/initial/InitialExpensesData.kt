@@ -19,6 +19,15 @@ object InitialExpensesData {
         )
     }
     
+    fun getInitialSavings(): List<Category> {
+        return listOf(
+            Category(name = "Travel", iconResId = R.drawable.svg_avion),
+            Category(name = "New house", iconResId = R.drawable.svg_casallave),
+            Category(name = "Car", iconResId = R.drawable.svg_auto),
+            Category(name = "Wedding", iconResId = R.drawable.svg_anillos)
+        )
+    }
+    
     fun getInitialExpenses(): List<Expense> {
         return listOf(
             Expense(
@@ -110,6 +119,118 @@ object InitialExpensesData {
                 time = "07:50",
                 category = "Transport",
                 iconResId = R.drawable.svg_transport
+            ),
+            // Savings - Travel
+            Expense(
+                id = "11",
+                title = "Flight Ticket",
+                amount = 450.00,
+                date = "2024-04-20",
+                time = "10:00",
+                category = "Travel",
+                iconResId = R.drawable.svg_avion
+            ),
+            Expense(
+                id = "12",
+                title = "Hotel Reservation",
+                amount = 320.50,
+                date = "2024-04-15",
+                time = "14:30",
+                category = "Travel",
+                iconResId = R.drawable.svg_avion
+            ),
+            Expense(
+                id = "13",
+                title = "Travel Insurance",
+                amount = 85.00,
+                date = "2024-04-10",
+                time = "09:15",
+                category = "Travel",
+                iconResId = R.drawable.svg_avion
+            ),
+            // Savings - New house
+            Expense(
+                id = "14",
+                title = "Down Payment",
+                amount = 15000.00,
+                date = "2024-04-25",
+                time = "11:00",
+                category = "New house",
+                iconResId = R.drawable.svg_casallave
+            ),
+            Expense(
+                id = "15",
+                title = "Inspection Fee",
+                amount = 500.00,
+                date = "2024-04-18",
+                time = "16:00",
+                category = "New house",
+                iconResId = R.drawable.svg_casallave
+            ),
+            Expense(
+                id = "16",
+                title = "Legal Fees",
+                amount = 1200.00,
+                date = "2024-04-12",
+                time = "13:45",
+                category = "New house",
+                iconResId = R.drawable.svg_casallave
+            ),
+            // Savings - Car
+            Expense(
+                id = "17",
+                title = "Car Down Payment",
+                amount = 5000.00,
+                date = "2024-04-28",
+                time = "10:30",
+                category = "Car",
+                iconResId = R.drawable.svg_auto
+            ),
+            Expense(
+                id = "18",
+                title = "Car Insurance",
+                amount = 650.00,
+                date = "2024-04-22",
+                time = "15:20",
+                category = "Car",
+                iconResId = R.drawable.svg_auto
+            ),
+            Expense(
+                id = "19",
+                title = "Registration Fee",
+                amount = 250.00,
+                date = "2024-04-20",
+                time = "09:00",
+                category = "Car",
+                iconResId = R.drawable.svg_auto
+            ),
+            // Savings - Wedding
+            Expense(
+                id = "20",
+                title = "Venue Deposit",
+                amount = 3000.00,
+                date = "2024-04-30",
+                time = "12:00",
+                category = "Wedding",
+                iconResId = R.drawable.svg_anillos
+            ),
+            Expense(
+                id = "21",
+                title = "Catering Service",
+                amount = 2500.00,
+                date = "2024-04-25",
+                time = "14:00",
+                category = "Wedding",
+                iconResId = R.drawable.svg_anillos
+            ),
+            Expense(
+                id = "22",
+                title = "Photographer",
+                amount = 1200.00,
+                date = "2024-04-20",
+                time = "11:30",
+                category = "Wedding",
+                iconResId = R.drawable.svg_anillos
             )
         )
     }

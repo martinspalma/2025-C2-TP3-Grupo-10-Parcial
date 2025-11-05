@@ -40,22 +40,14 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.OceanBlueButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
+import com.ort.parcial.c2.tp3.grupo10.domain.model.Category
+import com.ort.parcial.c2.tp3.grupo10.data.initial.InitialExpensesData
 import kotlinx.coroutines.delay
 
 
 
 
-data class SavingsItem(
-    val name: String,
-    val iconRes: Int
-)
-
-val savingsItems = listOf(
-    SavingsItem("Travel", R.drawable.svg_avion),
-    SavingsItem("New house", R.drawable.svg_casallave),
-    SavingsItem("Car", R.drawable.svg_auto),
-    SavingsItem("Wedding", R.drawable.svg_anillos)
-)
+// Ya no necesitamos SavingsItem, usamos Category directamente desde InitialExpensesData
 
 @Composable
 fun SavingsScreen(
@@ -64,6 +56,7 @@ fun SavingsScreen(
     onBottomSelect: (Int) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val savingsItems = InitialExpensesData.getInitialSavings()
     Scaffold(
         bottomBar = {
             BottomNavBar(
@@ -131,9 +124,18 @@ fun SavingsScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            SavingsItemButton(savingsItem = savingsItems[0])
-                            SavingsItemButton(savingsItem = savingsItems[1])
-                            SavingsItemButton(savingsItem = savingsItems[2])
+                            SavingsItemButton(
+                                savingsItem = savingsItems[0],
+                                onClick = { navController?.navigate("savings/${savingsItems[0].name}") }
+                            )
+                            SavingsItemButton(
+                                savingsItem = savingsItems[1],
+                                onClick = { navController?.navigate("savings/${savingsItems[1].name}") }
+                            )
+                            SavingsItemButton(
+                                savingsItem = savingsItems[2],
+                                onClick = { navController?.navigate("savings/${savingsItems[2].name}") }
+                            )
                         }
 
                         // Row 2
@@ -141,7 +143,10 @@ fun SavingsScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            SavingsItemButton(savingsItem = savingsItems[3])
+                            SavingsItemButton(
+                                savingsItem = savingsItems[3],
+                                onClick = { navController?.navigate("savings/${savingsItems[3].name}") }
+                            )
                             // Espacios vacíos para mantener el layout
                             Spacer(modifier = Modifier.weight(1f))
                             Spacer(modifier = Modifier.weight(1f))
@@ -178,7 +183,8 @@ fun SavingsScreen(
 
 @Composable
 fun RowScope.SavingsItemButton(
-    savingsItem: SavingsItem
+    savingsItem: Category,
+    onClick: () -> Unit = {}
 ) {
     // Estado para indicar que se hizo click (feedback visual)
     var isClicked by remember { mutableStateOf(false) }
@@ -204,6 +210,7 @@ fun RowScope.SavingsItemButton(
                 .clickable(
                     onClick = {
                         isClicked = true
+                        onClick()
                     }
                 )
                 .background(
@@ -212,7 +219,7 @@ fun RowScope.SavingsItemButton(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = savingsItem.iconRes),
+                imageVector = ImageVector.vectorResource(id = savingsItem.iconResId),
                 contentDescription = savingsItem.name,
                 modifier = Modifier.size(50.dp),
                 tint = Color.White

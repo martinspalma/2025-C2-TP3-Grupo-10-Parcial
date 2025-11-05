@@ -38,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseViewModel
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Expense
+import com.ort.parcial.c2.tp3.grupo10.ui.utils.getCategoryIcon
 import java.util.UUID
 
 @Composable
