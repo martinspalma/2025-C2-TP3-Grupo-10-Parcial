@@ -99,7 +99,8 @@ fun WelcomeScreen(modifier: Modifier = Modifier, navController: NavHostControlle
             Spacer(modifier = Modifier.height(8.dp))
             AuthButton(text= stringResource(R.string.signup_btn_text),
                 {
-                    navController.navigate( "register")
+                    // Navegar primero a onboarding1, luego onboarding2, y finalmente a register
+                    navController.navigate("onboarding1")
                 },
                 modifier = Modifier
                     .width(200.dp)

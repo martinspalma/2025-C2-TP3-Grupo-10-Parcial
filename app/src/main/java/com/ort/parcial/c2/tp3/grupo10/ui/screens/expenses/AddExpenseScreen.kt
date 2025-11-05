@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
-import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
+import com.ort.parcial.c2.tp3.grupo10.data.initial.InitialExpensesData
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,7 +38,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseViewModel
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Expense
+import com.ort.parcial.c2.tp3.grupo10.ui.utils.getCategoryIcon
 import java.util.UUID
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun AddExpenseScreen(
@@ -53,9 +55,17 @@ fun AddExpenseScreen(
     val categories by categoriesFlow.collectAsStateWithLifecycle()
     val categoryNames = categories.map { it.name }
     
+    // Lista de categorías de savings para comparación
+    val savingsCategories = InitialExpensesData.getInitialSavings().map { it.name.lowercase().trim() }
+    
     // Estados para los campos
     var date by remember { mutableStateOf(formatDate(Date())) }
     var selectedCategory by remember { mutableStateOf<String?>(defaultCategory) }  // Inicializar con la categoría por defecto
+    
+    // Determinar si es savings basándome en la categoría seleccionada (o por defecto si no hay selección)
+    val currentCategory = selectedCategory ?: defaultCategory
+    val isSavings = currentCategory != null && savingsCategories.contains(currentCategory.lowercase().trim())
+    val screenTitle = if (isSavings) "Add Savings" else "Add Expenses"
     var amount by remember { mutableStateOf("") }
     var expenseTitle by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
@@ -86,16 +96,48 @@ fun AddExpenseScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                FinancialHeader(
-                    title = "Add Expenses",
-                    navController = navController,
-                    onNotificationClick = { /* Handle notification click */ },
-                    totalBalance = "$7,783.00",
-                    totalExpense = "-$1,187.40",
-                    progressPercentage = 0.30f,
-                    progressAmount = "$20,000.00",
-                    descriptiveText = "30% of your expenses, looks good."
-                )
+                // Simple Header with back arrow, title, and notification bell
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MainGreen)
+                        .padding(top = 48.dp, start = 16.dp, end = 16.dp, bottom = 24.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Back Arrow
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_flecha_atras),
+                            contentDescription = "Back",
+                            modifier = Modifier
+                                .size(22.dp)
+                                .clickable { navController?.popBackStack() }
+                        )
+                        
+                        // Title
+                        Text(
+                            text = screenTitle,
+                            color = LettersAndIcons,
+                            fontSize = 24.sp,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.SemiBold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.weight(1f)
+                        )
+                        
+                        // Notification Bell
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_notification),
+                            contentDescription = "Notifications",
+                            modifier = Modifier
+                                .size(29.dp)
+                                .clickable { /* Handle notification click */ }
+                        )
+                    }
+                }
 
                 // Main Content Area
                 Box(
@@ -128,7 +170,7 @@ fun AddExpenseScreen(
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_calendar),
                                     contentDescription = "Calendar",
-                                    modifier = Modifier.size(20.dp)
+                                    modifier = Modifier.size(26.dp)
                                 )
                             },
                             readOnly = true,
@@ -190,80 +232,85 @@ fun AddExpenseScreen(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         // Save Button
-                        Button(
-                            onClick = { 
-                                // Validar que todos los campos estén completos
-                                if (expenseTitle.isNotBlank() && 
-                                    amount.isNotBlank() && 
-                                    selectedCategory != null && 
-                                    date.isNotBlank()) {
-                                    
-                                    try {
-                                        // Convertir la fecha del formato "MMMM dd, yyyy" a "yyyy-MM-dd"
-                                        val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH)
-                                        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                        val parsedDate = dateFormat.parse(date)
-                                        val formattedDate = parsedDate?.let { outputFormat.format(it) } 
-                                            ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                                        
-                                        // Obtener la hora actual
-                                        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-                                        val currentTime = timeFormat.format(Date())
-                                        
-                                        // Crear el expense con la categoría seleccionada
-                                        val category = selectedCategory!! // Ya validado que no es null
-                                        val expense = Expense(
-                                            id = UUID.randomUUID().toString(),
-                                            title = expenseTitle,
-                                            amount = amount.toDoubleOrNull() ?: 0.0,
-                                            date = formattedDate,
-                                            time = currentTime,
-                                            category = category,
-                                            iconResId = getCategoryIcon(category)
-                                        )
-                                        
-                                        // Guardar en Room
-                                        viewModel.addExpense(expense)
-                                        
-                                        // Volver a la pantalla anterior
-                                        navController?.popBackStack()
-                                    } catch (e: Exception) {
-                                        // Si hay error al parsear la fecha, usar la fecha actual
-                                        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                                        val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-                                        
-                                        // Crear el expense con la categoría seleccionada
-                                        val category = selectedCategory!! // Ya validado que no es null
-                                        val expense = Expense(
-                                            id = UUID.randomUUID().toString(),
-                                            title = expenseTitle,
-                                            amount = amount.toDoubleOrNull() ?: 0.0,
-                                            date = currentDate,
-                                            time = currentTime,
-                                            category = category,
-                                            iconResId = getCategoryIcon(category)
-                                        )
-                                        
-                                        viewModel.addExpense(expense)
-                                        navController?.popBackStack()
-                                    }
-                                }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
-                            shape = RoundedCornerShape(50.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MainGreen
-                            )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(
-                                text = "Save",
-                                color = Color.White,
-                                fontSize = 16.sp,
-                                fontFamily = PoppinsFamily,
-                                fontWeight = FontWeight.SemiBold
-                            )
+                            Button(
+                                onClick = { 
+                                    // Validar que todos los campos estén completos
+                                    if (expenseTitle.isNotBlank() && 
+                                        amount.isNotBlank() && 
+                                        selectedCategory != null && 
+                                        date.isNotBlank()) {
+                                        
+                                        try {
+                                            // Convertir la fecha del formato "MMMM dd, yyyy" a "yyyy-MM-dd"
+                                            val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH)
+                                            val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                            val parsedDate = dateFormat.parse(date)
+                                            val formattedDate = parsedDate?.let { outputFormat.format(it) } 
+                                                ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                                            
+                                            // Obtener la hora actual
+                                            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                                            val currentTime = timeFormat.format(Date())
+                                            
+                                            // Crear el expense con la categoría seleccionada
+                                            val category = selectedCategory!! // Ya validado que no es null
+                                            val expense = Expense(
+                                                id = UUID.randomUUID().toString(),
+                                                title = expenseTitle,
+                                                amount = amount.toDoubleOrNull() ?: 0.0,
+                                                date = formattedDate,
+                                                time = currentTime,
+                                                category = category,
+                                                iconResId = getCategoryIcon(category)
+                                            )
+                                            
+                                            // Guardar en Room
+                                            viewModel.addExpense(expense)
+                                            
+                                            // Volver a la pantalla anterior
+                                            navController?.popBackStack()
+                                        } catch (e: Exception) {
+                                            // Si hay error al parsear la fecha, usar la fecha actual
+                                            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                                            val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+                                            
+                                            // Crear el expense con la categoría seleccionada
+                                            val category = selectedCategory!! // Ya validado que no es null
+                                            val expense = Expense(
+                                                id = UUID.randomUUID().toString(),
+                                                title = expenseTitle,
+                                                amount = amount.toDoubleOrNull() ?: 0.0,
+                                                date = currentDate,
+                                                time = currentTime,
+                                                category = category,
+                                                iconResId = getCategoryIcon(category)
+                                            )
+                                            
+                                            viewModel.addExpense(expense)
+                                            navController?.popBackStack()
+                                        }
+                                    }
+                                },
+                                modifier = Modifier
+                                    .widthIn(min = 380.dp, max = 380.dp)
+                                    .height(42.dp),
+                                shape = RoundedCornerShape(50.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MainGreen
+                                )
+                            ) {
+                                Text(
+                                    text = "Save",
+                                    color = LettersAndIcons,
+                                    fontSize = 16.sp,
+                                    fontFamily = PoppinsFamily,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
                         }
                     }
                 }
@@ -456,7 +503,7 @@ fun ExpenseTextAreaField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    color = Void.copy(alpha = 0.6f),
+                    color = MainGreen,
                     fontSize = 16.sp,
                     fontFamily = PoppinsFamily
                 )

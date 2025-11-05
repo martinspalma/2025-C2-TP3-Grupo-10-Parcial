@@ -1,5 +1,5 @@
-// app/src/main/java/com/ort/parcial/c2/tp3/grupo10/ui/screens/expenses/ExpensesScreen.kt
-package com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses
+// app/src/main/java/com/ort/parcial/c2/tp3/grupo10/ui/screens/savings/SavingsDetailScreen.kt
+package com.ort.parcial.c2.tp3.grupo10.ui.screens.savings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,38 +32,26 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.domain.model.Expense
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.components.FinancialHeader
-import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
-import java.text.SimpleDateFormat
-import java.util.*
-
-// Importar la función desde utils
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.formatDateToMonth
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.formatDisplayDate
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpenseViewModel
 import com.ort.parcial.c2.tp3.grupo10.ui.utils.getCategoryIcon
-
-fun formatDateToMonth(dateString: String): String {
-    return try {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("MMMM", Locale.ENGLISH)
-        val date = inputFormat.parse(dateString)
-        outputFormat.format(date ?: Date())
-    } catch (e: Exception) {
-        dateString
-    }
-}
+import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 
 @Composable
-fun ExpensesScreen(
-    categoryName: String,
+fun SavingsDetailScreen(
+    savingsName: String,
     navController: NavHostController? = null,
     bottomSelected: Int = 3,
     onBottomSelect: (Int) -> Unit = {},
     viewModel: ExpenseViewModel = hiltViewModel()
 ) {
     // Obtener expenses desde Room usando el ViewModel
-    val expenses by viewModel.getExpensesByCategory(categoryName)
+    val expenses by viewModel.getExpensesByCategory(savingsName)
         .collectAsStateWithLifecycle()
     
     // Obtener el icono de la categoría
-    val categoryIcon = getCategoryIcon(categoryName)
+    val categoryIcon = getCategoryIcon(savingsName)
     
     Scaffold(
         bottomBar = {
@@ -90,7 +78,7 @@ fun ExpensesScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 FinancialHeader(
-                    title = categoryName,
+                    title = savingsName,
                     navController = navController,
                     onNotificationClick = { /* Handle notification click */ },
                     totalBalance = "$7,783.00",
@@ -116,15 +104,15 @@ fun ExpensesScreen(
                         .padding(bottom = paddingValues.calculateBottomPadding()),
                 ) {
                     Column(modifier = Modifier.fillMaxSize()) {
-                        // Lista de expenses agrupadas por mes - con weight para que ocupe el espacio disponible
+                        // Lista de expenses agrupadas por mes
                         Box(modifier = Modifier.weight(1f)) {
-                            ExpenseList(
+                            SavingsExpenseList(
                                 expenses = expenses,
                                 categoryIcon = categoryIcon
                             )
                         }
 
-                        // Botón Add Expenses fijo abajo, separado de la lista
+                        // Botón Add Expenses fijo abajo
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -132,7 +120,7 @@ fun ExpensesScreen(
                         ) {
                             Button(
                                 onClick = { 
-                                    navController?.navigate("add_expense/$categoryName")
+                                    navController?.navigate("add_expense/$savingsName")
                                 },
                                 modifier = Modifier
                                     .widthIn(min = 380.dp, max = 380.dp)
@@ -142,13 +130,13 @@ fun ExpensesScreen(
                                     containerColor = MainGreen
                                 )
                             ) {
-                                Text(
-                                    text = "Add Expenses",
-                                    color = Void,
-                                    fontSize = 16.sp,
-                                    fontFamily = PoppinsFamily,
-                                    fontWeight = FontWeight.SemiBold
-                                )
+                            Text(
+                                text = "Add Savings",
+                                color = Void,
+                                fontSize = 16.sp,
+                                fontFamily = PoppinsFamily,
+                                fontWeight = FontWeight.SemiBold
+                            )
                             }
                         }
                     }
@@ -159,7 +147,7 @@ fun ExpensesScreen(
 }
 
 @Composable
-fun ExpenseList(expenses: List<Expense>, categoryIcon: Int) {
+fun SavingsExpenseList(expenses: List<Expense>, categoryIcon: Int) {
     val groupedByMonth = expenses.groupBy { formatDateToMonth(it.date) }
     
     if (expenses.isEmpty()) {
@@ -224,7 +212,7 @@ fun ExpenseItem(expense: Expense, categoryIcon: Int) {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Icono circular con fondo azul claro - usar el icono de la categoría
+        // Icono circular con fondo azul claro
         Box(
             modifier = Modifier
                 .size(48.dp)
@@ -274,13 +262,3 @@ fun ExpenseItem(expense: Expense, categoryIcon: Int) {
     }
 }
 
-fun formatDisplayDate(dateString: String): String {
-    return try {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("MMMM dd", Locale.ENGLISH)
-        val date = inputFormat.parse(dateString)
-        outputFormat.format(date ?: Date())
-    } catch (e: Exception) {
-        dateString
-    }
-}

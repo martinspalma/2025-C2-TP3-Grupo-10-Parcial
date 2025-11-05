@@ -37,6 +37,7 @@ fun FinancialHeader(
     progressAmount: String,
     descriptiveText: String,
     horizontalPadding: Dp = 18.dp,  // parámetro para controlar el ancho
+    showBackArrow: Boolean = true,  // mostrar/ocultar flecha de atrás
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -44,7 +45,7 @@ fun FinancialHeader(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .padding(horizontal = horizontalPadding, vertical = 12.dp)
         ) {
             Column {
                 // Header Section (Green/Teal Background)
@@ -59,14 +60,26 @@ fun FinancialHeader(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Title
+                        // Back Arrow (condicional)
+                        if (showBackArrow) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_flecha_atras),
+                                contentDescription = "Back",
+                                modifier = Modifier
+                                    .size(22.dp)
+                                    .clickable { navController?.popBackStack() }
+                            )
+                        }
+                        
+                        // Title - comportamiento diferente según si hay flecha o no
                         Text(
                             text = title,
                             color = LettersAndIcons,
                             fontSize = 24.sp,
                             fontFamily = PoppinsFamily,
                             fontWeight = FontWeight.SemiBold,
-                            textAlign = TextAlign.Center
+                            textAlign = if (showBackArrow) TextAlign.Center else TextAlign.Start,
+                            modifier = Modifier.weight(1f)
                         )
                         
                         // Notification Bell
@@ -74,7 +87,7 @@ fun FinancialHeader(
                             painter = painterResource(id = R.drawable.ic_notification),
                             contentDescription = "Notifications",
                             modifier = Modifier
-                                .size(24.dp)
+                                .size(29.dp)
                                 .clickable(onClick = onNotificationClick)
                         )
                     }
