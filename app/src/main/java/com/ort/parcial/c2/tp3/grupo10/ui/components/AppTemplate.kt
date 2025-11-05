@@ -90,8 +90,17 @@ private fun SimpleHeader(
         contentAlignment = Alignment.Center
     ) {
         // Ícono de "Atrás" a la izquierda
-        if (onBack != null) {
-            IconButton(onClick = onBack, modifier = Modifier.align(Alignment.CenterStart)) {
+        if (onBack != null || navController != null) {
+            val backAction: () -> Unit = {
+                if (onBack != null) {
+                    // 1. Si se pasó una función 'onBack' personalizada, la ejecutamos.
+                    onBack()
+                } else {
+                    // 2. Si no, y tenemos un NavController, usamos la navegación estándar de Compose.
+                    navController?.popBackStack()
+                }
+            }
+            IconButton(onClick = backAction, modifier = Modifier.align(Alignment.CenterStart)) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_flecha_atras),
                     contentDescription = "Volver",
