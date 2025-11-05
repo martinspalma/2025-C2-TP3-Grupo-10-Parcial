@@ -79,7 +79,7 @@ class MainActivity : ComponentActivity() {
                     composable("login") { LoginScreen(navController = navController) }
                     composable("register") { RegisterScreen(navController = navController) }
                     composable("home") { HomeScreen(navController =navController) }
-                    composable("notification") { NotificationsScreen() }
+                    composable("notification") { NotificationsScreen(navController =navController) }
 
                     // Onboarding
                     composable("onboarding1") { OnboardingScreen1(navController = navController) }
