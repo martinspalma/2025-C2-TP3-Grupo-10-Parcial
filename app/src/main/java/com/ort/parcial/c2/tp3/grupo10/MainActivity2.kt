@@ -15,8 +15,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.GenericConfirmationScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity2 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

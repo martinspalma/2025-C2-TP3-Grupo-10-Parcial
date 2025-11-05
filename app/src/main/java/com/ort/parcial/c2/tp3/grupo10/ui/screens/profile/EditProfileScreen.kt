@@ -2,9 +2,12 @@ package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
@@ -12,8 +15,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,53 +32,70 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppScreenShell
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.ProfileViewModel
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.UserProfileUiState
 
 @Composable
 fun EditProfileScreen(navController: NavHostController) {
 
     val PROFILE_HEADER_HEIGHT = 120.dp + 60.dp
     var selectedIndex by remember { mutableIntStateOf(4) }
-    val imageUrl = "https://picsum.photos/200/200"
+    val viewModel: ProfileViewModel = hiltViewModel()
+    val uiState by viewModel.uiState.collectAsState()
 
     val floatingProfileContent: @Composable () -> Unit = {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Foto de perfil de John Smith",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-                    .background(Color.White),
-                error = painterResource(id = R.drawable.ic_perfil)
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            Text(
-                text = "John Smith",
-                fontFamily = PoppinsFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = DarkModeGreenBar
-            )
-
-            Row {
-                Text(
-                    text = "ID: ",
-                    color = LettersAndIcons,
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp,
-                )
-                Text(
-                    text = "25030024",
-                    color = LettersAndIcons.copy(alpha = 0.8f),
-                    fontFamily = PoppinsFamily,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 13.sp,
-                )
+        when (uiState) {
+            is UserProfileUiState.Loading -> {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Spacer(Modifier.height(40.dp))
+                    Text("Cargando perfil...", fontSize = 18.sp)
+                }
+            }
+            is UserProfileUiState.Error -> {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Spacer(Modifier.height(40.dp))
+                    Text((uiState as UserProfileUiState.Error).message, color = Color.Red, fontSize = 16.sp)
+                }
+            }
+            is UserProfileUiState.Success -> {
+                val user = (uiState as UserProfileUiState.Success).user
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    AsyncImage(
+                        model = "https://picsum.photos/200/200",
+                        contentDescription = "Foto de perfil de ${user.name.firstname}",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape)
+                            .background(Color.White),
+                        error = painterResource(id = R.drawable.ic_perfil)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = user.name.firstname.replaceFirstChar { it.uppercase() } + " " + user.name.lastname.replaceFirstChar { it.uppercase() },
+                        fontFamily = PoppinsFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = DarkModeGreenBar
+                    )
+                    Row {
+                        Text(
+                            text = "ID: ",
+                            color = LettersAndIcons,
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 13.sp,
+                        )
+                        Text(
+                            text = user.id.toString(),
+                            color = LettersAndIcons.copy(alpha = 0.8f),
+                            fontFamily = PoppinsFamily,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 13.sp,
+                        )
+                    }
+                }
             }
         }
     }
@@ -122,11 +145,10 @@ fun EditProfileScreen(navController: NavHostController) {
 
 
 
+
 @Composable
-private fun EditProfileContent() {
-    var username by remember { mutableStateOf("John Smith") }
-    var phone by remember { mutableStateOf("+44 555 5555 55") }
-    var email by remember { mutableStateOf("example@example.com") }
+private fun EditProfileContent(viewModel: ProfileViewModel = hiltViewModel()) {
+    val uiState by viewModel.uiState.collectAsState()
     var pushEnabled by remember { mutableStateOf(true) }
     var darkEnabled by remember { mutableStateOf(false) }
 
@@ -153,23 +175,43 @@ private fun EditProfileContent() {
             )
 
             // --- ¡CAMBIO CLAVE AQUÍ! ---
-            // Volvemos a usar el Composable LabeledReadOnlyField
-            LabeledReadOnlyField(
-                label = "Username",
-                value = username
-            )
-            Spacer(Modifier.height(10.dp))
-
-            LabeledReadOnlyField(
-                label = "Phone",
-                value = phone
-            )
-            Spacer(Modifier.height(10.dp))
-
-            LabeledReadOnlyField(
-                label = "Email Address",
-                value = email
-            )
+            // Mostramos los datos del usuario si están disponibles
+            when (uiState) {
+                is UserProfileUiState.Success -> {
+                    val user = (uiState as UserProfileUiState.Success).user
+                    LabeledEditableField(
+                        label = "Username",
+                        value = user.username,
+                        onValueChange = { /* Handle username change */ }
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    LabeledEditableField(
+                        label = "Phone",
+                        value = user.phone,
+                        onValueChange = { /* Handle phone change */ }
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    LabeledEditableField(
+                        label = "Email Address",
+                        value = user.email,
+                        onValueChange = { /* Handle email change */ }
+                    )
+                }
+                is UserProfileUiState.Loading -> {
+                    LabeledEditableField(label = "Username", value = "Cargando...", onValueChange = {})
+                    Spacer(Modifier.height(10.dp))
+                    LabeledEditableField(label = "Phone", value = "Cargando...", onValueChange = {})
+                    Spacer(Modifier.height(10.dp))
+                    LabeledEditableField(label = "Email Address", value = "Cargando...", onValueChange = {})
+                }
+                is UserProfileUiState.Error -> {
+                    LabeledEditableField(label = "Username", value = "Error", onValueChange = {})
+                    Spacer(Modifier.height(10.dp))
+                    LabeledEditableField(label = "Phone", value = "Error", onValueChange = {})
+                    Spacer(Modifier.height(10.dp))
+                    LabeledEditableField(label = "Email Address", value = "Error", onValueChange = {})
+                }
+            }
 
             // --- El resto se mantiene igual ---
             Spacer(Modifier.height(16.dp))
@@ -197,18 +239,79 @@ private fun EditProfileContent() {
             ) {
                 Text(
                     text = "Update Profile",
-                    color = Color.White,
+                    color = Void,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
+                    fontFamily = PoppinsFamily                )
             }
         }
     }
 }
 
+@Composable
+fun LabeledEditableField(label: String, value: String, onValueChange: (String) -> Unit) {
+    var isEditing by remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
 
-
-
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = label,
+            color = Void,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(start = 8.dp, bottom = 6.dp)
+        )
+        if (isEditing) {
+            TextField(
+                value = value,
+                onValueChange = onValueChange,
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(LightGreen.copy(alpha = 0.65f))
+                    .padding(horizontal = 14.dp)
+                    .focusRequester(focusRequester),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = LightGreen.copy(alpha = 0.65f),
+                    focusedContainerColor = LightGreen.copy(alpha = 0.85f),
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedTextColor = Color(0xFF222222),
+                    focusedTextColor = Color(0xFF222222)
+                ),
+                textStyle = LocalTextStyle.current.copy(fontSize = 14.sp),
+                shape = RoundedCornerShape(12.dp),
+                keyboardOptions = KeyboardOptions.Default,
+                keyboardActions = KeyboardActions(onDone = {
+                    isEditing = false
+                    focusManager.clearFocus()
+                })
+            )
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(LightGreen.copy(alpha = 0.65f))
+                    .padding(horizontal = 14.dp)
+                    .clickable { isEditing = true },
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Text(
+                    text = value,
+                    color = Color(0xFF222222),
+                    fontSize = 14.sp
+                )
+            }
+        }
+    }
+}
 
 
 @Composable
