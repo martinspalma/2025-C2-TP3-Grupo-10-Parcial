@@ -1,17 +1,24 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.components
 
+import android.content.Context
+import android.content.Intent
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,26 +29,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
+import com.ort.parcial.c2.tp3.grupo10.MainActivity2
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
 
-// 1. Se define una data class para que el código sea más claro y robusto
 data class BottomNavItem(
     val label: String,
     @DrawableRes val iconRes: Int
 )
 
-// 2. Se usa la data class para definir los ítems de navegación
 val bottomNavItems = listOf(
     BottomNavItem("Home", R.drawable.ic_home),
     BottomNavItem("Analysis", R.drawable.ic_analysis),
@@ -55,55 +61,75 @@ fun BottomNavBar(
     selected: Int,
     onSelect: (Int) -> Unit,
     cornerRadius: Dp = 34.dp
-
 ) {
-    NavigationBar(
-        modifier = Modifier.clip(RoundedCornerShape(topStart = 60.dp, topEnd = 60.dp)),
-        containerColor = LightGreen
+    val context = LocalContext.current
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = LightGreen,
+                shape = RoundedCornerShape(topStart = 60.dp, topEnd = 60.dp)
+            )
+            .height(90.dp),
+        contentAlignment = Alignment.Center
     ) {
-        bottomNavItems.forEachIndexed { index, item ->
-            NavigationBarItem(
-                selected = selected == index,
-                onClick = { onSelect(index) },
-                icon = {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            bottomNavItems.forEachIndexed { index, item ->
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = {
+                                onSelect(index)
+                                if (index == 4) {
+                                    val intent = Intent(context, MainActivity2::class.java)
+                                    context.startActivity(intent)
+                                }
+                            }
+                        )
+                        .padding(vertical = 8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
                     Box(contentAlignment = Alignment.Center) {
-                        // (NUEVO) Dibujamos nuestro propio indicador si está seleccionado
                         if (selected == index) {
                             Box(
                                 modifier = Modifier
                                     .size(size = 50.dp)
                                     .background(
                                         color = Caribbean,
-                                        // Un rectangulo con puntas redondeadas
                                         shape = RoundedCornerShape(20.dp)
                                     )
                             )
                         }
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = item.iconRes),
-                            contentDescription = item.label
+                        // ---- LA NUEVA SOLUCIÓN ----
+                        Image(
+                            painter = painterResource(id = item.iconRes),
+                            contentDescription = item.label,
+                            colorFilter = ColorFilter.tint(Void)
                         )
+                        // -------------------------
                     }
-                },
-                label = null,
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Void,
-                    unselectedIconColor = Void,
-                    // (NUEVO) Hacemos el indicador por defecto transparente
-                    indicatorColor = Color.Transparent
-                )
-            )
+                }
+            }
         }
     }
 }
 
-// --- PREVIEW MEJORADA PARA MOSTRAR POSICIONAMIENTO ---
+
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewBottomNavBar() {
     var selectedIndex by remember { mutableIntStateOf(0) }
 
-    // Envuelve la preview en un Scaffold para demostrar que se queda abajo.
     Scaffold(
         bottomBar = {
             BottomNavBar(
@@ -114,7 +140,6 @@ fun PreviewBottomNavBar() {
             )
         }
     ) { paddingValues ->
-        // Contenido de ejemplo (incluso si está vacío, la barra se queda abajo)
         Box(
             modifier = Modifier
                 .fillMaxSize()

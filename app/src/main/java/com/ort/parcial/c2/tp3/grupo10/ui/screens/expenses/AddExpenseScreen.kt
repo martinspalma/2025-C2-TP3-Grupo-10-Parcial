@@ -41,6 +41,13 @@ import com.ort.parcial.c2.tp3.grupo10.domain.model.Expense
 import com.ort.parcial.c2.tp3.grupo10.ui.utils.getCategoryIcon
 import java.util.UUID
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+
+// Lista de categorías disponibles
+val categories = listOf(
+    "Food", "Transport", "Medicine", "Groceries",
+    "Rent", "Gifts", "Savings", "Entertainment", "More"
+)
 
 @Composable
 fun AddExpenseScreen(
@@ -54,14 +61,14 @@ fun AddExpenseScreen(
     val categoriesFlow = viewModel.getAllCategories()
     val categories by categoriesFlow.collectAsStateWithLifecycle()
     val categoryNames = categories.map { it.name }
-    
+
     // Lista de categorías de savings para comparación
     val savingsCategories = InitialExpensesData.getInitialSavings().map { it.name.lowercase().trim() }
-    
+
     // Estados para los campos
     var date by remember { mutableStateOf(formatDate(Date())) }
     var selectedCategory by remember { mutableStateOf<String?>(defaultCategory) }  // Inicializar con la categoría por defecto
-    
+
     // Determinar si es savings basándome en la categoría seleccionada (o por defecto si no hay selección)
     val currentCategory = selectedCategory ?: defaultCategory
     val isSavings = currentCategory != null && savingsCategories.contains(currentCategory.lowercase().trim())
@@ -116,7 +123,7 @@ fun AddExpenseScreen(
                                 .size(22.dp)
                                 .clickable { navController?.popBackStack() }
                         )
-                        
+
                         // Title
                         Text(
                             text = screenTitle,
@@ -127,7 +134,7 @@ fun AddExpenseScreen(
                             textAlign = TextAlign.Center,
                             modifier = Modifier.weight(1f)
                         )
-                        
+
                         // Notification Bell
                         Image(
                             painter = painterResource(id = R.drawable.ic_notification),
@@ -237,25 +244,25 @@ fun AddExpenseScreen(
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Button(
-                                onClick = { 
+                                onClick = {
                                     // Validar que todos los campos estén completos
-                                    if (expenseTitle.isNotBlank() && 
-                                        amount.isNotBlank() && 
-                                        selectedCategory != null && 
+                                    if (expenseTitle.isNotBlank() &&
+                                        amount.isNotBlank() &&
+                                        selectedCategory != null &&
                                         date.isNotBlank()) {
-                                        
+
                                         try {
                                             // Convertir la fecha del formato "MMMM dd, yyyy" a "yyyy-MM-dd"
                                             val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH)
                                             val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                                             val parsedDate = dateFormat.parse(date)
-                                            val formattedDate = parsedDate?.let { outputFormat.format(it) } 
+                                            val formattedDate = parsedDate?.let { outputFormat.format(it) }
                                                 ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                                            
+
                                             // Obtener la hora actual
                                             val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                                             val currentTime = timeFormat.format(Date())
-                                            
+
                                             // Crear el expense con la categoría seleccionada
                                             val category = selectedCategory!! // Ya validado que no es null
                                             val expense = Expense(
@@ -267,17 +274,17 @@ fun AddExpenseScreen(
                                                 category = category,
                                                 iconResId = getCategoryIcon(category)
                                             )
-                                            
+
                                             // Guardar en Room
                                             viewModel.addExpense(expense)
-                                            
+
                                             // Volver a la pantalla anterior
                                             navController?.popBackStack()
                                         } catch (e: Exception) {
                                             // Si hay error al parsear la fecha, usar la fecha actual
                                             val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
                                             val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-                                            
+
                                             // Crear el expense con la categoría seleccionada
                                             val category = selectedCategory!! // Ya validado que no es null
                                             val expense = Expense(
@@ -289,7 +296,7 @@ fun AddExpenseScreen(
                                                 category = category,
                                                 iconResId = getCategoryIcon(category)
                                             )
-                                            
+
                                             viewModel.addExpense(expense)
                                             navController?.popBackStack()
                                         }

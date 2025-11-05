@@ -1,6 +1,7 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.components
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,9 +24,10 @@ import androidx.compose.ui.res.stringResource
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import androidx.compose.material.icons.outlined.Notifications
-import android.content.Intent // Necesario para la navegación a Activities
 import androidx.compose.ui.platform.LocalContext
 import com.ort.parcial.c2.tp3.grupo10.MainActivity
+import kotlin.jvm.java
+
 
 val STANDARD_HEADER_HEIGHT = 180.dp
 

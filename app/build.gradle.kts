@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.ui)
 
 
     //Room --v 2.7.0 (compatible con Kotlin 2.0.21)
