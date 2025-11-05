@@ -184,7 +184,7 @@ fun ProfileScreen(navController: NavHostController) {
                 ProfileOptionItem(
                     label = stringResource(R.string.profile_option_setting),
                     iconRes = R.drawable.ic_setting,
-                    onClick = { /* Navegación a Ajustes */ },
+                    onClick = { navController.navigate("settings2") },
                     itemHeight = 70.dp
                 )
 

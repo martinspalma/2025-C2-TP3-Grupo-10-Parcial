@@ -122,4 +122,8 @@
     <string name="terms_link_url">www.finwiseapp.de</string>
     <string name="terms_accept_checkbox">I accept all the terms and conditions</string>
     <string name="terms_accept_button">Accept</string>
+    <string name="settings_screen_title">Settings</string>
+    <string name="setting_notifications">Notification Settings</string>
+    <string name="setting_password">Password Settings</string>
+    <string name="setting_delete_account">Delete Account</string>
 </resources>
