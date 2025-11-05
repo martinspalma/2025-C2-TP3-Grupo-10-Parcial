@@ -2,6 +2,7 @@ package com.ort.parcial.c2.tp3.grupo10.di
 
 import com.ort.parcial.c2.tp3.grupo10.BuildConfig
 import com.ort.parcial.c2.tp3.grupo10.data.remote.TransactionsApi
+import com.ort.parcial.c2.tp3.grupo10.data.remote.UserApi
 import com.ort.parcial.c2.tp3.grupo10.shared.infraestructura.authservice.AuthApi
 import dagger.Module
 import dagger.Provides
@@ -48,4 +49,10 @@ object NetworkModule {
     @Singleton
     fun provideTransactionsApi(retrofit: Retrofit): TransactionsApi =
         retrofit.create(TransactionsApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserApi(retrofit: Retrofit): UserApi =
+        retrofit.create(UserApi::class.java)
+
 }
