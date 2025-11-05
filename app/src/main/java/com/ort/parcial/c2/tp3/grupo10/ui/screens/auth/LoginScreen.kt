@@ -150,11 +150,16 @@ fun LoginScreen(
                             CircularProgressIndicator(color = Caribbean)
                         }
                         Spacer(modifier = Modifier.height(2.dp))
-                        TextButton(onClick = onForgotPasswordClick) {
-                            Text(stringResource(R.string.forgot_password_login),
+                        TextButton(
+                            // La acción principal del botón ahora navega
+                            onClick = { navController.navigate("forgotPassword") }
+                        ) {
+                            Text(
+                                stringResource(R.string.forgot_password_login),
                                 color = Void,
                                 fontFamily = PoppinsFamily,
-                                style = MaterialTheme.typography.bodySmall)
+                                style = MaterialTheme.typography.bodySmall
+                            )
                         }
                         Spacer(modifier = Modifier.height(2.dp))
                         AuthButton(text= stringResource(R.string.signup_btn_text),
