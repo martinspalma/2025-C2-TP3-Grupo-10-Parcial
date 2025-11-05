@@ -88,7 +88,7 @@ fun FinancialHeader(
                             contentDescription = "Notifications",
                             modifier = Modifier
                                 .size(29.dp)
-                                .clickable(onClick = onNotificationClick)
+                                .clickable(onClick = {navController?.navigate("notification")} )
                         )
                     }
                 }

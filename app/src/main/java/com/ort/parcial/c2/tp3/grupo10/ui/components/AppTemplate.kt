@@ -124,7 +124,7 @@ private fun SimpleHeader(
 
 
         IconButton(
-            onClick = { navController?.navigate("notifications") },
+            onClick = { navController?.navigate("notification") },
             modifier = Modifier.align(Alignment.CenterEnd)
         ) {
             Box(
