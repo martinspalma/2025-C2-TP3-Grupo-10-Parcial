@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,7 +26,7 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.Honeydew
 @Composable
 fun NotificationsScreen(
     navController: NavHostController? = null,
-    bottomSelected: Int = 0,
+    bottomSelected: Int = -1,
     onBottomSelect: (Int) -> Unit = {}
 ) {
     AppTemplate(
@@ -44,48 +45,72 @@ fun NotificationsScreen(
             }
         }
     ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = innerPadding.calculateBottomPadding())
-                .background(Honeydew)
-        ) {
+        Scaffold(
+            containerColor = Color.Transparent,
+        ) { scaffoldPadding ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(topStart = 45.dp, topEnd = 45.dp))
+                    .padding(bottom = innerPadding.calculateBottomPadding())
+                    .padding(scaffoldPadding)
                     .background(Honeydew)
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
             ) {
-                NotificationList(contentPadding = PaddingValues(0.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(topStart = 45.dp, topEnd = 45.dp))
+                        .background(Honeydew)
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                ) {
+                    NotificationList(contentPadding = PaddingValues(0.dp))
+                }
             }
         }
     }
 }
 
-
 @Composable
 private fun NotificationList(contentPadding: PaddingValues) {
     val notifications = listOf(
         // --- Today ---
-        NotificationItem(R.drawable.ic_recordatorio, "Reminder!",
-            "Set up your automatic savings to meet your savings goal...", time = "17:00", date = "Today"),
-        NotificationItem(R.drawable.ic_estrella, "New Update",
-            "Set up your automatic savings to meet your savings goal...", time = "17:00", date = "Today"),
+        NotificationItem(
+            R.drawable.ic_recordatorio, "Reminder!",
+            "Set up your automatic savings to meet your savings goal...",
+            time = "17:00", date = "Today"
+        ),
+        NotificationItem(
+            R.drawable.ic_estrella, "New Update",
+            "Set up your automatic savings to meet your savings goal...",
+            time = "17:00", date = "Today"
+        ),
 
         // --- Yesterday ---
-        NotificationItem(R.drawable.ic_dinero, "Transactions",
-            "A new transaction has been registered", category = "Groceries | Pantry ",
-            amount = " -$100.00", time = "17:00", date = "Yesterday", amountColor = Color(0xFF00A86B)),
-        NotificationItem(R.drawable.ic_recordatorio, "Reminder!",
-            "Set up your automatic savings to meet your savings goal...", time = "17:00", date = "Yesterday"),
+        NotificationItem(
+            R.drawable.ic_dinero, "Transactions",
+            "A new transaction has been registered",
+            category = "Groceries | Pantry ",
+            amount = " -$100.00", time = "17:00", date = "Yesterday",
+            amountColor = Color(0xFF00A86B)
+        ),
+        NotificationItem(
+            R.drawable.ic_recordatorio, "Reminder!",
+            "Set up your automatic savings to meet your savings goal...",
+            time = "17:00", date = "Yesterday"
+        ),
 
         // --- This Weekend ---
-        NotificationItem(R.drawable.ic_grafico, "Expense Record",
-            "We recommend that you be more attentive to your finances.", time = "17:00", date = "This Weekend"),
-        NotificationItem(R.drawable.ic_dinero, "Transactions",
-            "A new transaction has been registered ", category = "Food | Dinner ",
-            amount = " -$70.00", time = "17:00", date = "This Weekend", amountColor = Color(0xFF00A86B))
+        NotificationItem(
+            R.drawable.ic_grafico, "Expense Record",
+            "We recommend that you be more attentive to your finances.",
+            time = "17:00", date = "This Weekend"
+        ),
+        NotificationItem(
+            R.drawable.ic_dinero, "Transactions",
+            "A new transaction has been registered ",
+            category = "Food | Dinner ",
+            amount = " -$70.00", time = "17:00", date = "This Weekend",
+            amountColor = Color(0xFF00A86B)
+        )
     )
 
     val grouped = notifications.groupBy { it.date }
@@ -115,19 +140,14 @@ private fun NotificationList(contentPadding: PaddingValues) {
                 NotificationCard(
                     item = noti,
                     topPadding = top,
-
                 )
             }
         }
     }
 }
 
-
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewNotificationScreen() {
     NotificationsScreen()
 }
-
-
