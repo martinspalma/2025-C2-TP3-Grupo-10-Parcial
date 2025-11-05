@@ -20,6 +20,7 @@ import com.ort.parcial.c2.tp3.grupo10.ui.screens.auth.RegisterScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.categories.CategoriesScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.AddExpenseScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.expenses.ExpensesScreen
+import com.ort.parcial.c2.tp3.grupo10.ui.screens.savings.SavingsScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.ForgotPasswordScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.NewPasswordScreen
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.forgotpassword.SecurityPinScreen
@@ -85,6 +86,7 @@ class MainActivity : ComponentActivity() {
 
                     // Categories & Expenses
                     composable("categories") { CategoriesScreen(navController = navController) }
+                    composable("savings") { SavingsScreen(navController = navController) }
                     composable(
                         route = "expenses/{categoryName}",
                         arguments = listOf(

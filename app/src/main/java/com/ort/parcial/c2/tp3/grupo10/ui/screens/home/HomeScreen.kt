@@ -92,7 +92,8 @@ fun HomeScreen(
                 totalExpense = "-$1,187.40",
                 progressPercentage = 0.30f,
                 progressAmount = "$20,000.00",
-                descriptiveText = "30% of your expenses, looks good."
+                descriptiveText = "30% of your expenses, looks good.",
+                showBackArrow = false
             )
 
             // Contenedor redondeado del contenido principal

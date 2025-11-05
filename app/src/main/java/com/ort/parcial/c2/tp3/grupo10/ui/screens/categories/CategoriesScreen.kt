@@ -197,7 +197,8 @@ fun CategoriesScreen(
                             CategoryButton(
                                 category = categories[6],
                                 onClick = { 
-                                    navController?.navigate("expenses/${categories[6].name}")
+                                    // Navegar a SavingsScreen cuando se toque "Savings"
+                                    navController?.navigate("savings")
                                 }
                             )
                             CategoryButton(
