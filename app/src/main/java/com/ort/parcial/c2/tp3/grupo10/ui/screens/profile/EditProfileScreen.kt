@@ -1,13 +1,17 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
@@ -19,9 +23,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +39,7 @@ import com.ort.parcial.c2.tp3.grupo10.ui.components.AppScreenShell
 import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ort.parcial.c2.tp3.grupo10.MainActivity
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.ProfileViewModel
 import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.UserProfileUiState
 
@@ -43,6 +50,24 @@ fun EditProfileScreen(navController: NavHostController) {
     var selectedIndex by remember { mutableIntStateOf(4) }
     val viewModel: ProfileViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
+    val scrollState = rememberScrollState()
+    //bloque INTENT
+    val NAV_DESTINATION_KEY = "startDestination"
+    val context = LocalContext.current
+    val activity = context as? Activity
+    // --- FUNCIÓN AUXILIAR: Navegar de vuelta a MainActivity ---
+    fun navigateBackToMain(route: String) {
+        val NAV_DESTINATION_KEY = "startDestination"
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            putExtra(NAV_DESTINATION_KEY, route)
+        }
+        context.startActivity(intent)
+
+        (context as? Activity)?.finish()
+    }
 
     val floatingProfileContent: @Composable () -> Unit = {
         when (uiState) {
@@ -108,29 +133,44 @@ fun EditProfileScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(
                 selected = selectedIndex,
-                onSelect = { idx ->
-                    selectedIndex = idx
-                    when (idx) {
-                        0 -> navController.navigate("home")
-                        1 -> navController.navigate("analysis")
-                        2 -> navController.navigate("transactions")
-                        3 -> navController.navigate("categories")
-                        4 -> navController.navigate("profile")
+                onSelect = { index ->
+                    selectedIndex = index // Actualiza el estado visual
+                    when (index) {
+                        0 -> navigateBackToMain("home") // <-- NAVEGACIÓN CORREGIDA
+                        2 -> navigateBackToMain("transactions") // <-- NAVEGACIÓN CORREGIDA
+                        3 -> navigateBackToMain("categories") // <-- NAVEGACIÓN CORREGIDA
+                        4 -> { /* Ya estamos en Profile (no hacemos nada, solo actualizamos el índice) */ }
+                        else -> Unit
                     }
                 }
             )
         }
     ) { padding ->
+        // Usamos Column con el modificador verticalScroll
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 6.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(padding) // Aplica el padding de la BottomBar
+                .verticalScroll(scrollState) // <--- HABILITA EL SCROLL VERTICAL
+                .padding(horizontal = 6.dp), // Padding lateral del Column
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(Modifier.height(140.dp))
-            EditProfileContent()
+
+            // 1. ESPACIO DE COMPENSACIÓN: Reservamos el espacio para la FOTO FLOTANTE
+            // (120dp foto + 40dp margen) = 160dp. Este es el espacio que la tarjeta debe dejar libre.
+            Spacer(Modifier.height(160.dp))
+
+            // 2. CONTENIDO DE LA TARJETA
+            // La tarjeta (EditProfileContent) empezará debajo de la foto
+            EditProfileContent(viewModel = viewModel,
+                navController = navController)
+
+            // Espaciador final para asegurar que el botón no quede pegado al fondo
+            Spacer(Modifier.height(20.dp))
         }
     }
+
+
 
 
     Box(
@@ -147,7 +187,9 @@ fun EditProfileScreen(navController: NavHostController) {
 
 
 @Composable
-private fun EditProfileContent(viewModel: ProfileViewModel = hiltViewModel()) {
+private fun EditProfileContent(viewModel: ProfileViewModel, navController: NavHostController) {
+    val viewModel: ProfileViewModel = hiltViewModel()
+
     val uiState by viewModel.uiState.collectAsState()
     var pushEnabled by remember { mutableStateOf(true) }
     var darkEnabled by remember { mutableStateOf(false) }
@@ -230,18 +272,21 @@ private fun EditProfileContent(viewModel: ProfileViewModel = hiltViewModel()) {
             Spacer(Modifier.height(24.dp))
 
             Button(
-                onClick = { /* TODO: Aquí iría la lógica para, por ejemplo, cerrar sesión o ir a otra pantalla */ },
+                onClick = { navController.navigate("profile") },
                 shape = RoundedCornerShape(26.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Caribbean),
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .height(48.dp)
+                    .width(169.dp)
+                    .height(36.dp)
             ) {
                 Text(
                     text = "Update Profile",
                     color = Void,
-                    fontSize = 16.sp,
-                    fontFamily = PoppinsFamily                )
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = PoppinsFamily,
+                    lineHeight = 15.sp,
+                    textAlign = TextAlign.Center)
             }
         }
     }
