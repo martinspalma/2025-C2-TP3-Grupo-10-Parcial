@@ -19,16 +19,31 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppButton
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.*
 import com.ort.parcial.c2.tp3.grupo10.ui.components.SocialAuthButton
+import androidx.compose.runtime.*
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.material3.LocalTextStyle //
 
 @Composable
 fun SecurityPinScreen(navController: NavHostController) {
+
+    var pinValue by remember { mutableStateOf("") }
+    val maxPinLength = 6
+
+    val onSendAgainClick: () -> Unit = {
+        pinValue = ""
+    }
+
+    val isPinComplete = pinValue.length == maxPinLength
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MainGreen)
     ) {
-        //  HEADER (Título principal) ---
+        // ... (HEADER) ...
         Text(
             text = stringResource(R.string.security_pin_title),
             color = LettersAndIcons,
@@ -69,15 +84,21 @@ fun SecurityPinScreen(navController: NavHostController) {
 
                 Spacer(Modifier.height(40.dp))
 
-                // --- CAMPOS DE PIN  ---
-                PinInputFields()
+                // --- CONTENEDOR INTERACTIVO DEL PIN ---
+                PinInputContainer(pinValue = pinValue, onPinChange = { pinValue = it }, maxPinLength = maxPinLength)
+                // --- FIN CONTENEDOR PIN ---
 
                 Spacer(Modifier.height(64.dp))
 
-                // --- BOTÓN ACCEPT  ---
+                // --- BOTÓN ACCEPT (Habilitación por estado) ---
                 AppButton(
                     text = stringResource(R.string.accept_button),
-                    onClick = { navController.navigate("newPassword") },
+                    onClick = {
+                        if (isPinComplete) {
+                            navController.navigate("newPassword")
+                        }
+                    },
+                    enabled = isPinComplete, // Habilitación real
                     buttonWidth = 169.dp,
                     buttonHeight = 36.dp,
                     containerColor = MainGreen,
@@ -86,10 +107,10 @@ fun SecurityPinScreen(navController: NavHostController) {
 
                 Spacer(Modifier.height(16.dp))
 
-                // --- BOTÓN SEND AGAIN  ---
+                // --- BOTÓN SEND AGAIN ---
                 AppButton(
                     text = stringResource(R.string.send_again_button),
-                    onClick = { /* Lógica de reenvío */ },
+                    onClick = onSendAgainClick,
                     buttonWidth = 169.dp,
                     buttonHeight = 36.dp,
                     containerColor = BackgroundGreenWhiteAndLetters,
@@ -99,7 +120,7 @@ fun SecurityPinScreen(navController: NavHostController) {
 
                 Spacer(Modifier.weight(1f))
 
-                // --- SECCIÓN DE REGISTRO SOCIAL ---
+                // ... (El resto de la sección social/registro) ...
                 Text(
                     text = stringResource(R.string.or_sign_up_with),
                     color = LettersAndIcons.copy(alpha = 0.5f),
@@ -107,24 +128,21 @@ fun SecurityPinScreen(navController: NavHostController) {
                     fontWeight = FontWeight.Light,
                     fontSize = 13.sp,
                     lineHeight = 15.sp
-
                 )
 
                 Spacer(Modifier.height(16.dp))
-                // --- ICONOS DE REDES SOCIALES  ---
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(30.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // 1. Botón de Facebook
+                    // ... (Botones Sociales) ...
                     SocialAuthButton(
                         iconId = R.drawable.ic_facebook,
                         contentDesc = stringResource(R.string.login_with_facebook),
                         onClick = { /* Acción de login con Facebook */ },
                         size = 33.dp
                     )
-
-                    // 2. Botón de Google
                     SocialAuthButton(
                         iconId = R.drawable.ic_google,
                         contentDesc = stringResource(R.string.login_with_google),
@@ -162,34 +180,63 @@ fun SecurityPinScreen(navController: NavHostController) {
 
 // Componente PIN. se usa solo en esta pantalla
 @Composable
-fun PinInputFields() {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(15.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+private fun PinInputContainer(
+    pinValue: String,
+    onPinChange: (String) -> Unit,
+    maxPinLength: Int
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
             .height(38.8.dp)
             .padding(horizontal = 24.dp)
     ) {
-        // ciclo de circulos
-        repeat(6) { index ->
-            Box(
-                modifier = Modifier
-                    .size(38.8.dp)
-                    .background(Color.White, CircleShape)
-                    .border(1.dp, MainGreen, CircleShape)
-                .weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
 
-                val pinDigits = listOf("•", "•", "•", "•", "•", "•")
+        // 1. MAQUETACIÓN VISUAL DE LOS CÍRCULOS (La capa de frente y visible)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            repeat(maxPinLength) { index ->
+                val isFilled = index < pinValue.length
 
-                Text(
-                    text = pinDigits.getOrElse(index) { "" },
-                    color = DarkModeGreenBar,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
+                Box(
+                    modifier = Modifier
+                        .size(38.8.dp)
+                        .background(Color.White, CircleShape)
+                        .border(1.dp, MainGreen, CircleShape)
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Texto se muestra solo si el PIN está lleno
+                    if (isFilled) {
+                        Text(
+                            text = "•",
+                            color = DarkModeGreenBar,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
             }
-        }
+        } // FIN de la capa visual de círculos
+
+        // 2. BasicTextField INVISIBLE para la entrada (Capta el teclado)
+        // Se dibuja DEBAJO de la capa visual (porque está primero en el Box)
+        // Esto asegura que los círculos estén siempre visibles.
+        BasicTextField(
+            value = pinValue,
+            onValueChange = { newValue ->
+                if (newValue.length <= maxPinLength && newValue.all { it.isDigit() }) {
+                    onPinChange(newValue)
+                }
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            singleLine = true,
+            textStyle = LocalTextStyle.current.copy(color = Color.Transparent, textAlign = TextAlign.Center),
+            // Esto asegura que el campo de texto se superponga a toda la fila de círculos para capturar el click
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }

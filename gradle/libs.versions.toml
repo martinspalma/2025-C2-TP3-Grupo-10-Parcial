@@ -25,6 +25,8 @@ kotlinxCoroutines = "1.8.1"
 runtime = "1.9.4"
 foundation = "1.9.4"
 ui = "1.9.4"
+material3 = "1.4.0"
+uiText = "1.9.4"
 ## Removed old materialIconsExtended
 
 [libraries]
@@ -60,6 +62,8 @@ firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" 
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.ref = "uiText" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
