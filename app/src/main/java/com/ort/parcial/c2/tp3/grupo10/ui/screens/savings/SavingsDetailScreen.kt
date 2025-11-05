@@ -167,9 +167,11 @@ fun SavingsExpenseList(expenses: List<Expense>, categoryIcon: Int) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            groupedByMonth.forEach { (month, monthExpenses) ->
+            groupedByMonth.entries.forEachIndexed { index, entry ->
+                val month = entry.key
+                val monthExpenses = entry.value
                 item(key = "header_$month") {
-                    MonthHeader(month)
+                    MonthHeader(month, showCalendar = index == 0)
                 }
                 items(monthExpenses, key = { it.id }) { expense ->
                     ExpenseItem(expense, categoryIcon)
@@ -180,7 +182,7 @@ fun SavingsExpenseList(expenses: List<Expense>, categoryIcon: Int) {
 }
 
 @Composable
-fun MonthHeader(month: String) {
+fun MonthHeader(month: String, showCalendar: Boolean = false) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -195,11 +197,15 @@ fun MonthHeader(month: String) {
             fontFamily = PoppinsFamily,
             fontWeight = FontWeight.SemiBold
         )
-        Image(
-            painter = painterResource(id = R.drawable.ic_calendar),
-            contentDescription = "Calendar",
-            modifier = Modifier.size(32.dp)
-        )
+        if (showCalendar) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_calendar),
+                contentDescription = "Calendar",
+                modifier = Modifier.size(32.dp)
+            )
+        } else {
+            Spacer(modifier = Modifier.size(32.dp))
+        }
     }
 }
 
