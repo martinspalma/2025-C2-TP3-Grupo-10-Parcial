@@ -34,9 +34,6 @@ import coil.compose.AsyncImage
 import com.ort.parcial.c2.tp3.grupo10.MainActivity
 import com.ort.parcial.c2.tp3.grupo10.ui.components.ProfileOptionItem
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.ProfileViewModel
-import com.ort.parcial.c2.tp3.grupo10.ui.screens.profile.UserProfileUiState
-
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
