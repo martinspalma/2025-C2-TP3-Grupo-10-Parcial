@@ -45,22 +45,9 @@ fun FingerprintSetupScreen(navController: NavHostController) {
     var selectedIndex by remember { mutableIntStateOf(4) }
 
     //bloque INTENT
-    val NAV_DESTINATION_KEY = "startDestination"
     val context = LocalContext.current
     val activity = context as? Activity
-    // --- FUNCIÓN AUXILIAR: Navegar de vuelta a MainActivity ---
-    fun navigateBackToMain(route: String) {
-        val NAV_DESTINATION_KEY = "startDestination"
 
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            putExtra(NAV_DESTINATION_KEY, route)
-        }
-        context.startActivity(intent)
-        // Opcional, pero recomendado para cerrar el Activity vieja inmediatamente
-        (context as? Activity)?.finish()
-    }
 
     AppScreenShell(
         // TÍTULO DEL HEADER: "Add Fingerprint"
@@ -70,15 +57,10 @@ fun FingerprintSetupScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(
                 selected = selectedIndex,
+                navController = navController, // <-- Pasamos el NavController
                 onSelect = { index ->
-                    selectedIndex = index // Actualiza el estado visual
-                    when (index) {
-                        0 -> navigateBackToMain("home") // <-- NAVEGACIÓN CORREGIDA
-                        2 -> navigateBackToMain("transactions") // <-- NAVEGACIÓN CORREGIDA
-                        3 -> navigateBackToMain("categories") // <-- NAVEGACIÓN CORREGIDA
-                        4 -> { /* Ya estamos en Profile (no hacemos nada, solo actualizamos el índice) */ }
-                        else -> Unit
-                    }
+                    selectedIndex = index // Solo actualizamos el estado visual
+                    // La lógica del Intent/navigate está en BottomNavBar.kt
                 }
             )
         }

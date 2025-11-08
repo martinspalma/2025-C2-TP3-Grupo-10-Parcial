@@ -51,23 +51,11 @@ fun EditProfileScreen(navController: NavHostController) {
     val viewModel: ProfileViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
+
     //bloque INTENT
-    val NAV_DESTINATION_KEY = "startDestination"
     val context = LocalContext.current
     val activity = context as? Activity
-    // --- FUNCIÓN AUXILIAR: Navegar de vuelta a MainActivity ---
-    fun navigateBackToMain(route: String) {
-        val NAV_DESTINATION_KEY = "startDestination"
 
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            putExtra(NAV_DESTINATION_KEY, route)
-        }
-        context.startActivity(intent)
-
-        (context as? Activity)?.finish()
-    }
 
     val floatingProfileContent: @Composable () -> Unit = {
         when (uiState) {
@@ -133,15 +121,10 @@ fun EditProfileScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(
                 selected = selectedIndex,
+                navController = navController, // <-- Pasamos el NavController
                 onSelect = { index ->
-                    selectedIndex = index // Actualiza el estado visual
-                    when (index) {
-                        0 -> navigateBackToMain("home") // <-- NAVEGACIÓN CORREGIDA
-                        2 -> navigateBackToMain("transactions") // <-- NAVEGACIÓN CORREGIDA
-                        3 -> navigateBackToMain("categories") // <-- NAVEGACIÓN CORREGIDA
-                        4 -> { /* Ya estamos en Profile (no hacemos nada, solo actualizamos el índice) */ }
-                        else -> Unit
-                    }
+                    selectedIndex = index // Solo actualizamos el estado visual
+                    // La lógica del Intent/navigate está en BottomNavBar.kt
                 }
             )
         }

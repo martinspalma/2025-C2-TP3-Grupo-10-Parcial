@@ -1,5 +1,6 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +39,9 @@ fun SettingsScreen(navController: NavHostController) {
     var selectedIndex by remember { mutableIntStateOf(4) }
     val ICON_FOREGROUND_COLOR = Color(0xFF1E88E5) // Color azul/verde claro
     val ICON_BACKGROUND_COLOR = Color(0xFFE3F2FD) // Fondo claro del círculo
+    //bloque INTENT
+    val context = LocalContext.current
+    val activity = context as? Activity
 
 
     // --- FUNCIÓN LOCAL PARA EL ITEM DE AJUSTES (Con Icono y Círculo) ---
@@ -98,7 +103,11 @@ fun SettingsScreen(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(
                 selected = selectedIndex,
-                onSelect = { newIndex -> selectedIndex = newIndex }
+                navController = navController, // <-- Pasamos el NavController
+                onSelect = { index ->
+                    selectedIndex = index // Solo actualizamos el estado visual
+                    // La lógica del Intent/navigate está en BottomNavBar.kt
+                }
             )
         }
     ) { padding ->
