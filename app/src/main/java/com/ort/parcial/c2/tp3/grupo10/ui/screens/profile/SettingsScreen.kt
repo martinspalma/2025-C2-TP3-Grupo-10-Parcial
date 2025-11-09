@@ -1,6 +1,5 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
-import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppScreenShell
-import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 
@@ -36,13 +33,8 @@ fun SettingsScreen(navController: NavHostController) {
 
     // Valores Estándar (similar a ProfileScreen)
     val STANDARD_HEADER_HEIGHT = 180.dp
-    var selectedIndex by remember { mutableIntStateOf(4) }
     val ICON_FOREGROUND_COLOR = Color(0xFF1E88E5) // Color azul/verde claro
     val ICON_BACKGROUND_COLOR = Color(0xFFE3F2FD) // Fondo claro del círculo
-    //bloque INTENT
-    val context = LocalContext.current
-    val activity = context as? Activity
-
 
     // --- FUNCIÓN LOCAL PARA EL ITEM DE AJUSTES (Con Icono y Círculo) ---
     @Composable
@@ -100,16 +92,7 @@ fun SettingsScreen(navController: NavHostController) {
         screenTitle = "Settings",
         headerHeight = STANDARD_HEADER_HEIGHT,
         navController = navController,
-        bottomBar = {
-            BottomNavBar(
-                selected = selectedIndex,
-                navController = navController, // <-- Pasamos el NavController
-                onSelect = { index ->
-                    selectedIndex = index // Solo actualizamos el estado visual
-                    // La lógica del Intent/navigate está en BottomNavBar.kt
-                }
-            )
-        }
+        startSelectedIndex = 4
     ) { padding ->
         Column(
             modifier = Modifier

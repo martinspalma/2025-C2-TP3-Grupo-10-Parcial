@@ -27,16 +27,7 @@ fun AnalysisScreen(navController: NavHostController) {
         screenTitle = "Analysis", // Título del header
         // Usamos la altura estándar del header
         navController = navController,
-        bottomBar = {
-            BottomNavBar(
-                selected = selectedIndex,
-                navController = navController,
-                onSelect = { index ->
-                    selectedIndex = index // Actualiza el estado visual
-                    // La lógica del Intent/navigate está centralizada en BottomNavBar.kt
-                }
-            )
-        }
+        startSelectedIndex = 1
     ) { padding ->
         // Contenido principal dentro de la tarjeta blanca
         Box(

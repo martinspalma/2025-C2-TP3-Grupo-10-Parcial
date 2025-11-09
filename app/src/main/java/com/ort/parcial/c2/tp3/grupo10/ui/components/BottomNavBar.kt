@@ -10,15 +10,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,10 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -42,7 +37,6 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Caribbean
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LightGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.ort.parcial.c2.tp3.grupo10.MainActivity
 import android.app.Activity
@@ -86,7 +80,9 @@ fun BottomNavBar(
             putExtra(NAV_DESTINATION_KEY, route)
         }
         context.startActivity(intent)
-        currentActivity.finish() // Cierra MainActivity2
+        if (!isUsedInMainActivity) {
+            currentActivity.finish() // Cierra MainActivity2
+        }
     }
 
 
@@ -135,11 +131,13 @@ fun BottomNavBar(
                                     // -----------------------------------------------------
                                     // B. BOTONES DE RETORNO (0, 2, 3)
                                     // -----------------------------------------------------
-                                    0, 2, 3 -> {
+                                    0, 1, 2, 3 -> {
                                         if (isUsedInMainActivity) {
                                             // Si estamos en MainActivity, usamos navegación Compose (interna)
                                             navController.navigate(destination) {
-                                                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                                popUpTo(navController.graph.startDestinationId) {
+                                                    saveState = true
+                                                }
                                                 launchSingleTop = true
                                                 restoreState = true
                                             }
@@ -148,7 +146,9 @@ fun BottomNavBar(
                                             navigateBackToMain(destination)
                                         }
                                     }
+                                }
 
+                                /*
                                     // -----------------------------------------------------
                                     // C. ANÁLISIS (Índice 1) - Asumimos navegación Compose interna en Main
                                     // -----------------------------------------------------
@@ -163,7 +163,7 @@ fun BottomNavBar(
                                         }
                                     }
                                 }
-
+*/
                                 // 2. ACTUALIZACIÓN VISUAL (Callback)
                                 onSelect(index)
                             }

@@ -17,11 +17,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.domain.model.NotificationItem // Asegúrate de que esta clase sea accesible
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppScreenShell // <-- Componente Base
@@ -40,16 +38,9 @@ fun NotificationsScreen(
         screenTitle = "Notification",
         headerHeight = 180.dp,
         navController = navController,
-        bottomBar = {
-            BottomNavBar(
-                selected = selectedIndex,
-                navController = navController,
-                onSelect = { index ->
-                    selectedIndex = index // Actualiza el estado visual
-                    // La lógica de navegación de la BottomBar ya está centralizada
-                }
-            )
-        }
+        showBackButton = true,
+        showNotificationButton = false,
+        startSelectedIndex = -1
     ) { innerPadding -> // <-- innerPadding ahora viene del AppScreenShell
 
         // 1. Contenido Principal de Notificaciones (La lista)

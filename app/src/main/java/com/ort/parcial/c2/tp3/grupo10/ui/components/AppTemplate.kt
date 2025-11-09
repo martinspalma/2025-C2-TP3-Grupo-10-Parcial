@@ -34,8 +34,8 @@ import com.ort.parcial.c2.tp3.grupo10.ui.theme.MainGreen
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.MyApplicationTheme
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.Void
-
-
+// USAR AppScreenShell PARA UNIFICAR  TEMPLATES
+/*
 @Composable
 fun AppTemplate(
     title: String,
@@ -183,3 +183,4 @@ fun AppTemplatePreview() {
         }
     }
 }
+*/

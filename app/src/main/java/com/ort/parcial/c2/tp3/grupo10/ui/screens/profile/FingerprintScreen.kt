@@ -1,13 +1,11 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
 import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,10 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.ort.parcial.c2.tp3.grupo10.MainActivity
 import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppScreenShell
-import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
 
@@ -33,13 +29,7 @@ fun FingerprintScreen(navController: NavHostController) {
 
 
     val STANDARD_HEADER_HEIGHT = 140.dp
-    var selectedIndex by remember { mutableIntStateOf(4) }
     val ICON_BACKGROUND_COLOR = Color(0xFFE3F2FD) // Fondo claro del círculo
-
-    //bloque INTENT
-    val context = LocalContext.current
-    val activity = context as? Activity
-
 
     @Composable
     fun FingerprintItem(labelResId: Int, iconResId: Int, onClick: () -> Unit) {
@@ -89,16 +79,7 @@ fun FingerprintScreen(navController: NavHostController) {
         screenTitle = stringResource(R.string.fingerprint_list_title),
         headerHeight = STANDARD_HEADER_HEIGHT,
         navController = navController,
-        bottomBar = {
-            BottomNavBar(
-                selected = selectedIndex,
-                navController = navController, // <-- Pasamos el NavController
-                onSelect = { index ->
-                    selectedIndex = index // Solo actualizamos el estado visual
-                    // La lógica del Intent/navigate está en BottomNavBar.kt
-                }
-            )
-        }
+        startSelectedIndex = 4
     ) { padding ->
         Column(
             modifier = Modifier

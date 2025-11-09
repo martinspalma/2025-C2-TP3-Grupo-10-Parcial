@@ -1,7 +1,5 @@
 package com.ort.parcial.c2.tp3.grupo10.ui.screens.profile
 
-import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -20,15 +18,10 @@ import com.ort.parcial.c2.tp3.grupo10.R
 import com.ort.parcial.c2.tp3.grupo10.ui.components.AppScreenShell
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.PoppinsFamily
-import com.ort.parcial.c2.tp3.grupo10.ui.components.BottomNavBar
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.DarkModeGreenBar
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import com.ort.parcial.c2.tp3.grupo10.ui.components.ProfileOptionItem
@@ -38,14 +31,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun ProfileScreen(navController: NavHostController) {
 
     val PROFILE_HEADER_HEIGHT = 120.dp + 60.dp // Aprox. 180dp para el corte de la foto.
-    var selectedIndex by remember { mutableIntStateOf(4) }
     val viewModel: ProfileViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val imageUrl = "https://picsum.photos/200/200"
-
-    //bloque INTENT
-    val context = LocalContext.current
-    val activity = context as? Activity
 
     val floatingProfileContent: @Composable () -> Unit = {
         when (uiState) {
@@ -113,16 +101,9 @@ fun ProfileScreen(navController: NavHostController) {
         screenTitle = stringResource(R.string.profile_screen_title),
         headerHeight = PROFILE_HEADER_HEIGHT, // Usamos 180dp (o el valor ajustado)
         navController = navController,
-        bottomBar = {
-            BottomNavBar(
-                selected = selectedIndex,
-                navController = navController, // <-- Pasamos el NavController
-                onSelect = { index ->
-                    selectedIndex = index // Solo actualizamos el estado visual
-                    // La lógica del Intent/navigate está en BottomNavBar.kt
-                }
-            )
-        }
+        showBackButton = true,
+        showNotificationButton = true,
+        startSelectedIndex = 4
     ) { padding ->
         Column(
             modifier = Modifier
