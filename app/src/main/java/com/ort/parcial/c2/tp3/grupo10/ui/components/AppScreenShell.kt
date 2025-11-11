@@ -21,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.ort.parcial.c2.tp3.grupo10.ui.theme.LettersAndIcons
 import androidx.compose.ui.platform.LocalContext
-
+import androidx.compose.foundation.layout.statusBarsPadding
 val STANDARD_HEADER_HEIGHT = 180.dp
 
 /**
@@ -49,7 +49,9 @@ fun AppScreenShell(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .systemBarsPadding()       // <-- primero: protegemos la status bar
             .background(MainGreen) // <--- ESTE DIBUJA EL FONDO VERDE OSCURO (MainGreen)
+
     ) {
         // --- 1. ICONOS DE NAVEGACIÓN Y TÍTULO (HIJOS DIRECTOS DEL BOX) ---
 

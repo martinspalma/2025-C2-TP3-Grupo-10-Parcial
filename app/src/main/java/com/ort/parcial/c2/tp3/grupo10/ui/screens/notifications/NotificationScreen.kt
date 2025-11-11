@@ -36,7 +36,7 @@ fun NotificationsScreen(
 
     AppScreenShell(
         screenTitle = "Notification",
-        headerHeight = 180.dp,
+        headerHeight = 140.dp,
         navController = navController,
         showBackButton = true,
         showNotificationButton = false,
